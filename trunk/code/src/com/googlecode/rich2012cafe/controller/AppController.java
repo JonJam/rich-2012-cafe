@@ -3,6 +3,7 @@ package com.googlecode.rich2012cafe.controller;
 import com.googlecode.rich2012cafe.model.*;
 
 import android.os.AsyncTask;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
 /**
@@ -33,6 +34,7 @@ public class AppController {
 		}
 		
 		protected void onPostExecute(String result) {
+			tv.setMovementMethod(new ScrollingMovementMethod());
 			tv.setText(result);
 		}
 	}

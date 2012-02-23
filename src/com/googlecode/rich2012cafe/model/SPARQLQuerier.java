@@ -1,25 +1,30 @@
 package com.googlecode.rich2012cafe.model;
 
 import java.util.List;
-import com.hp.hpl.jena.query.*;
+
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.query.Syntax;
 
 /**
- * http://code.google.com/p/androjena/
- * http://monead.com/blog/?p=1420
+ * Resources used:
+ * 	- http://code.google.com/p/androjena/
+ * 	- http://monead.com/blog/?p=1420
  * 
- * @author Jonathn Harrison (jonjam1990@googlemail.com)
+ * @author Jonathan Harrison (jonjam1990@googlemail.com)
  */
 public class SPARQLQuerier {
 	
 	private static final String DATA_SOUTHAMPTON_ENDPOINT = "http://sparql.data.southampton.ac.uk/";
 	
-	public static String performQuery(){
+	private static ResultSet performQuery(String queryString){
 		
-		 // Set the query
-		String queryString = "SELECT ?dataType ?data WHERE {<http://nasa.dataincubator.org/launch/1961-012> ?dataType ?data.}";
-    
-        Query query = QueryFactory.create(queryString, Syntax.syntaxARQ);
-        
+		Query query = QueryFactory.create(queryString, Syntax.syntaxARQ);
+	        
         // Limit the number of results returned
         // Setting the limit is optional - default is unlimited
         query.setLimit(10);
@@ -27,13 +32,24 @@ public class SPARQLQuerier {
         // Set the starting record for results returned
         // Setting the limit is optional - default is 1 (and it is 1-based)
         query.setOffset(1);
-        
-        String sparqlEndpointUri = "http://api.talis.com/stores/space/services/sparql";
-        QueryExecution qe = QueryExecutionFactory.sparqlService(sparqlEndpointUri, query);
+	        
+        QueryExecution qe = QueryExecutionFactory.sparqlService(DATA_SOUTHAMPTON_ENDPOINT, query);
 
         // Execute the query and obtain results
         ResultSet resultSet = qe.execSelect();
-
+    
+        // Important - free up resources used running the query
+        qe.close();
+        
+        return resultSet;
+	}
+	
+	public static String certainSPARQLQuery(){
+			
+		String queryString = "SELECT * WHERE { ?s ?p ?o .} LIMIT 10";
+  
+		ResultSet resultSet = performQuery(queryString);
+       
         // Setup a place to house results for output
         StringBuffer results = new StringBuffer();
 
@@ -67,9 +83,6 @@ public class SPARQLQuerier {
             }
             results.append("-----------------\n");
         }
-
-        // Important - free up resources used running the query
-        qe.close();
         
         // Return the results as a String
         return results.toString();

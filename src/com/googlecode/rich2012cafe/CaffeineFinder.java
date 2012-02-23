@@ -1,44 +1,33 @@
 package com.googlecode.rich2012cafe;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.*;
+import android.widget.TextView;
 
-import com.googlecode.rich2012cafe.model.*;
+import com.googlecode.rich2012cafe.controller.AppController;
 
 /**
+ * N.B. In running and developing application need to increase Eclipse minimum/maximum memory requirements by altering
+ * eclipse.ini file (Linux - located in /usr/lib/eclipse/) and change appropiate lines to this:
+ * 		-Xms512m
+ * 		-Xmx1024m
+ * 
+ * TODO WORK WITH VIEWS DEFINED IN XML FILE. 
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  */
 public class CaffeineFinder extends Activity {
 	
-	private TextView tv;
+	private AppController controller;
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-                
-        tv = new TextView(this);
+        
+        //TextView tv = (TextView) findViewById(R.id.textview); CAUSING NULLPOINTER
+        TextView tv = new TextView(this);
         setContentView(tv);
-        runAsyncTask();
+        
+        controller = new AppController(tv);
+        controller.runSPARQLQuery();
     }
-    
-    /*
-     * http://www.vogella.de/articles/AndroidPerformance/article.html
-     */
-    private class SPARQLTask extends AsyncTask<String, Void, String>{
-    	
-    	protected String doInBackground(String... params) {
-    		return SPARQLQuerier.performQuery();
-    	}
-    	
-    	protected void onPostExecute(String result) {
-    		tv.setText(result);
-    	}
-    }
-    
-    public void runAsyncTask() {
-		SPARQLTask task = new SPARQLTask();
-		task.execute();
-	}
 }

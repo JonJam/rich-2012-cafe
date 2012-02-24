@@ -7,6 +7,6 @@ package com.googlecode.rich2012cafe.model;
 public class AppDataStore {
 
 	public String getData(){
-		return SPARQLQuerier.certainSPARQLQuery();
+		return SPARQLQuerier.getCaffeineSources();
 	}
 }

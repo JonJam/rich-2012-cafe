@@ -1,6 +1,10 @@
 package com.googlecode.rich2012cafe.controller;
 
+import java.util.ArrayList;
+
 import com.googlecode.rich2012cafe.model.*;
+import com.googlecode.rich2012cafe.model.database.CaffeineSource;
+import com.googlecode.rich2012cafe.model.database.OpeningTime;
 
 import android.os.AsyncTask;
 import android.text.method.ScrollingMovementMethod;
@@ -30,7 +34,21 @@ public class AppController {
 	private class SPARQLTask extends AsyncTask<String, Void, String>{
 		
 		protected String doInBackground(String... params) {
-			return ds.getData();
+			StringBuffer results = new StringBuffer();
+			ArrayList<CaffeineSource> caffeineSources = ds.getCaffeineSources();
+			
+			for(CaffeineSource s : caffeineSources){
+				
+				results.append(s.getName() + "\n");
+				
+				ArrayList<OpeningTime> openingTimes = ds.getOpeningTimes(s.getId());
+				for(OpeningTime o : openingTimes){
+					results.append(o.getDay() + " " + o.getOpenTime() + " " + o.getCloseTime() + " " + o.getDate().getTime().toString()+ "\n");
+				}
+				
+				results.append("\n");
+			}
+			return results.toString();
 		}
 		
 		protected void onPostExecute(String result) {

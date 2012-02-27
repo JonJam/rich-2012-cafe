@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import com.googlecode.rich2012cafe.model.database.CaffeineSource;
 import com.googlecode.rich2012cafe.model.database.OpeningTime;
+import com.googlecode.rich2012cafe.model.database.CaffeineProduct;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -23,12 +24,14 @@ import com.hp.hpl.jena.rdf.model.Literal;
  * Resources used:
  * 	- http://code.google.com/p/androjena/
  * 	- http://monead.com/blog/?p=1420
+ *  - http://www.vogella.de/articles/AndroidSQLite/article.html
  * 
- * TODO product information (separate name/prices for same product for all and student)
- * TODO Sort out storage of information (http://www.vogella.de/articles/AndroidSQLite/article.html)
+ * TODO Change OpeningTime Calendar variable so can be stored in db.
+ * TODO Add lat and log columns to get caffeine sources if need to.
+ * TODO Sort out storage of information
  * 	STORE DATA UPTO END OF TERM AS OPENING TIMES WILL CHANGE SO UPDATE
- * TODO Expiry dates
- * TODO Tidy/Structure class so readable.
+ * TODO set up database so expires and updates data automatically
+ * TODO Tidy/Structure classes so readable.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com), Samantha Kanza (samikanza@gmail.com)
  */
@@ -65,9 +68,13 @@ public class SPARQLQuerier {
     		+ "SELECT DISTINCT ?product ?label WHERE {"
     			+ "?product purl:availableAtOrFrom <";
 	private static final String CAFFEINE_PRODUCTS_QUERY2 = "> ."
-			+ "?product rdfs:label ?label ."
-			+ "FILTER (regex(?label, 'coke|coffee|tea|relentless|powerade|lucozade|red bull|frappe|cappuchino|latte|iced tea', 'i') || ?label = 'Caffeine')"
+				+ "?product rdfs:label ?label ."
+				+ "FILTER (regex(?label, '^coke | coke |^coffee | coffee |^tea | tea |^relentless | relentless |^powerade | powerade |^lucozade | lucozade |^red bull | red bull |^frappe | frappe |^cappuchino | cappuchino |^latte | latte |^iced tea | iced tea', 'i'))"
 			+ "}";
+	
+	private static final String STAFF_TYPE = "Staff";
+	private static final String STUDENT_TYPE = "Student";
+	private static final String ALL_TYPE = "All";
 	
 	/**
 	 * Method to execute a SPARQL query at SPARQL endpoint.
@@ -98,6 +105,7 @@ public class SPARQLQuerier {
 		ArrayList<CaffeineSource> sources = new ArrayList<CaffeineSource>();
 		ResultSet caffeineSourcesResults = performQuery(CAFFEINE_SOURCES_QUERY);
         
+		//Iterate through results.
         while (caffeineSourcesResults.hasNext()) {
         	
             QuerySolution solution = caffeineSourcesResults.next();
@@ -109,7 +117,6 @@ public class SPARQLQuerier {
             Literal buildingNameLiteral = solution.getLiteral("buildinglabel");
             Literal buildingLatLiteral = solution.getLiteral("buildinglat");
             Literal buildingLongLiteral = solution.getLiteral("buildinglong");
-            //TODO Add lat and log columns here if need to.
             
             if(nameLiteral == null && buildingNumberLiteral == null && buildingNameLiteral == null && buildingLongLiteral == null 
             		&& buildingLongLiteral == null){
@@ -118,8 +125,7 @@ public class SPARQLQuerier {
             }
         	
             CaffeineSource source = new CaffeineSource(id, nameLiteral.getString(), buildingNumberLiteral.getString(), 
-            		buildingNameLiteral.getString(), Double.parseDouble(buildingLatLiteral.getString()), 
-            		Double.parseDouble(buildingLongLiteral.getString()));
+            		buildingNameLiteral.getString(), buildingLatLiteral.getDouble(), buildingLongLiteral.getDouble());
             
             sources.add(source);
 
@@ -131,7 +137,14 @@ public class SPARQLQuerier {
 	/**
 	 * Method to execute a SPARQL query and obtain opening times for a caffeine source for current term.
 	 * 
-	 * @param caffeineSourceId (URI for Caffeine source)
+	 * N.B. Sources will return empty ArrayList when don't have opening times.
+	 * 
+	 * Opening time dates come in the following formats (which I have seen):
+	 * 	Wednesday-1200-1400-26-Sep-2011
+	 *  Wednesday-1200-1400-2011-9-26
+	 *  Wednesday-CLOSED-2011-9-26
+	 * 
+	 * @param caffeineSourceId (URI for caffeine source)
 	 * @return ArrayList of OpeningTime objects.
 	 */
 	public static ArrayList<OpeningTime> getCurrentOpeningTimes(String caffeineSourceId){
@@ -139,15 +152,8 @@ public class SPARQLQuerier {
 		ArrayList<OpeningTime> openingTimes = new ArrayList<OpeningTime>();
 		ResultSet openingTimesResults = performQuery(OPENING_TIMES_QUERY1 + caffeineSourceId + OPENING_TIMES_QUERY2);
 
+		//Iterate through results
         while (openingTimesResults.hasNext()) {
-        	/*
-        	 * Vending machines won't enter this loop and will return empty ArrayList as don't have opening times.
-        	 * 
-     	   	 * Opening time dates come in the following formats (which I have seen):
-     	   	 * 	 Wednesday-1200-1400-26-Sep-2011
-     	   	 * 	 Wednesday-1200-1400-2011-9-26
-     	   	 * 	 Wednesday-CLOSED-2011-9-26
-        	 */
         	
             QuerySolution solution = openingTimesResults.next();
             
@@ -225,6 +231,7 @@ public class SPARQLQuerier {
         }
         
         if(openingTimes.size() != 0){
+        	//Process opening times to get current term's opening times.
         	
         	//Sort OpeningTime objects in DESC order.
 	        Collections.sort(openingTimes, new OpeningTimeComparator());
@@ -239,8 +246,9 @@ public class SPARQLQuerier {
 	  	   
 	  	   	//Loop to get current term opening hours
 	  	   	for(OpeningTime ot : openingTimes){
-
-	  	   		if(ot.getDate().get(Calendar.YEAR) == today.get(Calendar.YEAR) && ot.getDate().get(Calendar.MONTH) <= today.get(Calendar.MONTH) && ot.getDate().get(Calendar.DAY_OF_MONTH) <= today.get(Calendar.DAY_OF_MONTH)){
+	  	   		
+	  	   		if(ot.getDate().before(today)){
+	  	   				
 	  	   			/*
 	  	   			 * Conditions met are:
 	  	   			 * 
@@ -259,7 +267,8 @@ public class SPARQLQuerier {
    						
    						currentOpeningTimes.add(ot);
    					
-   					} else if(adding == true && ot.getDate().get(Calendar.DAY_OF_MONTH) == day && ot.getDate().get(Calendar.MONTH) == month && ot.getDate().get(Calendar.YEAR) == year){
+   					} else if(adding == true && ot.getDate().get(Calendar.DAY_OF_MONTH) == day && 
+   							ot.getDate().get(Calendar.MONTH) == month && ot.getDate().get(Calendar.YEAR) == year){
    						//While dates same and adding is true keep adding OpeningTime objects.
    						
    						currentOpeningTimes.add(ot);
@@ -274,10 +283,67 @@ public class SPARQLQuerier {
 	        return currentOpeningTimes;
         }
         
-        //If reach here then this ArrayList is empty.
         return openingTimes;
+	}
+	
+	/**
+	 * Method to get caffeine products for a caffeine source.
+	 * 
+	 * N.B. Sources will return empty ArrayList when don't have product lists.
+	 * 
+	 * Products can be of the form:
+	 * 	Powerade Bottle - £1.30 (Student Price)
+	 *	Tea - White - £1.20 (Staff Price)
+	 *	Cappuchino - £ 1.56 (Staff Price)
+	 *	Filter Coffee (Large) - £1.60 (Staff Price)
+	 *	Red Bull Can - £ 1.40
+	 * 
+	 * @param caffeineSourceId (URI for caffeine source)
+	 * @return ArrayList of CaffeineProduct objects
+	 */
+	public static ArrayList<CaffeineProduct> getCaffeineProducts(String caffeineSourceId){
+		
+		ArrayList<CaffeineProduct> products = new ArrayList<CaffeineProduct>();
+		ResultSet caffeineProductsResults = performQuery(CAFFEINE_PRODUCTS_QUERY1 + caffeineSourceId + CAFFEINE_PRODUCTS_QUERY2);
+
+		//Iterate through results
+        while (caffeineProductsResults.hasNext()) {
+  
+        	QuerySolution solution = caffeineProductsResults.next();
+            
+        	String id = solution.getResource("product").getURI();       
+        	String label = solution.getLiteral("label").getString();
+     	   	String name = label.substring(0 , label.lastIndexOf("-"));
+            String type;
+            String price;
+
+            //Set correct type and obtain price information.
+ 	   		if(id.endsWith(STAFF_TYPE)){
+ 	   			//Staff Product
+ 	   			
+ 	   			type = STAFF_TYPE;
+ 	   			price = label.substring(label.lastIndexOf("-") + 1, label.lastIndexOf("(Staff Price)")).trim();
+ 	   			
+ 	   		} else if(id.endsWith(STUDENT_TYPE)){
+ 	   			//Student Product
+ 	   			
+ 	   			type = STAFF_TYPE;
+ 	   			price = label.substring(label.lastIndexOf("-") + 1, label.lastIndexOf("(Student Price)")).trim();
+ 	   			
+ 	   		} else{
+ 	   			//All Product.
+ 	   			
+ 	   			type = ALL_TYPE;
+ 	   			price = label.substring(label.lastIndexOf("-") + 1).trim();
+ 	   			
+ 	   		}
+ 	   		
+     	   	products.add(new CaffeineProduct(id, caffeineSourceId, name, price, type));
+     	   	
+        }
+        
+		return products;
 	}
 }
 
-//ResultSet caffeineProductsResults = performQuery(CAFFEINE_PRODUCTS_QUERY1 + locationURI + CAFFEINE_PRODUCTS_QUERY2);
 

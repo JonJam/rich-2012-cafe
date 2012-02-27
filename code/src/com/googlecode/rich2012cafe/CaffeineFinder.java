@@ -1,5 +1,6 @@
 package com.googlecode.rich2012cafe;
 
+import android.widget.Button;
 import com.googlecode.rich2012cafe.controller.AppController;
 
 import android.app.Activity;
@@ -30,5 +31,9 @@ public class CaffeineFinder extends Activity {
 
     }
 
-    private
+    private Button getViewMapButton() {
+        return (Button)findViewById(R.id.viewMap);
+    }
+
+
 }

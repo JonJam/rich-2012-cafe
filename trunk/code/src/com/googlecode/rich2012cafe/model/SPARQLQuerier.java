@@ -26,6 +26,8 @@ import com.hp.hpl.jena.rdf.model.Literal;
  * 	- http://monead.com/blog/?p=1420
  *  - http://www.vogella.de/articles/AndroidSQLite/article.html
  * 
+ * TODO Change product query to filter out decaffenated products
+ * TODO Add product type to CaffeineProduct class e.g. Coke, Coffee, Energy Drink, Tea
  * TODO Change OpeningTime Calendar variable so can be stored in db.
  * TODO Add lat and log columns to get caffeine sources if need to.
  * TODO Sort out storage of information

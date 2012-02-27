@@ -14,7 +14,6 @@ public class CaffeineProduct {
 	private String name;
 	private String price;
 	private String productType;
-
 	//Determines whether Staff, Student or All price.
 	private String priceType;
 	

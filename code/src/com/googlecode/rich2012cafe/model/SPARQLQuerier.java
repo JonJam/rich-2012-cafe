@@ -29,9 +29,9 @@ import com.hp.hpl.jena.rdf.model.Literal;
  * 
  * TODO Change product query to filter out decaffenated products (Tags - Decaf) (SAMI - DOING)
  * TODO Add lat and log columns to get caffeine sources if need to.
- * TODO Sort out storage of information
- * 	STORE DATA UPTO END OF TERM AS OPENING TIMES WILL CHANGE SO UPDATE
- * TODO set up database so expires and updates data automatically
+ * 
+ * TODO Sort out storage of information (JON - WORKING ON CONTINUE WORKING in DatabaseHelper class)
+ * TODO set up database so expires and updates data automatically (STORE DATA UPTO END OF TERM AS OPENING TIMES WILL CHANGE SO UPDATE)
  * TODO Tidy/Structure classes so readable.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com), Samantha Kanza (samikanza@gmail.com)
@@ -86,13 +86,15 @@ public class SPARQLQuerier {
 	
 	private class TempOpeningTime{
 
+		private String id;
 		private String caffeineSourceId;
 		private String day;
 		private String openingTime;
 		private String closingTime;
 		private Calendar date;
 		
-		public TempOpeningTime(String caffeineSourceId, String day, String openingTime, String closingTime, Calendar date){
+		public TempOpeningTime(String id, String caffeineSourceId, String day, String openingTime, String closingTime, Calendar date){
+			this.id = id;
 			this.caffeineSourceId = caffeineSourceId;
 			this.day = day;
 			this.openingTime = openingTime;
@@ -100,6 +102,15 @@ public class SPARQLQuerier {
 			this.date = date;
 		}
 
+		/**
+		 * Method to get id
+		 * 
+		 * @return id (String object)
+		 */
+		public String getId() {
+			return id;
+		}
+		
 		/**
 		 * Method to get caffeine source id
 		 * 
@@ -311,7 +322,7 @@ public class SPARQLQuerier {
 			   }
 		   }
      	   
-     	   TempOpeningTime o = this.new TempOpeningTime(caffeineSourceId, day , openTime, closeTime , cal);
+     	   TempOpeningTime o = this.new TempOpeningTime(timeURI, caffeineSourceId, day , openTime, closeTime , cal);
      	   tempOpeningTimes.add(o);
         }
         
@@ -351,13 +362,13 @@ public class SPARQLQuerier {
    						month = ot.getDate().get(Calendar.MONTH);
    						year = ot.getDate().get(Calendar.YEAR);
    						
-   						currentOpeningTimes.add(new OpeningTime(ot.getCaffeineSourceId(), ot.getDay(), ot.getOpeningTime(), ot.getClosingTime()));
+   						currentOpeningTimes.add(new OpeningTime(ot.getId(), ot.getCaffeineSourceId(), ot.getDay(), ot.getOpeningTime(), ot.getClosingTime()));
    					
    					} else if(adding == true && ot.getDate().get(Calendar.DAY_OF_MONTH) == day && 
    							ot.getDate().get(Calendar.MONTH) == month && ot.getDate().get(Calendar.YEAR) == year){
    						//While dates same and adding is true keep adding OpeningTime objects.
    						
-   						currentOpeningTimes.add(new OpeningTime(ot.getCaffeineSourceId(), ot.getDay(), ot.getOpeningTime(), ot.getClosingTime()));
+   						currentOpeningTimes.add(new OpeningTime(ot.getId(), ot.getCaffeineSourceId(), ot.getDay(), ot.getOpeningTime(), ot.getClosingTime()));
    					} else{
    						//Dates changed so break out of loop.
    					

@@ -7,19 +7,40 @@ package com.googlecode.rich2012cafe.model.database;
  */
 public class OpeningTime {
 
+	//URI Identifier for an opening time e.g. http://id.southampton.ac.uk/point-of-service/6-bar-food-performance-nights#Monday-1800-1900-2011-01-03
+	private String id;
 	//URI Identifier for a caffeine source e.g. http://id.southampton.ac.uk/vending-machine/71
 	private String caffeineSourceId;
 	private String day;
 	private String openingTime;
 	private String closingTime;
 	
-	public OpeningTime(String caffeineSourceId, String day, String openingTime, String closingTime){
+	public OpeningTime(String id, String caffeineSourceId, String day, String openingTime, String closingTime){
+		this.id = id;
 		this.caffeineSourceId = caffeineSourceId;
 		this.day = day;
 		this.openingTime = openingTime;
 		this.closingTime = closingTime;
 	}
 
+	/**
+	 * Method to get id.
+	 * 
+	 * @return id (String object)
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * Method to set id.
+	 * 
+	 * @param id (String object)
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	/**
 	 * Method to get caffeine source id
 	 * 

@@ -1,7 +1,5 @@
 package com.googlecode.rich2012cafe.model.database;
 
-import java.util.Calendar;
-
 /**
  * Class to represent an opening time.
  * 
@@ -14,14 +12,12 @@ public class OpeningTime {
 	private String day;
 	private String openingTime;
 	private String closingTime;
-	private Calendar date;
 	
-	public OpeningTime(String caffeineSourceId, String day, String openingTime, String closingTime, Calendar date){
+	public OpeningTime(String caffeineSourceId, String day, String openingTime, String closingTime){
 		this.caffeineSourceId = caffeineSourceId;
 		this.day = day;
 		this.openingTime = openingTime;
 		this.closingTime = closingTime;
-		this.date = date;
 	}
 
 	/**
@@ -52,12 +48,30 @@ public class OpeningTime {
 	}
 	
 	/**
+	 * Method to set day.
+	 * 
+	 * @param day (String object)
+	 */
+	public void setDay(String day) {
+		this.day = day;
+	}
+
+	/**
 	 * Method to get opening time
 	 * 
 	 * @return openingTime (String object)
 	 */
 	public String getOpeningTime(){
 		return openingTime;
+	}
+	
+	/**
+	 * Method to set opening time.
+	 * 
+	 * @param openingTime (String object)
+	 */
+	public void setOpeningTime(String openingTime) {
+		this.openingTime = openingTime;
 	}
 	
 	/**
@@ -70,11 +84,11 @@ public class OpeningTime {
 	}
 	
 	/**
-	 * Method to get date
+	 * Method to set closing time.
 	 * 
-	 * @return date (Calendar object)
+	 * @param closingTime (String object)
 	 */
-	public Calendar getDate(){
-		return date;
+	public void setClosingTime(String closingTime) {
+		this.closingTime = closingTime;
 	}
 }

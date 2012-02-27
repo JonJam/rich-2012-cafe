@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -26,9 +27,7 @@ import com.hp.hpl.jena.rdf.model.Literal;
  * 	- http://monead.com/blog/?p=1420
  *  - http://www.vogella.de/articles/AndroidSQLite/article.html
  * 
- * TODO Change product query to filter out decaffenated products
- * TODO Add product type to CaffeineProduct class e.g. Coke, Coffee, Energy Drink, Tea
- * TODO Change OpeningTime Calendar variable so can be stored in db.
+ * TODO Change product query to filter out decaffenated products (Tags - Decaf) (SAMI - DOING)
  * TODO Add lat and log columns to get caffeine sources if need to.
  * TODO Sort out storage of information
  * 	STORE DATA UPTO END OF TERM AS OPENING TIMES WILL CHANGE SO UPDATE
@@ -71,12 +70,95 @@ public class SPARQLQuerier {
     			+ "?product purl:availableAtOrFrom <";
 	private static final String CAFFEINE_PRODUCTS_QUERY2 = "> ."
 				+ "?product rdfs:label ?label ."
-				+ "FILTER (regex(?label, '^coke | coke |^coffee | coffee |^tea | tea |^relentless | relentless |^powerade | powerade |^lucozade | lucozade |^red bull | red bull |^frappe | frappe |^cappuchino | cappuchino |^latte | latte |^iced tea | iced tea', 'i'))"
+				+ "FILTER (regex(?label, '^coke | coke |^coffee | coffee |^tea | tea |^relentless | relentless |^powerade |"
+					+ " powerade |^lucozade | lucozade |^red bull | red bull |^frappe | frappe |^cappuchino | cappuchino |"
+					+ "^americano | americano |^latte | latte |^espresso | espresso |^iced teas | iced teas |^speciality teas |"
+					+ " speciality teas ', 'i'))"
 			+ "}";
 	
 	private static final String STAFF_TYPE = "Staff";
 	private static final String STUDENT_TYPE = "Student";
 	private static final String ALL_TYPE = "All";
+	private static final String SOFT_DRINK_TYPE = "Soft Drink";
+	private static final String COFFEE_TYPE = "Coffee";
+	private static final String TEA_TYPE = "Tea";
+	private static final String ENERGY_DRINK_TYPE = "Energy Drink";
+	
+	private class TempOpeningTime{
+
+		private String caffeineSourceId;
+		private String day;
+		private String openingTime;
+		private String closingTime;
+		private Calendar date;
+		
+		public TempOpeningTime(String caffeineSourceId, String day, String openingTime, String closingTime, Calendar date){
+			this.caffeineSourceId = caffeineSourceId;
+			this.day = day;
+			this.openingTime = openingTime;
+			this.closingTime = closingTime;
+			this.date = date;
+		}
+
+		/**
+		 * Method to get caffeine source id
+		 * 
+		 * @return caffeineSourceId (String object)
+		 */
+		public String getCaffeineSourceId() {
+			return caffeineSourceId;
+		}
+
+		/**
+		 * Method to get day
+		 * 
+		 * @return day(String object)
+		 */
+		public String getDay(){
+			return day;
+		}
+		
+		/**
+		 * Method to get opening time
+		 * 
+		 * @return openingTime (String object)
+		 */
+		public String getOpeningTime(){
+			return openingTime;
+		}
+		
+		/**
+		 * Method to get closing time
+		 * 
+		 * @return closingTime (String object)
+		 */
+		public String getClosingTime(){
+			return closingTime;
+		}
+		
+		/**
+		 * Method to get date
+		 * 
+		 * @return date (Calendar object)
+		 */
+		public Calendar getDate(){
+			return date;
+		}
+	}
+	
+	private class TempOpeningTimeComparator implements Comparator<TempOpeningTime>{
+
+		public int compare(TempOpeningTime lhs, TempOpeningTime rhs) {
+			
+			if(lhs.getDate().before(rhs.getDate())){
+				return 1;
+			} else if(lhs.getDate().after(rhs.getDate())){
+				return -1;
+			} else{
+				return 0;
+			}
+		}
+	}
 	
 	/**
 	 * Method to execute a SPARQL query at SPARQL endpoint.
@@ -84,7 +166,7 @@ public class SPARQLQuerier {
 	 * @param queryString (Query to execute)
 	 * @return ResultSet (Query results)
 	 */
-	private static ResultSet performQuery(String queryString){
+	private ResultSet performQuery(String queryString){
 		
 		Query query = QueryFactory.create(queryString, Syntax.syntaxARQ);
 	                
@@ -102,7 +184,7 @@ public class SPARQLQuerier {
 	 * 
 	 * @return ArrayList of CaffeineSource objects
 	 */
-	public static ArrayList<CaffeineSource> getCaffeineSources(){
+	public ArrayList<CaffeineSource> getCaffeineSources(){
 
 		ArrayList<CaffeineSource> sources = new ArrayList<CaffeineSource>();
 		ResultSet caffeineSourcesResults = performQuery(CAFFEINE_SOURCES_QUERY);
@@ -149,9 +231,10 @@ public class SPARQLQuerier {
 	 * @param caffeineSourceId (URI for caffeine source)
 	 * @return ArrayList of OpeningTime objects.
 	 */
-	public static ArrayList<OpeningTime> getCurrentOpeningTimes(String caffeineSourceId){
+	public ArrayList<OpeningTime> getCurrentOpeningTimes(String caffeineSourceId){
 
-		ArrayList<OpeningTime> openingTimes = new ArrayList<OpeningTime>();
+		ArrayList<TempOpeningTime> tempOpeningTimes = new ArrayList<TempOpeningTime>();
+		
 		ResultSet openingTimesResults = performQuery(OPENING_TIMES_QUERY1 + caffeineSourceId + OPENING_TIMES_QUERY2);
 
 		//Iterate through results
@@ -228,26 +311,27 @@ public class SPARQLQuerier {
 			   }
 		   }
      	   
-     	   OpeningTime o = new OpeningTime(caffeineSourceId, day , openTime, closeTime , cal);
-     	   openingTimes.add(o);
+     	   TempOpeningTime o = this.new TempOpeningTime(caffeineSourceId, day , openTime, closeTime , cal);
+     	   tempOpeningTimes.add(o);
         }
         
-        if(openingTimes.size() != 0){
-        	//Process opening times to get current term's opening times.
+        ArrayList<OpeningTime> currentOpeningTimes = new ArrayList<OpeningTime>();
+        
+        if(tempOpeningTimes.size() != 0){
+        	//Process temp opening times to get current term's opening times.
         	
-        	//Sort OpeningTime objects in DESC order.
-	        Collections.sort(openingTimes, new OpeningTimeComparator());
-	  	   
-	  	   	ArrayList<OpeningTime> currentOpeningTimes = new ArrayList<OpeningTime>();
+        	//Sort TempOpeningTime objects in DESC order.
+	        Collections.sort(tempOpeningTimes, this.new TempOpeningTimeComparator());
+	  	  
 	  	   	Calendar today = Calendar.getInstance();
-	  	   
+	  	   	
 	  	   	boolean adding = false;
 	  	    int day = 0;
 	  	    int month = 0;
 	  	    int year = 0;
 	  	   
 	  	   	//Loop to get current term opening hours
-	  	   	for(OpeningTime ot : openingTimes){
+	  	   	for(TempOpeningTime ot : tempOpeningTimes){
 	  	   		
 	  	   		if(ot.getDate().before(today)){
 	  	   				
@@ -267,13 +351,13 @@ public class SPARQLQuerier {
    						month = ot.getDate().get(Calendar.MONTH);
    						year = ot.getDate().get(Calendar.YEAR);
    						
-   						currentOpeningTimes.add(ot);
+   						currentOpeningTimes.add(new OpeningTime(ot.getCaffeineSourceId(), ot.getDay(), ot.getOpeningTime(), ot.getClosingTime()));
    					
    					} else if(adding == true && ot.getDate().get(Calendar.DAY_OF_MONTH) == day && 
    							ot.getDate().get(Calendar.MONTH) == month && ot.getDate().get(Calendar.YEAR) == year){
    						//While dates same and adding is true keep adding OpeningTime objects.
    						
-   						currentOpeningTimes.add(ot);
+   						currentOpeningTimes.add(new OpeningTime(ot.getCaffeineSourceId(), ot.getDay(), ot.getOpeningTime(), ot.getClosingTime()));
    					} else{
    						//Dates changed so break out of loop.
    					
@@ -281,11 +365,9 @@ public class SPARQLQuerier {
    					}
 	  	   		} 
 	  	   	}
-
-	        return currentOpeningTimes;
         }
         
-        return openingTimes;
+        return currentOpeningTimes;
 	}
 	
 	/**
@@ -303,7 +385,7 @@ public class SPARQLQuerier {
 	 * @param caffeineSourceId (URI for caffeine source)
 	 * @return ArrayList of CaffeineProduct objects
 	 */
-	public static ArrayList<CaffeineProduct> getCaffeineProducts(String caffeineSourceId){
+	public ArrayList<CaffeineProduct> getCaffeineProducts(String caffeineSourceId){
 		
 		ArrayList<CaffeineProduct> products = new ArrayList<CaffeineProduct>();
 		ResultSet caffeineProductsResults = performQuery(CAFFEINE_PRODUCTS_QUERY1 + caffeineSourceId + CAFFEINE_PRODUCTS_QUERY2);
@@ -318,6 +400,7 @@ public class SPARQLQuerier {
      	   	String name = label.substring(0 , label.lastIndexOf("-"));
             String type;
             String price;
+            String productType = "";
 
             //Set correct type and obtain price information.
  	   		if(id.endsWith(STAFF_TYPE)){
@@ -340,12 +423,25 @@ public class SPARQLQuerier {
  	   			
  	   		}
  	   		
-     	   	products.add(new CaffeineProduct(id, caffeineSourceId, name, price, type));
+ 	   		String labelForComparison = label.toLowerCase();
+ 	   		if(labelForComparison.contains("coke")){
+ 	   			productType = SOFT_DRINK_TYPE;
+ 	   		} else if(labelForComparison.contains("coffee")){
+ 	   			productType = COFFEE_TYPE;
+ 	   		} else if(labelForComparison.contains("tea")){
+ 	   			productType = TEA_TYPE;
+ 	   		} else if(labelForComparison.contains("relentless") || labelForComparison.contains("powerade") 
+ 	   				|| labelForComparison.contains("lucozade") || labelForComparison.contains("red bull")){
+ 	   			productType = ENERGY_DRINK_TYPE;
+ 	   		} else{
+ 	   			//All others such as frappe, cappuchino, americano, latte, esspresso
+ 	   			productType = COFFEE_TYPE;
+ 	   		}
+ 	   		
+     	   	products.add(new CaffeineProduct(id, caffeineSourceId, name, price, productType, type));
      	   	
         }
         
 		return products;
 	}
 }
-
-

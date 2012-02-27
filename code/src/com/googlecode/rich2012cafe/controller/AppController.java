@@ -1,6 +1,7 @@
 package com.googlecode.rich2012cafe.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import com.googlecode.rich2012cafe.model.*;
 import com.googlecode.rich2012cafe.model.database.CaffeineSource;
@@ -43,13 +44,14 @@ public class AppController {
 				
 				results.append(s.getName() + "\n");
 				
-				ArrayList<CaffeineProduct> products = ds.getCaffeineProducts(s.getId());
-				for(CaffeineProduct p : products){
-					results.append(p.getName() + " " + p.getPrice() + " " + p.getType() + "\n");
+				ArrayList<OpeningTime> products = ds.getOpeningTimes(s.getId());
+				for(OpeningTime p : products){
+					results.append(p.getDay() + " " + p.getOpeningTime() + " " + p.getClosingTime()+ "\n");
 				}
 				
 				results.append("\n");
 			}
+			
 			return results.toString();
 		}
 		

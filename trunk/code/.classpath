@@ -9,6 +9,9 @@
 	<classpathentry kind="lib" path="lib/iri-0.8.jar"/>
 	<classpathentry kind="lib" path="lib/lucenoid_3.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-android-1.6.1-RC1.jar"/>
+	<classpathentry kind="lib" path="lib/effects.jar"/>
+	<classpathentry kind="lib" path="lib/maps.jar"/>
+	<classpathentry kind="lib" path="lib/usb.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin/classes"/>

@@ -13,15 +13,18 @@ public class CaffeineProduct {
 	private String caffeineSourceId;
 	private String name;
 	private String price;
-	//Determines whether Staff, Student or All product.
-	private String type;
+	private String productType;
+
+	//Determines whether Staff, Student or All price.
+	private String priceType;
 	
-	public CaffeineProduct(String id, String caffeineSourceId, String name, String price, String type){
+	public CaffeineProduct(String id, String caffeineSourceId, String name, String price, String productType, String priceType){
 		this.id = id;
 		this.caffeineSourceId = caffeineSourceId;
 		this.name = name;
 		this.price = price;
-		this.type = type;
+		this.productType = productType;
+		this.priceType = priceType;
 	}
 
 	/**
@@ -97,20 +100,38 @@ public class CaffeineProduct {
 	}
 
 	/**
-	 * Method to set type of product.
+	 * Method to get type of product.
 	 * 
-	 * @return type (String object)
+	 * @return productType (String object)
 	 */
-	public String getType() {
-		return type;
+	public String getProductType() {
+		return productType;
 	}
-	
+
 	/**
 	 * Method to set type of product.
 	 * 
-	 * @param type (String object)
+	 * @param productType (String object)
 	 */
-	public void setType(String type) {
-		this.type = type;
+	public void setProductType(String productType) {
+		this.productType = productType;
+	}
+	
+	/**
+	 * Method to get price type of product.
+	 * 
+	 * @return type (String object)
+	 */
+	public String getPriceType() {
+		return priceType;
+	}
+	
+	/**
+	 * Method to set price type of product.
+	 * 
+	 * @param priceType (String object)
+	 */
+	public void setPriceType(String priceType) {
+		this.priceType = priceType;
 	}
 }

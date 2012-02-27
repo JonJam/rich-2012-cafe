@@ -11,6 +11,7 @@ import com.googlecode.rich2012cafe.model.database.CaffeineProduct;
 import android.os.AsyncTask;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
+import com.googlecode.rich2012cafe.view.HomeViewInterface;
 
 /**
  * Resources used:
@@ -18,13 +19,14 @@ import android.widget.TextView;
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  */
-public class AppController {
+public class AppController extends Controller<HomeViewInterface> {
 	
 	private TextView tv;
 	private AppDataStore ds;
 	
-	public AppController(TextView tv){
-		this.tv = tv;
+	public AppController(HomeViewInterface view) {
+        super(view);
+        this.tv =  view.getTextView();
 		this.ds = new AppDataStore();
 	}
 	

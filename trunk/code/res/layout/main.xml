@@ -4,52 +4,43 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <GridLayout
-        android:id="@+id/gridLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </GridLayout>
 
-    <GridLayout
-        android:id="@+id/gridLayout2"
-        android:layout_width="match_parent"
+
+
+    <Button
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.54"
-        android:columnCount="2" >
+        android:text="View Map"
+        android:id="@+id/viewMap"
+    />
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_column="0"
-            android:layout_columnSpan="2"
-            android:layout_gravity="center_horizontal"
-            android:layout_row="1"
-            android:text="Search" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button1"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_horizontal"
+        android:layout_row="1"
+        android:text="Search" />
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_column="0"
-            android:layout_columnSpan="2"
-            android:layout_gravity="center_horizontal"
-            android:layout_row="2"
-            android:text="Products" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_horizontal"
+        android:layout_row="2"
+        android:text="Products" />
 
-        <Space
-            android:layout_width="1dp"
-            android:layout_height="64dp"
-            android:layout_column="0"
-            android:layout_row="0" />
+    <TextView
+            android:id="@+id/textview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/loading" />
 
-        <Space
-            android:layout_width="1dp"
-            android:layout_height="80dp"
-            android:layout_column="0"
-            android:layout_row="1" />
 
-        <Space
-            android:layout_width="1dp"
-            android:layout_height="313dp"
-            android:layout_column="0"
-            android:layout_row="2" />
-    </GridLayout>
+
 
 </LinearLayout>

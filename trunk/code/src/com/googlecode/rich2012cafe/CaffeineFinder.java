@@ -26,5 +26,9 @@ public class CaffeineFinder extends Activity {
         
         controller = new AppController(tv);
         controller.runSPARQLQuery();
+
+
     }
+
+    private
 }

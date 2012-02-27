@@ -1,7 +1,7 @@
 package com.googlecode.rich2012cafe.model.database;
 
 /**
- * Class to represent a caffeine source
+ * Class to represent a caffeine source.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  */

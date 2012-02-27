@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.googlecode.rich2012cafe.model.*;
 import com.googlecode.rich2012cafe.model.database.CaffeineSource;
 import com.googlecode.rich2012cafe.model.database.OpeningTime;
+import com.googlecode.rich2012cafe.model.database.CaffeineProduct;
 
 import android.os.AsyncTask;
 import android.text.method.ScrollingMovementMethod;
@@ -26,6 +27,7 @@ public class AppController {
 		this.ds = new AppDataStore();
 	}
 	
+	//TODO Sort out below when database built
 	public void runSPARQLQuery(){
 		SPARQLTask task = new SPARQLTask();
 		task.execute();
@@ -41,9 +43,9 @@ public class AppController {
 				
 				results.append(s.getName() + "\n");
 				
-				ArrayList<OpeningTime> openingTimes = ds.getOpeningTimes(s.getId());
-				for(OpeningTime o : openingTimes){
-					results.append(o.getDay() + " " + o.getOpenTime() + " " + o.getCloseTime() + " " + o.getDate().getTime().toString()+ "\n");
+				ArrayList<CaffeineProduct> products = ds.getCaffeineProducts(s.getId());
+				for(CaffeineProduct p : products){
+					results.append(p.getName() + " " + p.getPrice() + " " + p.getType() + "\n");
 				}
 				
 				results.append("\n");

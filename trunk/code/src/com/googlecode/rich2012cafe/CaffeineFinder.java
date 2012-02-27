@@ -26,7 +26,7 @@ public class CaffeineFinder extends Activity {
         TextView tv = (TextView) findViewById(R.id.textview);
         
         controller = new AppController(tv);
-        controller.runSPARQLQuery();
+        controller.performDatabaseCheck();
 
 
     }

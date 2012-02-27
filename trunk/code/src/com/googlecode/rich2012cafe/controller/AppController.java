@@ -28,13 +28,11 @@ public class AppController {
 		this.ds = new AppDataStore();
 	}
 	
-	//TODO Sort out below when database built
-	public void runSPARQLQuery(){
-		SPARQLTask task = new SPARQLTask();
-		task.execute();
+	public void performDatabaseCheck(){
+		ds.performDatabaseCheck();
 	}
 	
-	private class SPARQLTask extends AsyncTask<String, Void, String>{
+	/*private class SPARQLTask extends AsyncTask<String, Void, String>{
 		
 		protected String doInBackground(String... params) {
 			StringBuffer results = new StringBuffer();
@@ -59,5 +57,5 @@ public class AppController {
 			tv.setMovementMethod(new ScrollingMovementMethod());
 			tv.setText(result);
 		}
-	}
+	}*/
 }

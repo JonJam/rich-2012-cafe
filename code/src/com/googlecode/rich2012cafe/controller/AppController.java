@@ -31,10 +31,12 @@ public class AppController extends Controller<HomeViewInterface> {
 	}
 	
 	public void performDatabaseCheck(){
-		ds.performDatabaseCheck();
+		//ds.performDatabaseCheck();
+		SPARQLTask test = new SPARQLTask();
+		test.execute();
 	}
 	
-	/*private class SPARQLTask extends AsyncTask<String, Void, String>{
+	private class SPARQLTask extends AsyncTask<String, Void, String>{
 		
 		protected String doInBackground(String... params) {
 			StringBuffer results = new StringBuffer();
@@ -59,5 +61,5 @@ public class AppController extends Controller<HomeViewInterface> {
 			tv.setMovementMethod(new ScrollingMovementMethod());
 			tv.setText(result);
 		}
-	}*/
+	}
 }

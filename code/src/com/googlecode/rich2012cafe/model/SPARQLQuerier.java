@@ -1,13 +1,8 @@
 package com.googlecode.rich2012cafe.model;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Locale;
 
 import com.googlecode.rich2012cafe.model.database.CaffeineSource;
 import com.googlecode.rich2012cafe.model.database.OpeningTime;
@@ -27,10 +22,11 @@ import com.hp.hpl.jena.rdf.model.Literal;
  * 	- http://monead.com/blog/?p=1420
  *  - http://www.vogella.de/articles/AndroidSQLite/article.html
  * 
+ * TODO Update product functions to get data in better way  (JON - WORKING ON PRODUCT TO FIND PRICE LITERAL)
  * TODO Change product query to filter out decaffenated products (Tags - Decaf) (SAMI - DOING)
  * TODO Add lat and log columns to get caffeine sources if need to.
  * 
- * TODO Sort out storage of information (JON - WORKING ON CONTINUE WORKING in DatabaseHelper class)
+ * TODO Sort out storage of information (JON - ON HOLD)
  * TODO set up database so expires and updates data automatically (STORE DATA UPTO END OF TERM AS OPENING TIMES WILL CHANGE SO UPDATE)
  * TODO Tidy/Structure classes so readable.
  * 
@@ -60,10 +56,15 @@ public class SPARQLQuerier {
 				+ "OPTIONAL { ?pos geo:lat ?lat ; geo:long ?long }"
 			+ "}";
 	
-	private static final String OPENING_TIMES_QUERY1 = "PREFIX purl: <http://purl.org/goodrelations/v1#>"
-			+ "SELECT DISTINCT ?times WHERE { <";
-	private static final String OPENING_TIMES_QUERY2 = "> purl:hasOpeningHoursSpecification ?times . }";
-	
+	private static final String OPENING_TIMES_QUERY1 = "PREFIX gr: <http://purl.org/goodrelations/v1#>"
+			+ "PREFIX xs: <http://www.w3.org/2001/XMLSchema#>"
+			+ "SELECT DISTINCT * WHERE { <";
+	private static final String OPENING_TIMES_QUERY2 = "> gr:hasOpeningHoursSpecification ?id ."
+				+ "?id gr:opens ?opens ; gr:closes ?closes ; gr:validFrom ?from ;gr:validThrough ?to; gr:hasOpeningHoursDayOfWeek ?day ."
+				+ "FILTER('";
+	private static final String OPENING_TIMES_QUERY3 = "'^^xs:dateTime > ?from && '";
+	private static final String OPENING_TIMES_QUERY4 = "'^^xs:dateTime < ?to)}";
+
 	private static final String CAFFEINE_PRODUCTS_QUERY1 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
     		+ "PREFIX purl: <http://purl.org/goodrelations/v1#>"
     		+ "SELECT DISTINCT ?product ?label WHERE {"
@@ -76,6 +77,18 @@ public class SPARQLQuerier {
 					+ " speciality teas ', 'i'))"
 			+ "}";
 	
+	/*
+	 * PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX purl: <http://purl.org/goodrelations/v1#>
+SELECT DISTINCT ?product ?label ?label2 WHERE {
+?product purl:availableAtOrFrom <http://id.southampton.ac.uk/point-of-service/38-arlott> .
+?product purl:includes ?gp .
+?product rdfs:label ?label2 .
+?gp rdfs:label ?label .
+FILTER (regex(?label, '^coke | coke |^coffee | coffee |^tea | tea |^relentless | relentless |^powerade | powerade |^lucozade | lucozade |^red bull | red bull |^frappe | frappe |^cappuchino | cappuchino |^americano | americano |^latte | latte |^espresso | espresso |^iced teas | iced teas |^speciality teas | speciality teas ', 'i'))
+}
+	 */
+	
 	private static final String STAFF_TYPE = "Staff";
 	private static final String STUDENT_TYPE = "Student";
 	private static final String ALL_TYPE = "All";
@@ -83,93 +96,6 @@ public class SPARQLQuerier {
 	private static final String COFFEE_TYPE = "Coffee";
 	private static final String TEA_TYPE = "Tea";
 	private static final String ENERGY_DRINK_TYPE = "Energy Drink";
-	
-	private class TempOpeningTime{
-
-		private String id;
-		private String caffeineSourceId;
-		private String day;
-		private String openingTime;
-		private String closingTime;
-		private Calendar date;
-		
-		public TempOpeningTime(String id, String caffeineSourceId, String day, String openingTime, String closingTime, Calendar date){
-			this.id = id;
-			this.caffeineSourceId = caffeineSourceId;
-			this.day = day;
-			this.openingTime = openingTime;
-			this.closingTime = closingTime;
-			this.date = date;
-		}
-
-		/**
-		 * Method to get id
-		 * 
-		 * @return id (String object)
-		 */
-		public String getId() {
-			return id;
-		}
-		
-		/**
-		 * Method to get caffeine source id
-		 * 
-		 * @return caffeineSourceId (String object)
-		 */
-		public String getCaffeineSourceId() {
-			return caffeineSourceId;
-		}
-
-		/**
-		 * Method to get day
-		 * 
-		 * @return day(String object)
-		 */
-		public String getDay(){
-			return day;
-		}
-		
-		/**
-		 * Method to get opening time
-		 * 
-		 * @return openingTime (String object)
-		 */
-		public String getOpeningTime(){
-			return openingTime;
-		}
-		
-		/**
-		 * Method to get closing time
-		 * 
-		 * @return closingTime (String object)
-		 */
-		public String getClosingTime(){
-			return closingTime;
-		}
-		
-		/**
-		 * Method to get date
-		 * 
-		 * @return date (Calendar object)
-		 */
-		public Calendar getDate(){
-			return date;
-		}
-	}
-	
-	private class TempOpeningTimeComparator implements Comparator<TempOpeningTime>{
-
-		public int compare(TempOpeningTime lhs, TempOpeningTime rhs) {
-			
-			if(lhs.getDate().before(rhs.getDate())){
-				return 1;
-			} else if(lhs.getDate().after(rhs.getDate())){
-				return -1;
-			} else{
-				return 0;
-			}
-		}
-	}
 	
 	/**
 	 * Method to execute a SPARQL query at SPARQL endpoint.
@@ -244,141 +170,30 @@ public class SPARQLQuerier {
 	 */
 	public ArrayList<OpeningTime> getCurrentOpeningTimes(String caffeineSourceId){
 
-		ArrayList<TempOpeningTime> tempOpeningTimes = new ArrayList<TempOpeningTime>();
+		ArrayList<OpeningTime> openingTimes = new ArrayList<OpeningTime>();
 		
-		ResultSet openingTimesResults = performQuery(OPENING_TIMES_QUERY1 + caffeineSourceId + OPENING_TIMES_QUERY2);
+		String todayString = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(Calendar.getInstance().getTime());
+		
+		ResultSet openingTimesResults = performQuery(OPENING_TIMES_QUERY1 + caffeineSourceId + OPENING_TIMES_QUERY2 +
+				todayString + OPENING_TIMES_QUERY3 + todayString + OPENING_TIMES_QUERY4);
 
 		//Iterate through results
         while (openingTimesResults.hasNext()) {
         	
             QuerySolution solution = openingTimesResults.next();
             
-            String timeURI = solution.getResource("times").getURI();
-            String timeString = timeURI.substring(timeURI.indexOf("#") + 1);
-     	   	String[] timeStringParts = timeString.split("-");
-     	   
-     	   	String day = timeStringParts[0];
-     	   	String openTime = timeStringParts[1];
-     	   	String closeTime;
-     	   	Calendar cal = Calendar.getInstance();
-     	   	
-     	   	if(openTime.equals("CLOSED")){
-     	   		//No close time so dates in different positions.
-     		   
-     	   		closeTime = "CLOSED";
-     	   		
-     	   		try{
-     	   			//Converting month number string to int
-     	   			int month = Integer.parseInt(timeStringParts[3]);
-     	   			
-         	   		cal.set(Calendar.MONTH, month);
-     	   			cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(timeStringParts[4]));
-     	   			cal.set(Calendar.YEAR, Integer.parseInt(timeStringParts[2]));
-         	   		
-     	   		} catch(NumberFormatException e){
-     	   			//String is text version of month e.g. Sep so convert to int.
-     	   			
-     	   			try {
-						Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(timeStringParts[3]);
-						Calendar cal2 = Calendar.getInstance();
-						cal2.setTime(date);
-						
-						cal.set(Calendar.MONTH, cal2.get(Calendar.MONTH));
-						cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(timeStringParts[2]));
-	     	   			cal.set(Calendar.YEAR, Integer.parseInt(timeStringParts[4]));
-	     	   			
-					} catch (ParseException e1) {
-						e1.printStackTrace();
-					}
-     	   		}
-     	   		
-   			} else{
-   				
-			   closeTime = timeStringParts[2];
-			   
-			   try{
-				   //Converting month number string to int
-				   int month = Integer.parseInt(timeStringParts[4]);
-				   
-				   cal.set(Calendar.MONTH, month);
-				   cal.set(Calendar.YEAR, Integer.parseInt(timeStringParts[3]));
-				   cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(timeStringParts[5]));
-    	   			
-			   } catch(NumberFormatException e){
-				   //String is text version of month e.g. Sep so convert to int.
-				   
-				   try {
-					   Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(timeStringParts[4]);
-					   Calendar cal2 = Calendar.getInstance();
-					   cal2.setTime(date);
-					   
-					   cal.set(Calendar.MONTH, cal2.get(Calendar.MONTH));
-					   cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(timeStringParts[3]));
-					   cal.set(Calendar.YEAR, Integer.parseInt(timeStringParts[5]));
-					   
-				   } catch (ParseException e1) {
-					   e1.printStackTrace();
-				   }
-			   }
-		   }
-     	   
-     	   TempOpeningTime o = this.new TempOpeningTime(timeURI, caffeineSourceId, day , openTime, closeTime , cal);
-     	   tempOpeningTimes.add(o);
+            String id = solution.getResource("id").getURI();
+            String dayURI = solution.getResource("day").getURI();
+            String day = dayURI.substring(dayURI.indexOf("#") + 1);
+            String openTime = solution.getLiteral("opens").getString();
+            String closeTime = solution.getLiteral("closes").getString();
+            String validFrom = solution.getLiteral("from").getString();
+            String validTo = solution.getLiteral("to").getString();
+            
+            openingTimes.add(new OpeningTime(id, caffeineSourceId, day, openTime, closeTime, validFrom, validTo));
         }
         
-        ArrayList<OpeningTime> currentOpeningTimes = new ArrayList<OpeningTime>();
-        
-        if(tempOpeningTimes.size() != 0){
-        	//Process temp opening times to get current term's opening times.
-        	
-        	//Sort TempOpeningTime objects in DESC order.
-	        Collections.sort(tempOpeningTimes, this.new TempOpeningTimeComparator());
-	  	  
-	  	   	Calendar today = Calendar.getInstance();
-	  	   	
-	  	   	boolean adding = false;
-	  	    int day = 0;
-	  	    int month = 0;
-	  	    int year = 0;
-	  	   
-	  	   	//Loop to get current term opening hours
-	  	   	for(TempOpeningTime ot : tempOpeningTimes){
-	  	   		
-	  	   		if(ot.getDate().before(today)){
-	  	   				
-	  	   			/*
-	  	   			 * Conditions met are:
-	  	   			 * 
-	  	   			 * 1. Years same.
-	  	   			 * 2. Month is less than or equal to today's month.
-	  	   			 * 3. Day is less than or equal to today's day.
-	  	   			 */
-
-   					if(adding == false){
-   						//Start adding OpeningTime objects to ArrayList
-   						
-   						adding = true;
-   						day = ot.getDate().get(Calendar.DAY_OF_MONTH);
-   						month = ot.getDate().get(Calendar.MONTH);
-   						year = ot.getDate().get(Calendar.YEAR);
-   						
-   						currentOpeningTimes.add(new OpeningTime(ot.getId(), ot.getCaffeineSourceId(), ot.getDay(), ot.getOpeningTime(), ot.getClosingTime()));
-   					
-   					} else if(adding == true && ot.getDate().get(Calendar.DAY_OF_MONTH) == day && 
-   							ot.getDate().get(Calendar.MONTH) == month && ot.getDate().get(Calendar.YEAR) == year){
-   						//While dates same and adding is true keep adding OpeningTime objects.
-   						
-   						currentOpeningTimes.add(new OpeningTime(ot.getId(), ot.getCaffeineSourceId(), ot.getDay(), ot.getOpeningTime(), ot.getClosingTime()));
-   					} else{
-   						//Dates changed so break out of loop.
-   					
-   						break;
-   					}
-	  	   		} 
-	  	   	}
-        }
-        
-        return currentOpeningTimes;
+        return openingTimes;
 	}
 	
 	/**

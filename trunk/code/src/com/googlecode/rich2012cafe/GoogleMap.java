@@ -11,6 +11,7 @@ import com.google.android.maps.MapView;
  */
 public class GoogleMap extends MapActivity {
 
+    //Test comment
 
     @Override
     protected boolean isRouteDisplayed() {

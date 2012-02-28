@@ -22,12 +22,15 @@ import com.hp.hpl.jena.rdf.model.Literal;
  * 	- http://monead.com/blog/?p=1420
  *  - http://www.vogella.de/articles/AndroidSQLite/article.html
  * 
- * TODO Update product functions to get data in better way  (JON - WORKING ON PRODUCT TO FIND PRICE LITERAL)
- * TODO Change product query to filter out decaffenated products (Tags - Decaf) (SAMI - DOING)
+ * TODO Change product query to filter out decaffenated products (SAMI - DOING)
+ * 		TO ADD NOT KEYWORD APPEND: && regex(?name, '^((?!keyword).)*$', 'i'))
+ * 
  * TODO Add lat and log columns to get caffeine sources if need to.
  * 
- * TODO Sort out storage of information (JON - ON HOLD)
+ * TODO Sort out storage of information (JON - WORKING ON)
+ * 
  * TODO set up database so expires and updates data automatically (STORE DATA UPTO END OF TERM AS OPENING TIMES WILL CHANGE SO UPDATE)
+ * 
  * TODO Tidy/Structure classes so readable.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com), Samantha Kanza (samikanza@gmail.com)
@@ -66,28 +69,17 @@ public class SPARQLQuerier {
 	private static final String OPENING_TIMES_QUERY4 = "'^^xs:dateTime < ?to)}";
 
 	private static final String CAFFEINE_PRODUCTS_QUERY1 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-    		+ "PREFIX purl: <http://purl.org/goodrelations/v1#>"
-    		+ "SELECT DISTINCT ?product ?label WHERE {"
-    			+ "?product purl:availableAtOrFrom <";
+				+ "PREFIX purl: <http://purl.org/goodrelations/v1#>"
+				+ "SELECT DISTINCT ?id ?name ?price WHERE {"
+					+ "?id purl:availableAtOrFrom <";
 	private static final String CAFFEINE_PRODUCTS_QUERY2 = "> ."
-				+ "?product rdfs:label ?label ."
-				+ "FILTER (regex(?label, '^coke | coke |^coffee | coffee |^tea | tea |^relentless | relentless |^powerade |"
-					+ " powerade |^lucozade | lucozade |^red bull | red bull |^frappe | frappe |^cappuchino | cappuchino |"
-					+ "^americano | americano |^latte | latte |^espresso | espresso |^iced teas | iced teas |^speciality teas |"
-					+ " speciality teas ', 'i'))"
-			+ "}";
-	
-	/*
-	 * PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX purl: <http://purl.org/goodrelations/v1#>
-SELECT DISTINCT ?product ?label ?label2 WHERE {
-?product purl:availableAtOrFrom <http://id.southampton.ac.uk/point-of-service/38-arlott> .
-?product purl:includes ?gp .
-?product rdfs:label ?label2 .
-?gp rdfs:label ?label .
-FILTER (regex(?label, '^coke | coke |^coffee | coffee |^tea | tea |^relentless | relentless |^powerade | powerade |^lucozade | lucozade |^red bull | red bull |^frappe | frappe |^cappuchino | cappuchino |^americano | americano |^latte | latte |^espresso | espresso |^iced teas | iced teas |^speciality teas | speciality teas ', 'i'))
-}
-	 */
+				+ "?id purl:includes ?product ."
+				+ "?product rdfs:label ?name ."
+				+ "?id rdfs:label ?price ."
+				+ "FILTER (regex(?name, '^coke | coke |^coffee | coffee |^tea | tea |^relentless | relentless "
+				+ "|^powerade | powerade |^lucozade | lucozade |^red bull | red bull |^frappe | frappe |^cappuchino "
+				+ "| cappuchino |^americano | americano |^latte | latte |^espresso | espresso |^iced teas | iced teas "
+				+ "|^speciality teas | speciality teas ', 'i'))}";
 	
 	private static final String STAFF_TYPE = "Staff";
 	private static final String STUDENT_TYPE = "Student";
@@ -220,12 +212,14 @@ FILTER (regex(?label, '^coke | coke |^coffee | coffee |^tea | tea |^relentless |
         while (caffeineProductsResults.hasNext()) {
   
         	QuerySolution solution = caffeineProductsResults.next();
+        	
+        	String id = solution.getResource("id").getURI();
+     	   	String name = solution.getLiteral("name").getString();
+     	   	
+            String priceString = solution.getLiteral("price").getString().replace(name, "");
             
-        	String id = solution.getResource("product").getURI();       
-        	String label = solution.getLiteral("label").getString();
-     	   	String name = label.substring(0 , label.lastIndexOf("-"));
+     	   	String price;
             String type;
-            String price;
             String productType = "";
 
             //Set correct type and obtain price information.
@@ -233,31 +227,31 @@ FILTER (regex(?label, '^coke | coke |^coffee | coffee |^tea | tea |^relentless |
  	   			//Staff Product
  	   			
  	   			type = STAFF_TYPE;
- 	   			price = label.substring(label.lastIndexOf("-") + 1, label.lastIndexOf("(Staff Price)")).trim();
+ 	   			price = priceString.substring(priceString.indexOf("-") + 1, priceString.indexOf("(")).trim(); 
  	   			
  	   		} else if(id.endsWith(STUDENT_TYPE)){
  	   			//Student Product
  	   			
  	   			type = STAFF_TYPE;
- 	   			price = label.substring(label.lastIndexOf("-") + 1, label.lastIndexOf("(Student Price)")).trim();
+ 	   			price = priceString.substring(priceString.indexOf("-") + 1, priceString.indexOf("(")).trim(); 
  	   			
  	   		} else{
  	   			//All Product.
  	   			
  	   			type = ALL_TYPE;
- 	   			price = label.substring(label.lastIndexOf("-") + 1).trim();
+ 	   			price = priceString.substring(priceString.indexOf("-") + 1).trim();
  	   			
  	   		}
  	   		
- 	   		String labelForComparison = label.toLowerCase();
- 	   		if(labelForComparison.contains("coke")){
+ 	   		String nameForComparison = name.toLowerCase();
+ 	   		if(nameForComparison.contains("coke")){
  	   			productType = SOFT_DRINK_TYPE;
- 	   		} else if(labelForComparison.contains("coffee")){
+ 	   		} else if(nameForComparison.contains("coffee")){
  	   			productType = COFFEE_TYPE;
- 	   		} else if(labelForComparison.contains("tea")){
+ 	   		} else if(nameForComparison.contains("tea")){
  	   			productType = TEA_TYPE;
- 	   		} else if(labelForComparison.contains("relentless") || labelForComparison.contains("powerade") 
- 	   				|| labelForComparison.contains("lucozade") || labelForComparison.contains("red bull")){
+ 	   		} else if(nameForComparison.contains("relentless") || nameForComparison.contains("powerade") 
+ 	   				|| nameForComparison.contains("lucozade") || nameForComparison.contains("red bull")){
  	   			productType = ENERGY_DRINK_TYPE;
  	   		} else{
  	   			//All others such as frappe, cappuchino, americano, latte, esspresso

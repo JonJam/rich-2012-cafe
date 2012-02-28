@@ -14,13 +14,17 @@ public class OpeningTime {
 	private String day;
 	private String openingTime;
 	private String closingTime;
+	private String validFrom;
+	private String validTo;
 	
-	public OpeningTime(String id, String caffeineSourceId, String day, String openingTime, String closingTime){
+	public OpeningTime(String id, String caffeineSourceId, String day, String openingTime, String closingTime, String validFrom, String validTo){
 		this.id = id;
 		this.caffeineSourceId = caffeineSourceId;
 		this.day = day;
 		this.openingTime = openingTime;
 		this.closingTime = closingTime;
+		this.validFrom = validFrom;
+		this.validTo = validTo;
 	}
 
 	/**
@@ -111,5 +115,41 @@ public class OpeningTime {
 	 */
 	public void setClosingTime(String closingTime) {
 		this.closingTime = closingTime;
+	}
+	
+	/**
+	 * Method to get valid from date.
+	 * 
+	 * @return validFrom (String object)
+	 */
+	public String getValidFrom() {
+		return validFrom;
+	}
+
+	/**
+	 * Method to set valid from date
+	 * 
+	 * @param validFrom (String object)
+	 */
+	public void setValidFrom(String validFrom) {
+		this.validFrom = validFrom;
+	}
+
+	/**
+	 * Method to get valid to date.
+	 * 
+	 * @return validTo (String object)
+	 */
+	public String getValidTo() {
+		return validTo;
+	}
+
+	/**
+	 * Method to set valid to date.
+	 * 
+	 * @param validTo (String object)
+	 */
+	public void setValidTo(String validTo) {
+		this.validTo = validTo;
 	}
 }

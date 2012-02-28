@@ -36,10 +36,6 @@ public class CaffeineFinder extends Activity implements OnClickListener, HomeVie
 
         Button viewMapButton = this.getViewMapButton();
         viewMapButton.setOnClickListener(this);
-
-
-
-
     }
 
     private Button getViewMapButton() {

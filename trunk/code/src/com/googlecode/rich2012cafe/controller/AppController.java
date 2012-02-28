@@ -1,15 +1,6 @@
 package com.googlecode.rich2012cafe.controller;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import com.googlecode.rich2012cafe.model.*;
-import com.googlecode.rich2012cafe.model.database.CaffeineSource;
-import com.googlecode.rich2012cafe.model.database.OpeningTime;
-import com.googlecode.rich2012cafe.model.database.CaffeineProduct;
-
-import android.os.AsyncTask;
-import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 import com.googlecode.rich2012cafe.view.HomeViewInterface;
 
@@ -31,12 +22,10 @@ public class AppController extends Controller<HomeViewInterface> {
 	}
 	
 	public void performDatabaseCheck(){
-		//ds.performDatabaseCheck();
-		SPARQLTask test = new SPARQLTask();
-		test.execute();
+		ds.performDatabaseCheck();
 	}
 	
-	private class SPARQLTask extends AsyncTask<String, Void, String>{
+	/*private class SPARQLTask extends AsyncTask<String, Void, String>{
 		
 		protected String doInBackground(String... params) {
 			StringBuffer results = new StringBuffer();
@@ -46,9 +35,9 @@ public class AppController extends Controller<HomeViewInterface> {
 				
 				results.append(s.getName() + "\n");
 				
-				ArrayList<OpeningTime> products = ds.getOpeningTimes(s.getId());
-				for(OpeningTime p : products){
-					results.append(p.getDay() + " " + p.getOpeningTime() + " " + p.getClosingTime()+ "\n");
+				ArrayList<CaffeineProduct> products = ds.getCaffeineProducts(s.getId());
+				for(CaffeineProduct p : products){
+					results.append(p.getName() + " " + p.getPrice() + " " + p.getPriceType() + " " + p.getProductType() + "\n");
 				}
 				
 				results.append("\n");
@@ -61,5 +50,5 @@ public class AppController extends Controller<HomeViewInterface> {
 			tv.setMovementMethod(new ScrollingMovementMethod());
 			tv.setText(result);
 		}
-	}
+	}*/
 }

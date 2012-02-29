@@ -29,18 +29,19 @@ public class CaffeineFinder extends Activity implements OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        Button viewMapButton = this.getViewMapButton();
-        viewMapButton.setOnClickListener(this);
-        
-        Button sparqlButton = this.getSparqlButton();
-        sparqlButton.setOnClickListener(this);
-
+        this.getViewMapButton().setOnClickListener(this);
+        this.getSparqlButton().setOnClickListener(this);
+        this.getuiButton().setOnClickListener(this);
     }
 
     private Button getViewMapButton() {
         return (Button)findViewById(R.id.viewMap);
     }
 
+    private Button getuiButton() {
+        return (Button)findViewById(R.id.uiButton);
+    }
+    
     private Button getSparqlButton() {
         return (Button)findViewById(R.id.sparqlButton);
     }
@@ -48,19 +49,15 @@ public class CaffeineFinder extends Activity implements OnClickListener{
     public void onClick(View view) {
 
         if (view.getId() == R.id.viewMap) {
-            
-            //this.controller.handleMapButton();
-        	Intent mapintent = new Intent(view.getContext(), GoogleMap.class);
-        	this.startActivity(mapintent);
-//            AlertDialog.Builder builder = new AlertDialog.Builder(controller.getContext());
-//            builder.setMessage("Clicked the button!");
-//            AlertDialog dialog = builder.create();
-//            dialog.show();
-                                                       
-            //setContentView(R.layout.map);
+        	Intent intent = new Intent(view.getContext(), GoogleMap.class);
+        	this.startActivity(intent);
         }
         if(view.getId() == R.id.sparqlButton){
         	Intent intent = new Intent(view.getContext(), JonText.class);
+        	this.startActivity(intent);
+        }
+        if(view.getId() == R.id.uiButton){
+        	Intent intent = new Intent(view.getContext(), UserInterface.class);
         	this.startActivity(intent);
         }
     }

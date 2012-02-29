@@ -1,16 +1,13 @@
 package com.googlecode.rich2012cafe;
 
-import android.app.AlertDialog;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import com.googlecode.rich2012cafe.controller.AppController;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
-import com.googlecode.rich2012cafe.view.HomeViewInterface;
+import com.googlecode.rich2012cafe.controller.AppController;
 
 /**
  * N.B. In running and developing application need to increase Eclipse minimum/maximum memory requirements by altering
@@ -51,8 +48,7 @@ public class CaffeineFinder extends Activity implements OnClickListener{
         if (view.getId() == R.id.viewMap) {
         	Intent intent = new Intent(view.getContext(), GoogleMap.class);
         	this.startActivity(intent);
-        }
-        if(view.getId() == R.id.sparqlButton){
+        }  else if (view.getId() == R.id.sparqlButton) {
         	Intent intent = new Intent(view.getContext(), JonText.class);
         	this.startActivity(intent);
         }

@@ -20,15 +20,14 @@ import com.hp.hpl.jena.rdf.model.Literal;
  * Resources used:
  * 	- http://code.google.com/p/androjena/
  * 	- http://monead.com/blog/?p=1420
- *  - http://www.vogella.de/articles/AndroidSQLite/article.html
  * 
  * TODO Change product query to filter out decaffenated products (SAMI - DOING)
  * 		TO ADD NOT KEYWORD APPEND: && regex(?name, '^((?!keyword).)*$', 'i'))
  * 
  * TODO Add lat and log columns to get caffeine sources if need to.
  * 
- * TODO Sort out storage of information (JON - WORKING ON)
- * 
+ * TODO Sort out storage of information (JON - WORKING ON CREATING DataSource classes)
+ * TODO Test database
  * TODO set up database so expires and updates data automatically (STORE DATA UPTO END OF TERM AS OPENING TIMES WILL CHANGE SO UPDATE)
  * 
  * TODO Tidy/Structure classes so readable.

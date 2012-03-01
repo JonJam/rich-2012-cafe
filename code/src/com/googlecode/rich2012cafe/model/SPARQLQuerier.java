@@ -26,10 +26,6 @@ import com.hp.hpl.jena.rdf.model.Literal;
  * 
  * TODO Add lat and log columns to get caffeine sources if need to.
  * 
- * TODO Sort out storage of information (JON - WORKING ON CREATING DataSource classes)
- * TODO Test database
- * TODO set up database so expires and updates data automatically (STORE DATA UPTO END OF TERM AS OPENING TIMES WILL CHANGE SO UPDATE)
- * 
  * TODO Tidy/Structure classes so readable.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com), Samantha Kanza (samikanza@gmail.com)

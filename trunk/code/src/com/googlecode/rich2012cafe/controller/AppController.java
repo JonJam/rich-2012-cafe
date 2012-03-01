@@ -3,6 +3,7 @@ package com.googlecode.rich2012cafe.controller;
 import com.googlecode.rich2012cafe.model.*;
 
 import android.os.AsyncTask;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
 /**
@@ -21,6 +22,7 @@ public class AppController {//extends Controller<HomeViewInterface> {
         this.tv =  view;
         this.ds = ds;
 	}
+	
 	/**
 	 * Asynchronous task to perform database check which may involve network activity.
 	 * 
@@ -35,7 +37,6 @@ public class AppController {//extends Controller<HomeViewInterface> {
 		}
 	}
 	
-
 	/**
 	 * Method to perform check on the database to ensure it contains data or doesn't need updating.
 	 * 
@@ -57,5 +58,11 @@ public class AppController {//extends Controller<HomeViewInterface> {
 	 */
 	public void closeDataSourceConnections(){
 		ds.closeDataSourceConnections();
+	}
+	
+	public void test(){
+		String test = ds.test();
+		tv.setMovementMethod(new ScrollingMovementMethod());
+		tv.setText(test);
 	}
 }

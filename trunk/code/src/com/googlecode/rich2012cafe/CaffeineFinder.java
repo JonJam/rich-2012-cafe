@@ -11,27 +11,37 @@ import com.googlecode.rich2012cafe.controller.AppController;
 import com.googlecode.rich2012cafe.view.UserInterface;
 
 /**
- * N.B. In running and developing application need to increase Eclipse minimum/maximum memory requirements by altering
- * eclipse.ini file (Linux - located in /usr/lib/eclipse/) and change appropriate lines to this:
+ * N.B. In running and developing application:
+ * 1. Need to increase Eclipse minimum/maximum memory requirements by altering eclipse.ini file (Linux - located in /usr/lib/eclipse/)
+ *    and change appropriate lines to this:
  *              -Xms512m
  *              -Xmx1024m
+ * 2. Ensure AVD and Project are using Google APIs platform.
+ * 3. Add -partition-size 1024 to run configurations for application.
+ * 4. Add custom debug keystore to Android build configuration. 
  *              
- * TODO Change product query to filter out decaffenated products (SAMI - DOING)
- * TODO TO ADD NOT KEYWORD APPEND: && regex(?name, '^((?!keyword).)*$', 'i'))
+ * TODO Change product query to filter out decaffenated products (SAMI DOING)
+ * 		TO ADD NOT KEYWORD APPEND: && regex(?name, '^((?!keyword).)*$', 'i'))
  * TODO Add lat and log columns to get caffeine sources if need to.
- * TODO Queries
+ * TODO Queries listed below:
+ * 
  * 		Get sources given lat and long
- * 		Get opening times given source id
+ * 
+ * 		Get opening times given source id (In addition sort on day name)
  * 		Get products given source id
+ * 
+ * 		Get all product names
  * 		Get locations given product name
+ * 
  * 		Get products given product type
  * 		Get products given price type (staff or student)
  * 		Get products given price range 
- * TODO Saving settings (XML or table)
+ * 
+ * TODO Saving settings (XML or table) http://developer.android.com/guide/topics/data/data-storage.html
  * 		Whether student or staff
  * 		Favourite products
  * 		Product type
- * 		Inc vending machines in type (would need to add field to caffeinesource class)
+ * 		Inc vending machines in type
  * TODO Tidy/Structure classes so readable.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com)

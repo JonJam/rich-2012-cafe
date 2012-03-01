@@ -69,6 +69,9 @@ public class SPARQLQuerier {
 				+ "| cappuchino |^americano | americano |^latte | latte |^espresso | espresso |^iced teas | iced teas "
 				+ "|^speciality teas | speciality teas ', 'i'))}";
 	
+	
+	private static final String POS_TYPE = "Point of Service";
+	private static final String VENDING_MACHINE_TYPE = "Vending Machine";
 	private static final String STAFF_TYPE = "Staff";
 	private static final String STUDENT_TYPE = "Student";
 	private static final String ALL_TYPE = "All";
@@ -125,8 +128,20 @@ public class SPARQLQuerier {
             	continue;
             }
         	
+            String type;
+            
+            if(id.contains("vending-machine")){
+            	//Vending machine type
+            	
+            	type = VENDING_MACHINE_TYPE;
+            } else{
+            	//Point of Service type
+            	
+            	type = POS_TYPE;
+            }
+            
             CaffeineSource source = new CaffeineSource(id, nameLiteral.getString(), buildingNumberLiteral.getString(), 
-            		buildingNameLiteral.getString(), buildingLatLiteral.getDouble(), buildingLongLiteral.getDouble());
+            		buildingNameLiteral.getString(), buildingLatLiteral.getDouble(), buildingLongLiteral.getDouble(), type);
             
             sources.add(source);
 
@@ -139,11 +154,6 @@ public class SPARQLQuerier {
 	 * Method to execute a SPARQL query and obtain opening times for a caffeine source for current term.
 	 * 
 	 * N.B. Sources will return empty ArrayList when don't have opening times.
-	 * 
-	 * Opening time dates come in the following formats (which I have seen):
-	 * 	Wednesday-1200-1400-26-Sep-2011
-	 *  Wednesday-1200-1400-2011-9-26
-	 *  Wednesday-CLOSED-2011-9-26
 	 * 
 	 * @param caffeineSourceId (URI for caffeine source)
 	 * @return ArrayList of OpeningTime objects.

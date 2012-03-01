@@ -3,5 +3,6 @@
 
     <string name="loading">Loading</string>
     <string name="app_name">CaffeineFinder</string>
+    <string name="map_act">Map Act</string>
 
 </resources>

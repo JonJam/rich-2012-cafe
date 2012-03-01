@@ -92,26 +92,34 @@ public class AppDataStore {
 	}
 	
 	/**
-	 * Method to get OpeningTime objects for a caffeine source and in day order.
+	 * Method to get OpeningTime objects for a caffeine source.
 	 * 
 	 * @param id (String object)
 	 * @return ArrayList of OpeningTime objects.
 	 */
 	public ArrayList<OpeningTime> getOpeningTimesForCaffeineSource(String id){
 		
-		ArrayList<OpeningTime> times = openingTimesTable.getOpeningTimesForCaffeineSource(id);
-		
-		//Collections.sort(times);
-		
-		return times;
+		return openingTimesTable.getOpeningTimesForCaffeineSource(id);
 	}
 	
+	/**
+	 * Method to get CaffeineProduct objects for a caffeine source.
+	 * 
+	 * @param id (String object)
+	 * @return ArrayList of CaffeineProduct objects.
+	 */
+	public ArrayList<CaffeineProduct> getProductsForCaffeineSource(String id){
+		
+		return productsTable.getCaffeineProductsForCaffeineSource(id);
+	}
+	
+	
 	public String test(){
-		ArrayList<OpeningTime> sources = getOpeningTimesForCaffeineSource("http://id.southampton.ac.uk/point-of-service/42-lattes");
+		ArrayList<CaffeineProduct> sources = getProductsForCaffeineSource("http://id.southampton.ac.uk/point-of-service/42-lattes");
 		String a = "";
 		
-		for(OpeningTime s : sources){
-			a += s.getDay() +" " + s.getOpeningTime() +" " + s.getClosingTime()+ "\n";
+		for(CaffeineProduct s : sources){
+			a += s.getName() +" " + s.getPrice() +"\n";
 		}
 		
 		return a;

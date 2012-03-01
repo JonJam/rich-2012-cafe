@@ -66,15 +66,16 @@ public class CaffeineProductsDataSource {
 	}
 		
 	/**
-	 * Method to get all CaffeineProduct objects in the database.
+	 * Method to get CaffeineProduct objects for a caffeine source.
 	 * 
+	 * @param id (String object)
 	 * @return ArrayList of CaffeineProduct objects.
 	 */
-	public ArrayList<CaffeineProduct> getAllCaffeineProducts() {
+	public ArrayList<CaffeineProduct> getCaffeineProductsForCaffeineSource(String id) {
 		
 		ArrayList<CaffeineProduct> products = new ArrayList<CaffeineProduct>();
 		
-		Cursor cursor = database.query(DatabaseHelper.TABLE_CAFFEINE_PRODUCTS, allColumns, null, null, null, null, null);
+		Cursor cursor = database.query(DatabaseHelper.TABLE_CAFFEINE_PRODUCTS, allColumns, "caffeineSourceId = '" + id + "'", null, null, null, null);
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {

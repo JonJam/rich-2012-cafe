@@ -19,14 +19,17 @@ public class CaffeineSource {
 	private double buildingLat;
 	//Building longitude
 	private double buildingLong;
-	
-	public CaffeineSource(String id, String name, String buildingNumber, String buildingName, double buildingLat, double buildingLong){
+	//Source type
+	private String type;
+
+	public CaffeineSource(String id, String name, String buildingNumber, String buildingName, double buildingLat, double buildingLong, String type){
 		this.id = id;
 		this.name = name;
 		this.buildingNumber = buildingNumber;
 		this.buildingName = buildingName;
 		this.buildingLat = buildingLat;
 		this.buildingLong = buildingLong;
+		this.type = type;
 	}
 	
 	/**
@@ -136,4 +139,22 @@ public class CaffeineSource {
 	public void setBuildingLong(double buildingLong) {
 		this.buildingLong = buildingLong;
 	}	
+	
+	/*
+	 * Method to get type of caffeine source
+	 * 
+	 * @return type (String object)
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/*
+	 * Method to set type of caffeine source
+	 * 
+	 * @param type (String object)
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
 }

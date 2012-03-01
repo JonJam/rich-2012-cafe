@@ -28,6 +28,8 @@ public class JonText extends Activity implements OnClickListener, HomeViewInterf
         this.controller = new AppController(tv, ds);
 
         controller.performDatabaseCheck();
+        
+        controller.test();
     }
     
 	protected void onResume() {

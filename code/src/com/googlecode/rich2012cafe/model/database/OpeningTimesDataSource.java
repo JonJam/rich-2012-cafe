@@ -65,17 +65,17 @@ public class OpeningTimesDataSource {
 	
 		database.insert(DatabaseHelper.TABLE_OPENING_TIMES, null, values);
 	}
-		
+	
 	/**
-	 * Method to get all OpeningTime objects in the database.
+	 * Method to get OpeningTime objects for a caffeine source.
 	 * 
+	 * @param id (String object)
 	 * @return ArrayList of OpeningTime objects.
 	 */
-	public ArrayList<OpeningTime> getAllOpeningTimes() {
-		
+	public ArrayList<OpeningTime> getOpeningTimesForCaffeineSource(String id){
 		ArrayList<OpeningTime> openingTimes = new ArrayList<OpeningTime>();
 		
-		Cursor cursor = database.query(DatabaseHelper.TABLE_OPENING_TIMES, allColumns, null, null, null, null, null);
+		Cursor cursor = database.query(DatabaseHelper.TABLE_OPENING_TIMES, allColumns, "caffeineSourceId = '" + id + "'", null, null, null, null);
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {

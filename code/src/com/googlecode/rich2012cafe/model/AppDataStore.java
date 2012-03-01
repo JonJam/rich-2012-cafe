@@ -1,6 +1,7 @@
 package com.googlecode.rich2012cafe.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.googlecode.rich2012cafe.model.database.*;
 
@@ -69,7 +70,7 @@ public class AppDataStore {
 	
 	/**
 	 * Method to check whether the database contains data and needs updating. If 
-	 * either conditions are not met then the appropiate actions are taken by calling 
+	 * either conditions are not met then the appropriate actions are taken by calling 
 	 * insertLinkedDataIntoDatabase.
 	 */
 	public void performDatabaseCheck(){
@@ -88,5 +89,32 @@ public class AppDataStore {
 			
 			insertLinkedDataIntoDatabase();
 		}
+	}
+	
+	/**
+	 * Method to get OpeningTime objects for a caffeine source and in day order.
+	 * 
+	 * @param id (String object)
+	 * @return ArrayList of OpeningTime objects.
+	 */
+	public ArrayList<OpeningTime> getOpeningTimesForCaffeineSource(String id){
+		
+		ArrayList<OpeningTime> times = openingTimesTable.getOpeningTimesForCaffeineSource(id);
+		
+		//Collections.sort(times);
+		
+		return times;
+	}
+	
+	public String test(){
+		ArrayList<OpeningTime> sources = getOpeningTimesForCaffeineSource("http://id.southampton.ac.uk/point-of-service/42-lattes");
+		String a = "";
+		
+		for(OpeningTime s : sources){
+			a += s.getDay() +" " + s.getOpeningTime() +" " + s.getClosingTime()+ "\n";
+		}
+		
+		return a;
+	
 	}
 }

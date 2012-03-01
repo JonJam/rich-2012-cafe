@@ -23,7 +23,8 @@ public class CaffeineSourcesDataSource{
 			DatabaseHelper.COLUMN_BUILDING_NUMBER,
 			DatabaseHelper.COLUMN_BUILDING_NAME,
 			DatabaseHelper.COLUMN_BUILDING_LAT,
-			DatabaseHelper.COLUMN_BUILDING_LONG
+			DatabaseHelper.COLUMN_BUILDING_LONG,
+			DatabaseHelper.COLUMN_TYPE
 		};
 	
 	public CaffeineSourcesDataSource(Context context) {
@@ -60,6 +61,7 @@ public class CaffeineSourcesDataSource{
 		values.put(DatabaseHelper.COLUMN_BUILDING_NAME , caffeineSource.getBuildingName());
 		values.put(DatabaseHelper.COLUMN_BUILDING_LAT , caffeineSource.getBuildingLat());
 		values.put(DatabaseHelper.COLUMN_BUILDING_LONG , caffeineSource.getBuildingLong());
+		values.put(DatabaseHelper.COLUMN_TYPE , caffeineSource.getType());
 		
 		database.insert(DatabaseHelper.TABLE_CAFFEINE_SOURCES, null, values);
 	}
@@ -80,7 +82,7 @@ public class CaffeineSourcesDataSource{
 			//Iterate through table and create CaffeineSource objects.
 			
 			CaffeineSource source = new CaffeineSource(cursor.getString(0) , cursor.getString(1) , cursor.getString(2) , 
-					cursor.getString(3) , cursor.getDouble(4) , cursor.getDouble(5));
+					cursor.getString(3) , cursor.getDouble(4) , cursor.getDouble(5), cursor.getString(6));
 			
 			caffeineSources.add(source);
 			cursor.moveToNext();

@@ -21,13 +21,6 @@ import com.hp.hpl.jena.rdf.model.Literal;
  * 	- http://code.google.com/p/androjena/
  * 	- http://monead.com/blog/?p=1420
  * 
- * TODO Change product query to filter out decaffenated products (SAMI - DOING)
- * 		TO ADD NOT KEYWORD APPEND: && regex(?name, '^((?!keyword).)*$', 'i'))
- * 
- * TODO Add lat and log columns to get caffeine sources if need to.
- * 
- * TODO Tidy/Structure classes so readable.
- * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com), Samantha Kanza (samikanza@gmail.com)
  */
 public class SPARQLQuerier {

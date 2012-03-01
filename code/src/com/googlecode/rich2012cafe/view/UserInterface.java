@@ -1,5 +1,8 @@
-package com.googlecode.rich2012cafe;
+package com.googlecode.rich2012cafe.view;
 
+import com.googlecode.rich2012cafe.R;
+import com.googlecode.rich2012cafe.R.id;
+import com.googlecode.rich2012cafe.R.layout;
 import com.googlecode.rich2012cafe.controller.AppController;
 
 import android.app.Activity;

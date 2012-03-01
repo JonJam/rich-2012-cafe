@@ -26,10 +26,7 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  * TODO Queries listed below:
  * 
  * 		Get sources given lat and long
- * 
- * 		Get opening times given source id (In addition sort on day name)
- * 		Get products given source id
- * 
+ *  
  * 		Get all product names
  * 		Get locations given product name
  * 

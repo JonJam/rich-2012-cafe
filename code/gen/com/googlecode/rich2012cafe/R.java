@@ -12,21 +12,25 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int marker=0x7f020001;
     }
     public static final class id {
+        public static final int aboutButton=0x7f050005;
         public static final int mapview=0x7f050003;
-        public static final int productsButton=0x7f050002;
         public static final int sparqlButton=0x7f050001;
         public static final int textview2=0x7f050004;
+        public static final int uiButton=0x7f050002;
         public static final int viewMap=0x7f050000;
     }
     public static final class layout {
         public static final int main=0x7f030000;
         public static final int map=0x7f030001;
         public static final int textview=0x7f030002;
+        public static final int ui_main=0x7f030003;
     }
     public static final class string {
         public static final int app_name=0x7f040001;
         public static final int loading=0x7f040000;
+        public static final int map_act=0x7f040002;
     }
 }

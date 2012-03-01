@@ -20,8 +20,6 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  * 3. Add -partition-size 1024 to run configurations for application.
  * 4. Add custom debug keystore to Android build configuration. 
  *              
- * TODO Change product query to filter out decaffenated products (SAMI DOING)
- * 		TO ADD NOT KEYWORD APPEND: && regex(?name, '^((?!keyword).)*$', 'i'))
  * TODO Add lat and log columns to get caffeine sources if need to.
  * TODO Queries listed below:
  * 

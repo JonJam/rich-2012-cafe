@@ -67,7 +67,9 @@ public class SPARQLQuerier {
 				+ "FILTER (regex(?name, '^coke | coke |^coffee | coffee |^tea | tea |^relentless | relentless "
 				+ "|^powerade | powerade |^lucozade | lucozade |^red bull | red bull |^frappe | frappe |^cappuchino "
 				+ "| cappuchino |^americano | americano |^latte | latte |^espresso | espresso |^iced teas | iced teas "
-				+ "|^speciality teas | speciality teas ', 'i'))}";
+				+ "|^speciality teas | speciality teas ', 'i')"
+				+ "&& regex(?name, '^((?!decaf).)*$', 'i') && regex(?name, '^((?!peppermint).)*$', 'i')"
+				+ "&& regex(?name, '^((?!camomile).)*$', 'i'))}";
 	
 	
 	private static final String POS_TYPE = "Point of Service";

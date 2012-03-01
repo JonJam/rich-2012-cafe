@@ -2,17 +2,17 @@
 <classpath>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="lib/androjena_0.5.jar"/>
 	<classpathentry kind="lib" path="lib/arqoid_0.5_sources.jar"/>
 	<classpathentry kind="lib" path="lib/arqoid_0.5.jar"/>
+	<classpathentry kind="lib" path="lib/effects.jar"/>
 	<classpathentry kind="lib" path="lib/icu4j-3.4.5.jar"/>
 	<classpathentry kind="lib" path="lib/iri-0.8.jar"/>
 	<classpathentry kind="lib" path="lib/lucenoid_3.0.2.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-android-1.6.1-RC1.jar"/>
-	<classpathentry kind="lib" path="lib/effects.jar"/>
 	<classpathentry kind="lib" path="lib/maps.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-android-1.6.1-RC1.jar"/>
 	<classpathentry kind="lib" path="lib/usb.jar"/>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

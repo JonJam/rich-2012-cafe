@@ -1,37 +1,32 @@
 package com.googlecode.rich2012cafe.view;
 
 import com.googlecode.rich2012cafe.R;
-import com.googlecode.rich2012cafe.R.id;
-import com.googlecode.rich2012cafe.R.layout;
-import com.googlecode.rich2012cafe.controller.AppController;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.TabActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.TabHost;
 
-public class UserInterface extends Activity implements OnClickListener{
+public class UserInterface extends TabActivity{
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ui_main);
+        TabHost tabHost = this.getTabHost();
+        tabHost.setup();
         
-        this.getAboutButton().setOnClickListener(this);
+        TabHost.TabSpec mapSpec = tabHost.newTabSpec("Map");
+        mapSpec.setContent(new Intent(this, GoogleMap.class));
+        mapSpec.setIndicator("Map");
+        
+        TabHost.TabSpec settingsSpec = tabHost.newTabSpec("Settings");
+        settingsSpec.setContent(new Intent(this, Settings.class));
+        settingsSpec.setIndicator("Settings");
+        
+        tabHost.addTab(mapSpec);
+        tabHost.addTab(settingsSpec);
     }
-    
-    private Button getAboutButton() {
-        return (Button)findViewById(R.id.aboutButton);
-    }
-    
-	@Override
-	public void onClick(View view) {
-        if (view.getId() == R.id.aboutButton) {
-          AlertDialog dialog= new AlertDialog.Builder(this).create();
-          dialog.setMessage("This app helps you locate hot/cold drink vendors around Highfield Campus - Soton");
-          dialog.show();
-        }
-	}
+
 
 }

@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import com.googlecode.rich2012cafe.controller.AppController;
+import com.googlecode.rich2012cafe.view.GoogleMap;
 import com.googlecode.rich2012cafe.view.UserInterface;
 
 /**

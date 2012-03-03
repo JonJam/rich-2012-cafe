@@ -21,11 +21,16 @@ public class UserInterface extends TabActivity{
         mapSpec.setContent(new Intent(this, GoogleMap.class));
         mapSpec.setIndicator("Map");
         
+        TabHost.TabSpec buildSpec = tabHost.newTabSpec("Locations");
+        buildSpec.setContent(new Intent(this, ListSources.class));
+        buildSpec.setIndicator("Locations");
+        
         TabHost.TabSpec settingsSpec = tabHost.newTabSpec("Settings");
         settingsSpec.setContent(new Intent(this, Settings.class));
         settingsSpec.setIndicator("Settings");
         
         tabHost.addTab(mapSpec);
+        tabHost.addTab(buildSpec);
         tabHost.addTab(settingsSpec);
     }
 

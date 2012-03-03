@@ -41,6 +41,8 @@
                    android:theme="@android:style/Theme.NoTitleBar">
 
          </activity>
+                   <activity android:name=".view.ListSources" android:label="@string/app_name">
+        </activity>
           <activity android:name=".view.Preferences" android:label="@string/app_name">
         </activity>
                   

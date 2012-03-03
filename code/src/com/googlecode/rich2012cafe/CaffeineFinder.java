@@ -24,16 +24,18 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  * 4. Add custom debug keystore to Android build configuration. 
  *              
  * TODO Add lat and log columns to get caffeine sources if need to. or remove from sparql query
+ * 
  * TODO Implement queries and any others people need (See DataStoreInterface):
  * 
- * 		Get sources given lat and long
- * 		Get products given price range (may need to change how price is stored)
+ 	*   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
+ 	*	Get products given price range (may need to change how price is stored)
+ * 
  * TODO Saving settings (XML or table) http://developer.android.com/guide/topics/data/data-storage.html
 	 * 		Whether student or staff
 	 * 		Favourite products
 	 * 		Product type (Setting what types of caffeine what to display All, or combination of coffee, tea, red bull, etc.
-	 * 		Inc vending machines in type
- * TODO Move settings to model package and integrate into AppDataStore 
+	 * 		Display Vending Machines
+ * TODO Move settings to model package and integrate into AppDataStore if appropiate. 
  * 
  * TODO Alter queries for settings
  *  		Student or Staff affects:

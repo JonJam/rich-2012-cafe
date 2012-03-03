@@ -94,6 +94,37 @@ public class CaffeineSourcesDataSource{
 	}
 	
 	/**
+	 * Method to get the specified CaffeineSource objects from the database.
+	 * 
+	 * @param ids (ArrayList of String objects)
+	 * @return ArrayList of CaffeineSource objects.
+	 */
+	public ArrayList<CaffeineSource> getCaffeineSources(ArrayList<String> ids) {
+		
+		ArrayList<CaffeineSource> caffeineSources = new ArrayList<CaffeineSource>();
+		
+		for(String id: ids){
+			Cursor cursor = database.rawQuery("SELECT * FROM caffeineSources WHERE id = ?", new String[]{id});
+			
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				
+				//Iterate through table and create CaffeineSource objects.
+				
+				CaffeineSource source = new CaffeineSource(cursor.getString(0) , cursor.getString(1) , cursor.getString(2) , 
+						cursor.getString(3) , cursor.getDouble(4) , cursor.getDouble(5), cursor.getString(6));
+				
+				caffeineSources.add(source);
+				cursor.moveToNext();
+			}
+			
+			cursor.close();
+		}
+		
+		return caffeineSources;
+	}
+	
+	/**
 	 * Method to delete all CaffeineSource objects in the database.
 	 */
 	public void deleteAllCaffeineSources(){

@@ -23,24 +23,31 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  * 3. Add -partition-size 1024 to run configurations for application.
  * 4. Add custom debug keystore to Android build configuration. 
  *              
- * TODO Add lat and log columns to get caffeine sources if need to.
- * TODO Queries listed below:
+ * TODO Add lat and log columns to get caffeine sources if need to. or remove from sparql query
+ * TODO Implement queries and any others people need (See DataStoreInterface):
  * 
  * 		Get sources given lat and long
- *  
- * 		Get all product names
- * 		Get locations given product name
- * 
- * 		Get products given product type
- * 		Get products given price type (staff or student)
- * 		Get products given price range 
- * 
+ * 		Get products given price range (may need to change how price is stored)
  * TODO Saving settings (XML or table) http://developer.android.com/guide/topics/data/data-storage.html
- * 		Whether student or staff
- * 		Favourite products
- * 		Product type
- * 		Inc vending machines in type
- * TODO Tidy/Structure classes so readable.
+	 * 		Whether student or staff
+	 * 		Favourite products
+	 * 		Product type (Setting what types of caffeine what to display All, or combination of coffee, tea, red bull, etc.
+	 * 		Inc vending machines in type
+ * TODO Move settings to model package and integrate into AppDataStore 
+ * 
+ * TODO Alter queries for settings
+ *  		Student or Staff affects:
+ *  			Get Products for a location
+ *  			Get Locations - DO WE WANT ONLY DISPLAY LOCATIONS GIVEN TYPE?
+ *  		Favourite Products affects:
+ *  			Get Locations - DO WE WANT ONLY DISPLAY LOCATIONS WHERE SERVE FAVOURITE PRODUCT?
+ *  			Get Products for a location - ONLY DISPLAY FAVOURITES AND NOTHING ELSE?
+ *  		Product Types
+ *  			Get Locations
+ *  			Get Products for a location
+ *  		Display Vending Machine affects:
+ *  			Get Locations
+ *  			
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  */

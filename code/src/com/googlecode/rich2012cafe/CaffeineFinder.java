@@ -2,7 +2,9 @@ package com.googlecode.rich2012cafe;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -54,6 +56,8 @@ public class CaffeineFinder extends Activity implements OnClickListener{
         this.getViewMapButton().setOnClickListener(this);
         this.getSparqlButton().setOnClickListener(this);
         this.getuiButton().setOnClickListener(this);
+        
+
     }
 
     private Button getViewMapButton() {

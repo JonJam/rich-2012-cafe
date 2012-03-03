@@ -3,6 +3,7 @@ package com.googlecode.rich2012cafe.view;
 import com.googlecode.rich2012cafe.R;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;

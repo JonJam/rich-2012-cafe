@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.googlecode.rich2012cafe.model.database.*;
+import com.googlecode.rich2012cafe.model.interfaces.DataStoreInterface;
 
 /**
  * Class which stores all data associated with the application including the database.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  */
-public class AppDataStore {
+public class AppDataStore implements DataStoreInterface{
 	
 	private CaffeineSourcesDataSource sourcesTable;
 	private OpeningTimesDataSource openingTimesTable;
@@ -108,18 +109,46 @@ public class AppDataStore {
 	 * @param id (String object)
 	 * @return ArrayList of CaffeineProduct objects.
 	 */
-	public ArrayList<CaffeineProduct> getProductsForCaffeineSource(String id){
+	public ArrayList<CaffeineProduct> getCaffeineProductsForCaffeineSource(String id){
 		
 		return productsTable.getCaffeineProductsForCaffeineSource(id);
 	}
 	
+	/**
+	 * Method to get all caffeine product names for a product type.
+	 * 
+	 * @param type (String object)
+	 * @return ArrayList of String objects
+	 */
+	public ArrayList<String> getCaffeineProductsForProductType(String type){
+		return productsTable.getCaffeineProductsForProductType(type);
+	}
+	
+	/**
+	 * Method to get all caffeine product names
+	 * 
+	 * @return ArrayList of String objects.
+	 */
+	public ArrayList<String> getAllCaffeineProductNames() {
+		return productsTable.getAllCaffeineProductNames();
+	}
+	
+	/**
+	 * Method to get CaffeineSource objects for a CaffeineProduct name.
+	 * 
+	 * @return ArrayList of CaffeineSource objects.
+	 */
+	public ArrayList<CaffeineSource> getCaffeineSourcesForProductName(String productName) {
+		ArrayList<String> ids = productsTable.getCaffeineSourceIdsForProductName(productName);
+		return sourcesTable.getCaffeineSources(ids);
+	}
 	
 	public String test(){
-		ArrayList<CaffeineProduct> sources = getProductsForCaffeineSource("http://id.southampton.ac.uk/point-of-service/42-lattes");
+		ArrayList<String> sources = getCaffeineProductsForProductType("Coffee");
 		String a = "";
 		
-		for(CaffeineProduct s : sources){
-			a += s.getName() +" " + s.getPrice() +"\n";
+		for(String s : sources){
+			a += s +"\n";
 		}
 		
 		return a;

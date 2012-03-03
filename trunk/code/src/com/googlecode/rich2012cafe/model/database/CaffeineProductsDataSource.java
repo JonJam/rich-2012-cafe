@@ -94,6 +94,81 @@ public class CaffeineProductsDataSource {
 	}
 	
 	/**
+	 * Method to get all unique CaffeineProduct names.
+	 * 
+	 * @return ArrayList of String objects.
+	 */
+	public ArrayList<String> getAllCaffeineProductNames(){
+		
+		ArrayList<String> products = new ArrayList<String>();
+		
+		Cursor cursor = database.rawQuery("SELECT DISTINCT name FROM caffeineProducts", new String[] {});
+		
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			//Iterate through table and populate ArrayList.
+			products.add(cursor.getString(0));
+			
+			cursor.moveToNext();
+		}
+		
+		cursor.close();
+		
+		return products;
+	}
+	
+	/**
+	 * Method to get all unique CaffeineProduct names for product type.
+	 * 
+	 * @param type (String object)
+	 * @return ArrayList of String objects.
+	 */
+	public ArrayList<String> getCaffeineProductsForProductType(String type){
+		
+		ArrayList<String> products = new ArrayList<String>();
+		
+		Cursor cursor = database.rawQuery("SELECT DISTINCT name FROM caffeineProducts WHERE productType = ?", new String[] {type});
+		
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			//Iterate through table and populate ArrayList.
+			products.add(cursor.getString(0));
+			
+			cursor.moveToNext();
+		}
+		
+		cursor.close();
+		
+		return products;
+	
+	}
+	
+	/**
+	 * Method to get CaffeineSource ids for those that sell productName.
+	 * 
+	 * @param productName (String object)
+	 * @return ArrayList of String objects
+	 */
+	public ArrayList<String> getCaffeineSourceIdsForProductName(String productName){
+		ArrayList<String> sourceIds = new ArrayList<String>();
+		
+		Cursor cursor = database.rawQuery("SELECT DISTINCT caffeineSourceId FROM caffeineProducts WHERE name = ?", new String[] {productName});
+		
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			//Iterate through table and populate ArrayList.
+			
+			sourceIds.add(cursor.getString(0));
+			
+			cursor.moveToNext();
+		}
+		
+		cursor.close();
+		
+		return sourceIds;
+	}
+	
+	/**
 	 * Method to delete all CaffeineProduct objects in the database.
 	 */
 	public void deleteAllCaffeineProducts(){

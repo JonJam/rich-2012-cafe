@@ -55,8 +55,11 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  *  			
  * TODO Sort out Controller classes e.g AppController extending Controller and interfaces, etc.
  * 
- * TODO Remove deprecated actions/classes in Preferences (this.addPreferencesFromResource(com.googlecode.rich2012cafe.R.xml.preferences);) and
- *      TabbedActivity in UserInterface 
+ * TODO Remove deprecated actions/classes in: 
+ * 		Preferences (this.addPreferencesFromResource(com.googlecode.rich2012cafe.R.xml.preferences);)
+ * 		UserInterface (TabbedActivity)
+ * 
+ * TODO Add loading overlay (blocking off functionality) whilst performing database check.
  *      
  * TODO Make sure app organised into MVC.
  * 

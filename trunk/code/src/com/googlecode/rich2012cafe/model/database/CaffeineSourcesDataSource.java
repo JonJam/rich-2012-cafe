@@ -17,15 +17,6 @@ public class CaffeineSourcesDataSource{
 
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
-	private String[] allColumns = { 
-			DatabaseHelper.COLUMN_CAFFEINE_SOURCE_ID,
-			DatabaseHelper.COLUMN_CAFFEINE_SOURCE_NAME,
-			DatabaseHelper.COLUMN_BUILDING_NUMBER,
-			DatabaseHelper.COLUMN_BUILDING_NAME,
-			DatabaseHelper.COLUMN_BUILDING_LAT,
-			DatabaseHelper.COLUMN_BUILDING_LONG,
-			DatabaseHelper.COLUMN_TYPE
-		};
 	
 	public CaffeineSourcesDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -75,7 +66,7 @@ public class CaffeineSourcesDataSource{
 		
 		ArrayList<CaffeineSource> caffeineSources = new ArrayList<CaffeineSource>();
 		
-		Cursor cursor = database.query(DatabaseHelper.TABLE_CAFFEINE_SOURCES, allColumns, null, null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT * FROM caffeineSources ORDER BY buildingNumber ASC", new String[] {});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -129,7 +120,7 @@ public class CaffeineSourcesDataSource{
 	 */
 	public void deleteAllCaffeineSources(){
 		
-		Cursor cursor = database.query(DatabaseHelper.TABLE_CAFFEINE_SOURCES, allColumns, null, null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT * FROM caffeineSources", new String[] {});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {

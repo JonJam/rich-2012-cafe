@@ -71,7 +71,7 @@ public class CaffeineSource {
 	/**
 	 * Method to get building number of caffeine source.
 	 * 
-	 * @return buildingNumber (String object)
+	 * @return buildingNumber (String)
 	 */
 	public String getBuildingNumber() {
 		return buildingNumber;
@@ -80,7 +80,7 @@ public class CaffeineSource {
 	/**
 	 * Method to set building number of caffeine source.
 	 * 
-	 * @param buildingNumber (String object)
+	 * @param buildingNumber (String)
 	 */
 	public void setBuildingNumber(String buildingNumber) {
 		this.buildingNumber = buildingNumber;

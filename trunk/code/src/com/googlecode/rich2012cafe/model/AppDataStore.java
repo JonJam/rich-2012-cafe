@@ -162,11 +162,11 @@ public class AppDataStore implements DataStoreInterface{
 	
 	
 	public String test(){
-		ArrayList<CaffeineProduct> sources = productsTable.getCaffeineProductsInPriceRange(1.20);
+		ArrayList<CaffeineSource> sources = getAllCaffeineSources();
 				String a = "";
 		
-		for(CaffeineProduct s : sources){
-			a += s.getName() + " " + s.getPrice() + " " + s.getCurrency() +"\n";
+		for(CaffeineSource s : sources){
+			a += s.getBuildingNumber() + " " + s.getName() +"\n";
 		}
 		
 		return a;

@@ -17,15 +17,6 @@ public class OpeningTimesDataSource {
 	
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
-	private String[] allColumns = { 
-			DatabaseHelper.COLUMN_OPENING_TIME_ID,
-			DatabaseHelper.COLUMN_OPENING_TIME_CAFFEINE_SOURCE_ID,
-			DatabaseHelper.COLUMN_DAY,
-			DatabaseHelper.COLUMN_OPENING_TIME,
-			DatabaseHelper.COLUMN_CLOSING_TIME,
-			DatabaseHelper.COLUMN_VALID_FROM,
-			DatabaseHelper.COLUMN_VALID_TO
-		};
 		
 	public OpeningTimesDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -75,7 +66,7 @@ public class OpeningTimesDataSource {
 	public ArrayList<OpeningTime> getOpeningTimesForCaffeineSource(String id){
 		ArrayList<OpeningTime> openingTimes = new ArrayList<OpeningTime>();
 		
-		Cursor cursor = database.query(DatabaseHelper.TABLE_OPENING_TIMES, allColumns, "caffeineSourceId = '" + id + "'", null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT * FROM openingTimes WHERE caffeineSourceId = ?", new String[] {id});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -101,8 +92,7 @@ public class OpeningTimesDataSource {
 	public ArrayList<OpeningTime> getExpiredOpeningTimes(){
 		ArrayList<OpeningTime> openingTimes = new ArrayList<OpeningTime>();
 		
-		Cursor cursor = database.query(DatabaseHelper.TABLE_OPENING_TIMES, allColumns, "datetime(validTo) < datetime('now')", 
-				null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT * FROM openingTimes WHERE datetime(validTo) < datetime('now')", new String[] {});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -126,7 +116,7 @@ public class OpeningTimesDataSource {
 	 */
 	public void deleteAllOpeningTimes(){
 		
-		Cursor cursor = database.query(DatabaseHelper.TABLE_OPENING_TIMES, allColumns, null, null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT * FROM openingTimes", new String[] {});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {

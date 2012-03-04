@@ -24,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String TABLE_CAFFEINE_SOURCES = "caffeineSources";
 	public static final String COLUMN_CAFFEINE_SOURCE_ID = "id";
 	public static final String COLUMN_CAFFEINE_SOURCE_NAME = "name";
-	public static final String COLUMN_BUILDING_NUMBER = "buildingNnumber";
+	public static final String COLUMN_BUILDING_NUMBER = "buildingNumber";
 	public static final String COLUMN_BUILDING_NAME = "buildingName";
 	public static final String COLUMN_BUILDING_LAT = "buildingLat";
 	public static final String COLUMN_BUILDING_LONG = "buildingLong";

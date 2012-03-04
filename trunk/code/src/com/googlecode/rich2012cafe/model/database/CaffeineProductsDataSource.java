@@ -18,16 +18,7 @@ public class CaffeineProductsDataSource {
 
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
-	private String[] allColumns = { 
-			DatabaseHelper.COLUMN_CAFFEINE_PRODUCT_ID,
-			DatabaseHelper.COLUMN_CAFFEINE_PRODUCT_CAFFEINE_SOURCE_ID,
-			DatabaseHelper.COLUMN_CAFFEINE_PRODUCT_NAME,
-			DatabaseHelper.COLUMN_PRICE,
-			DatabaseHelper.COLUMN_CURRENCY,
-			DatabaseHelper.COLUMN_CAFFEINE_PRODUCT_TYPE,
-			DatabaseHelper.COLUMN_PRICE_TYPE
-		};
-		
+	
 	public CaffeineProductsDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
 	}
@@ -78,7 +69,7 @@ public class CaffeineProductsDataSource {
 		
 		ArrayList<CaffeineProduct> products = new ArrayList<CaffeineProduct>();
 		
-		Cursor cursor = database.query(DatabaseHelper.TABLE_CAFFEINE_PRODUCTS, allColumns, "caffeineSourceId = '" + id + "'", null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT * FROM caffeineProducts WHERE caffeineSourceId = ? ORDER BY name ASC", new String[] {id});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -105,7 +96,7 @@ public class CaffeineProductsDataSource {
 		
 		ArrayList<String> products = new ArrayList<String>();
 		
-		Cursor cursor = database.rawQuery("SELECT DISTINCT name FROM caffeineProducts", new String[] {});
+		Cursor cursor = database.rawQuery("SELECT DISTINCT name FROM caffeineProducts ORDER BY name ASC", new String[] {});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -130,7 +121,7 @@ public class CaffeineProductsDataSource {
 		
 		ArrayList<String> products = new ArrayList<String>();
 		
-		Cursor cursor = database.rawQuery("SELECT DISTINCT name FROM caffeineProducts WHERE productType = ?", new String[] {type});
+		Cursor cursor = database.rawQuery("SELECT DISTINCT name FROM caffeineProducts WHERE productType = ? ORDER BY name ASC", new String[] {type});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -206,7 +197,7 @@ public class CaffeineProductsDataSource {
 	 */
 	public void deleteAllCaffeineProducts(){
 		
-		Cursor cursor = database.query(DatabaseHelper.TABLE_CAFFEINE_PRODUCTS, allColumns, null, null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT * FROM caffeineProducts", new String[] {});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {

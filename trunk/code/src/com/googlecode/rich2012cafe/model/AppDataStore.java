@@ -116,9 +116,10 @@ public class AppDataStore implements DataStoreInterface{
 	
 	/**
 	 * Method to get CaffeineProduct objects for a caffeine source.
+	 * 
 	 * @return ArrayList of CaffeineSource objects.
 	 */
-	public ArrayList<CaffeineSource> getAllCaffeineSource(){
+	public ArrayList<CaffeineSource> getAllCaffeineSources(){
 		
 		return sourcesTable.getAllCaffeineSources();
 	}

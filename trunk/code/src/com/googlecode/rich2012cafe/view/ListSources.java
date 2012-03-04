@@ -45,7 +45,7 @@ public class ListSources extends Activity{
 	}
 
 	private void generateList(){
-		ArrayList<CaffeineSource> sources = ds.getAllCaffeineSource();
+		ArrayList<CaffeineSource> sources = ds.getAllCaffeineSources();
 		System.out.println(sources.size());
 		Log.e(STORAGE_SERVICE, ""+sources.size());
 		for(CaffeineSource cs: sources){

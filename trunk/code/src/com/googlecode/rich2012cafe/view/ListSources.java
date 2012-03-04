@@ -25,18 +25,17 @@ import android.widget.TextView;
 
 public class ListSources extends Activity{
 
-	private  LinearLayout ll;
+	private LinearLayout ll;
 	private AppController controller;
-	private AppDataStore ds;
 	private ScrollView sv;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		sv = new ScrollView(this);
-		ds = new AppDataStore(new CaffeineSourcesDataSource(this), new OpeningTimesDataSource(this), new CaffeineProductsDataSource(this));
-		TextView tv = new TextView(this);
-		this.controller = new AppController(tv, ds);
+		
+		this.controller = new AppController(new AppDataStore(new CaffeineSourcesDataSource(this), new OpeningTimesDataSource(this), new CaffeineProductsDataSource(this)));
+		
 		ll = new LinearLayout(this);
 		ll.setOrientation(LinearLayout.VERTICAL);
 		sv.addView(ll);
@@ -45,9 +44,12 @@ public class ListSources extends Activity{
 	}
 
 	private void generateList(){
-		ArrayList<CaffeineSource> sources = ds.getAllCaffeineSources();
+		ArrayList<CaffeineSource> sources = controller.getAllCaffeineSources();
+		
 		System.out.println(sources.size());
+		
 		Log.e(STORAGE_SERVICE, ""+sources.size());
+		
 		for(CaffeineSource cs: sources){
 			Button tempSource = new Button(this);
 			tempSource.setText(cs.getBuildingNumber()+" : "+cs.getBuildingName());

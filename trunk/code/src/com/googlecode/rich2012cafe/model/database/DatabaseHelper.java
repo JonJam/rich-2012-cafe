@@ -44,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_CAFFEINE_PRODUCT_CAFFEINE_SOURCE_ID = "caffeineSourceId";
 	public static final String COLUMN_CAFFEINE_PRODUCT_NAME= "name";
 	public static final String COLUMN_PRICE = "price";
+	public static final String COLUMN_CURRENCY = "currency";
 	public static final String COLUMN_CAFFEINE_PRODUCT_TYPE= "productType";
 	public static final String COLUMN_PRICE_TYPE= "priceType";
 	
@@ -74,7 +75,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ COLUMN_CAFFEINE_PRODUCT_ID + " TEXT, "
 			+ COLUMN_CAFFEINE_PRODUCT_CAFFEINE_SOURCE_ID + " TEXT NOT NULL REFERENCES " + TABLE_CAFFEINE_SOURCES + "(" + COLUMN_CAFFEINE_SOURCE_ID + "), "
 			+ COLUMN_CAFFEINE_PRODUCT_NAME + " TEXT NOT NULL, "
-			+ COLUMN_PRICE + " TEXT NOT NULL, "
+			+ COLUMN_PRICE + " REAL NOT NULL, "
+			+ COLUMN_CURRENCY + " TEXT NOT NULL, "
 			+ COLUMN_CAFFEINE_PRODUCT_TYPE + " TEXT NOT NULL, "
 			+ COLUMN_PRICE_TYPE + " TEXT NOT NULL, "
 			+ "PRIMARY KEY ( " + COLUMN_CAFFEINE_PRODUCT_ID + " )"

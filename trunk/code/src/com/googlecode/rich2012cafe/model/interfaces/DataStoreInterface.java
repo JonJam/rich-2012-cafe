@@ -14,6 +14,7 @@ public interface DataStoreInterface {
 	
 	void openDataSourceConnections();
 	void closeDataSourceConnections();
+	
 	void performDatabaseCheck();
 	
 	ArrayList<OpeningTime> getOpeningTimesForCaffeineSource(String id);
@@ -21,6 +22,7 @@ public interface DataStoreInterface {
 	
 	ArrayList<String> getAllCaffeineProductNames();
 	ArrayList<String> getCaffeineProductsForProductType(String type);
+	ArrayList<CaffeineProduct> getCaffeineProductsInPriceRange(double maxPrice);
 	
 	ArrayList<CaffeineSource> getAllCaffeineSources();
 	ArrayList<CaffeineSource> getCaffeineSourcesForProductName(String productName);

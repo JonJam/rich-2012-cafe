@@ -218,7 +218,8 @@ public class SPARQLQuerier {
      	   	
             String priceString = solution.getLiteral("price").getString().replace(name, "");
             
-     	   	String price;
+     	   	double price;
+     	   	String currency;
             String type;
             String productType = "";
 
@@ -227,21 +228,24 @@ public class SPARQLQuerier {
  	   			//Staff Product
  	   			
  	   			type = STAFF_TYPE;
- 	   			price = priceString.substring(priceString.indexOf("-") + 1, priceString.indexOf("(")).trim(); 
+ 	   			priceString = priceString.substring(priceString.indexOf("-") + 1, priceString.indexOf("(")).trim(); 
  	   			
  	   		} else if(id.endsWith(STUDENT_TYPE)){
  	   			//Student Product
  	   			
  	   			type = STAFF_TYPE;
- 	   			price = priceString.substring(priceString.indexOf("-") + 1, priceString.indexOf("(")).trim(); 
+ 	   			priceString= priceString.substring(priceString.indexOf("-") + 1, priceString.indexOf("(")).trim(); 
  	   			
  	   		} else{
  	   			//All Product.
  	   			
  	   			type = ALL_TYPE;
- 	   			price = priceString.substring(priceString.indexOf("-") + 1).trim();
+ 	   			priceString = priceString.substring(priceString.indexOf("-") + 1).trim();
  	   			
  	   		}
+ 	   		
+   			currency = String.valueOf(priceString.toCharArray()[0]);
+   			price = Double.parseDouble((priceString.substring(priceString.indexOf(currency) + 1).trim()));
  	   		
  	   		String nameForComparison = name.toLowerCase();
  	   		if(nameForComparison.contains("coke")){
@@ -258,7 +262,7 @@ public class SPARQLQuerier {
  	   			productType = COFFEE_TYPE;
  	   		}
  	   		
-     	   	products.add(new CaffeineProduct(id, caffeineSourceId, name, price, productType, type));
+     	   	products.add(new CaffeineProduct(id, caffeineSourceId, name, price, currency, productType, type));
      	   	
         }
         

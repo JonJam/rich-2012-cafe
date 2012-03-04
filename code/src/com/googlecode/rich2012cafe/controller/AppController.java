@@ -1,6 +1,9 @@
 package com.googlecode.rich2012cafe.controller;
 
+import java.util.ArrayList;
+
 import com.googlecode.rich2012cafe.model.*;
+import com.googlecode.rich2012cafe.model.database.CaffeineSource;
 
 import android.os.AsyncTask;
 import android.text.method.ScrollingMovementMethod;
@@ -14,12 +17,9 @@ import android.widget.TextView;
  */
 public class AppController {//extends Controller<HomeViewInterface> {
 	
-	private TextView tv;
 	private AppDataStore ds;
 	
-	public AppController(TextView view, AppDataStore ds) {
-        //super((HomeViewInterface) view);
-        this.tv =  view;
+	public AppController(AppDataStore ds) {
         this.ds = ds;
 	}
 	
@@ -58,6 +58,24 @@ public class AppController {//extends Controller<HomeViewInterface> {
 	 */
 	public void closeDataSourceConnections(){
 		ds.closeDataSourceConnections();
+	}
+	
+	/**
+	 * Method to get ArrayList of all CaffeineSource objects.
+	 * 
+	 * @return ArrayList of CaffeineSources
+	 */
+	public ArrayList<CaffeineSource> getAllCaffeineSources(){
+		return ds.getAllCaffeineSources();
+	}
+	
+		
+	//TESTING MATERIAL
+	private TextView tv;
+	
+	public AppController(TextView view, AppDataStore ds) {
+        this.tv =  view;
+        this.ds = ds;
 	}
 	
 	public void test(){

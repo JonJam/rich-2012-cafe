@@ -153,12 +153,20 @@ public class AppDataStore implements DataStoreInterface{
 		return sourcesTable.getCaffeineSources(ids);
 	}
 	
+	/**
+	 * Method to get CaffeineProduct objects in price range.
+	 */
+	public ArrayList<CaffeineProduct> getCaffeineProductsInPriceRange(double maxPrice){
+		return productsTable.getCaffeineProductsInPriceRange(maxPrice);
+	}
+	
+	
 	public String test(){
-		ArrayList<String> sources = getCaffeineProductsForProductType("Coffee");
-		String a = "";
+		ArrayList<CaffeineProduct> sources = productsTable.getCaffeineProductsInPriceRange(1.20);
+				String a = "";
 		
-		for(String s : sources){
-			a += s +"\n";
+		for(CaffeineProduct s : sources){
+			a += s.getName() + " " + s.getPrice() + " " + s.getCurrency() +"\n";
 		}
 		
 		return a;

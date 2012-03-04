@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract.Contacts.Data;
 
 /**
  * Data Access Object class for CaffeineProduct objects.
@@ -22,6 +23,7 @@ public class CaffeineProductsDataSource {
 			DatabaseHelper.COLUMN_CAFFEINE_PRODUCT_CAFFEINE_SOURCE_ID,
 			DatabaseHelper.COLUMN_CAFFEINE_PRODUCT_NAME,
 			DatabaseHelper.COLUMN_PRICE,
+			DatabaseHelper.COLUMN_CURRENCY,
 			DatabaseHelper.COLUMN_CAFFEINE_PRODUCT_TYPE,
 			DatabaseHelper.COLUMN_PRICE_TYPE
 		};
@@ -59,6 +61,7 @@ public class CaffeineProductsDataSource {
 		values.put(DatabaseHelper.COLUMN_CAFFEINE_PRODUCT_CAFFEINE_SOURCE_ID, product.getCaffeineSourceId());
 		values.put(DatabaseHelper.COLUMN_CAFFEINE_PRODUCT_NAME, product.getName());
 		values.put(DatabaseHelper.COLUMN_PRICE, product.getPrice());
+		values.put(DatabaseHelper.COLUMN_CURRENCY, product.getCurrency());
 		values.put(DatabaseHelper.COLUMN_CAFFEINE_PRODUCT_TYPE, product.getProductType());
 		values.put(DatabaseHelper.COLUMN_PRICE_TYPE, product.getPriceType());
 		
@@ -82,7 +85,7 @@ public class CaffeineProductsDataSource {
 			//Iterate through table and create CaffeineProduct objects.
 			
 			CaffeineProduct product = new CaffeineProduct(cursor.getString(0) , cursor.getString(1) , cursor.getString(2) , 
-					cursor.getString(3) , cursor.getString(4) , cursor.getString(5));
+					cursor.getDouble(3) , cursor.getString(4), cursor.getString(5) , cursor.getString(6));
 			
 			products.add(product);
 			cursor.moveToNext();
@@ -134,6 +137,36 @@ public class CaffeineProductsDataSource {
 			//Iterate through table and populate ArrayList.
 			products.add(cursor.getString(0));
 			
+			cursor.moveToNext();
+		}
+		
+		cursor.close();
+		
+		return products;
+	
+	}
+	
+	/**
+	 * Method to get  CaffeineProduct objects in price range.
+	 * 
+	 * @param minPrice (double)
+	 * @param maxPrice (double)
+	 * @return ArrayList of CaffeineProduct objects.
+	 */
+	public ArrayList<CaffeineProduct> getCaffeineProductsInPriceRange(double maxPrice){
+		
+		ArrayList<CaffeineProduct> products = new ArrayList<CaffeineProduct>();
+		
+		Cursor cursor = database.rawQuery("SELECT * FROM caffeineProducts WHERE price <= ? ORDER BY price ASC", new String[] {Double.toString(maxPrice)});
+		
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			//Iterate through table and create CaffeineProduct objects.
+			
+			CaffeineProduct product = new CaffeineProduct(cursor.getString(0) , cursor.getString(1) , cursor.getString(2) , 
+					cursor.getDouble(3) , cursor.getString(4), cursor.getString(5) , cursor.getString(6));
+			
+			products.add(product);
 			cursor.moveToNext();
 		}
 		

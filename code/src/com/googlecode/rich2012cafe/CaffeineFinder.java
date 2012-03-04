@@ -28,14 +28,17 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  * TODO Implement queries and any others people need (See DataStoreInterface):
  * 
  	*   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
- 	*	Get products given price range (may need to change how price is stored)
  * 
- * TODO Saving settings (XML or table) http://developer.android.com/guide/topics/data/data-storage.html
+ * TODO Saving settings (XML or table) and integrate into AppDataStore if appropiate. 
 	 * 		Whether student or staff
-	 * 		Favourite products
-	 * 		Product type (Setting what types of caffeine what to display All, or combination of coffee, tea, red bull, etc.
+	 * 		Product type (Setting what types of caffeine what to display All, or combination of coffee, tea, red bull, etc).
 	 * 		Display Vending Machines
- * TODO Move settings to model package and integrate into AppDataStore if appropiate. 
+	 * 		Favourite products
+	 * 		Favourite places
+	 * 
+ * 	Resources: 
+ * 			http://developer.android.com/guide/topics/data/data-storage.html
+ * 			http://developer.android.com/reference/android/preference/PreferenceActivity.html
  * 
  * TODO Alter queries for settings
  *  		Student or Staff affects:
@@ -50,14 +53,17 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  *  		Display Vending Machine affects:
  *  			Get Locations
  *  			
+ * TODO Sort out Controller classes e.g AppController extending Controller and interfaces, etc.
+ * 
+ * TODO Remove deprecated actions/classes in Preferences (this.addPreferencesFromResource(com.googlecode.rich2012cafe.R.xml.preferences);) and
+ *      TabbedActivity in UserInterface 
+ *      
+ * TODO Make sure app organised into MVC.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  */
 public class CaffeineFinder extends Activity implements OnClickListener{
 
-	private AppController controller;
-    private TextView tv;
-	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);

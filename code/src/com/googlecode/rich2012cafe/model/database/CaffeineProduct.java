@@ -12,16 +12,18 @@ public class CaffeineProduct {
 	//URI Identifier for a caffeine source e.g. http://id.southampton.ac.uk/vending-machine/71
 	private String caffeineSourceId;
 	private String name;
-	private String price;
+	private double price;
+	private String currency;
 	private String productType;
 	//Determines whether Staff, Student or All price.
 	private String priceType;
 	
-	public CaffeineProduct(String id, String caffeineSourceId, String name, String price, String productType, String priceType){
+	public CaffeineProduct(String id, String caffeineSourceId, String name, double price, String currency, String productType, String priceType){
 		this.id = id;
 		this.caffeineSourceId = caffeineSourceId;
 		this.name = name;
 		this.price = price;
+		this.currency = currency;
 		this.productType = productType;
 		this.priceType = priceType;
 	}
@@ -83,21 +85,39 @@ public class CaffeineProduct {
 	/**
 	 * Method to get price of product.
 	 * 
-	 * @return price (String object)
+	 * @return price (double object)
 	 */
-	public String getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
 	/**
 	 * Method to set price of product.
 	 * 
-	 * @param price (String object)
+	 * @param price (double object)
 	 */
-	public void setPrice(String price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
+	/**
+	 * Method to get currency of product.
+	 * 
+	 * @return currency (String object)
+	 */
+	public String getCurrency() {
+		return currency;
+	}
+
+	/**
+	 * Method to set currency of product.
+	 * 
+	 * @param currency (String object)
+	 */
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+	
 	/**
 	 * Method to get type of product.
 	 * 

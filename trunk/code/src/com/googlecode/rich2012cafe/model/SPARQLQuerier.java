@@ -15,6 +15,7 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.Syntax;
 import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.rdf.model.RDFNode;
 
 /**
  * Resources used:
@@ -34,7 +35,7 @@ public class SPARQLQuerier {
 			+ "PREFIX purl: <http://purl.org/goodrelations/v1#>"
 			+ "PREFIX rooms: <http://vocab.deri.ie/rooms#>"
 			+ "PREFIX pos: <http://id.southampton.ac.uk/generic-products-and-services/>"
-			+ "SELECT DISTINCT ?pos ?name ?buildingid ?buildinglabel ?buildinglat ?buildinglong ?lat ?long WHERE {"
+			+ "SELECT DISTINCT ?pos ?name ?buildingid ?buildinglabel ?buildinglat ?buildinglong WHERE {"
 				+ "?poscaffeine purl:includes pos:Caffeine ."
 				+ "?poscaffeine purl:availableAtOrFrom ?pos ."
 				+ "OPTIONAL {"
@@ -44,7 +45,7 @@ public class SPARQLQuerier {
 					+ "OPTIONAL { ?building skos:notation ?buildingid }"
 					+ "OPTIONAL { ?building geo:lat ?buildinglat ; geo:long ?buildinglong }"
 				+ "}"
-				+ "OPTIONAL { ?pos geo:lat ?lat ; geo:long ?long }"
+				+ "OPTIONAL { ?pos geo:lat ?buildinglat ; geo:long ?buildinglong }"
 			+ "}";
 	
 	private static final String OPENING_TIMES_QUERY1 = "PREFIX gr: <http://purl.org/goodrelations/v1#>"
@@ -118,15 +119,14 @@ public class SPARQLQuerier {
             
             String id = solution.getResource("pos").getURI();
             
-            Literal nameLiteral = solution.getLiteral("name");
-            Literal buildingNumberLiteral = solution.getLiteral("buildingid");
-            Literal buildingNameLiteral = solution.getLiteral("buildinglabel");
-            Literal buildingLatLiteral = solution.getLiteral("buildinglat");
-            Literal buildingLongLiteral = solution.getLiteral("buildinglong");
+            RDFNode name = solution.getLiteral("name");
+            RDFNode buildingName = solution.getLiteral("buildinglabel");
+            RDFNode buildingNumber = solution.get("buildingid");
+            RDFNode buildingLat = solution.get("buildingLat");
+            RDFNode buildingLong = solution.get("buildingLong");
             
-            if(nameLiteral == null && buildingNumberLiteral == null && buildingNameLiteral == null && buildingLongLiteral == null 
-            		&& buildingLongLiteral == null){
-            	//All information is null so skipping.
+            if(buildingLat == null || buildingLong == null){
+            	//If there is no position data or incomplete position data then throw away 
             	continue;
             }
         	
@@ -142,9 +142,12 @@ public class SPARQLQuerier {
             	type = POS_TYPE;
             }
             
-            CaffeineSource source = new CaffeineSource(id, nameLiteral.getString(), buildingNumberLiteral.getString(), 
-            		buildingNameLiteral.getString(), buildingLatLiteral.getDouble(), buildingLongLiteral.getDouble(), type);
-            
+            CaffeineSource source = new CaffeineSource(id, 
+            		(name == null ? "" : solution.getLiteral("name").getString()), 
+            		(buildingNumber == null ? "" : solution.getLiteral("buildingNumber").getString()), 
+            		(buildingName == null ? "" : solution.getLiteral("buildingName").getString()), 
+            		(buildingLat == null ? 0 : solution.getLiteral("buildingLat").getDouble()), 
+            		(buildingLong == null ? 0 : solution.getLiteral("buildingLong").getDouble()), type);
             sources.add(source);
 
         }

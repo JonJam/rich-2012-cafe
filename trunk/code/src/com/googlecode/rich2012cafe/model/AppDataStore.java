@@ -166,7 +166,7 @@ public class AppDataStore implements DataStoreInterface{
 				String a = "";
 		
 		for(CaffeineSource s : sources){
-			a += s.getBuildingNumber() + " " + s.getName() +"\n";
+			a += s.getBuildingNumber() + " " + s.getName() + " " + s.getBuildingLat() + " " + s.getBuildingLong() +"\n";
 		}
 		
 		return a;

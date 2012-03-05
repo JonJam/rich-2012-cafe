@@ -53,15 +53,14 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  *  		Display Vending Machine affects:
  *  			Get Locations
  *  			
- * TODO Sort out Controller classes e.g AppController extending Controller and interfaces, etc.
+ * TODO Sort out Controller classes / Activity Classes (Jon - Think Activity classes are controllers and existing controller can
+ *      be deleted)
  * 
  * TODO Remove deprecated actions/classes in: 
  * 		Preferences (this.addPreferencesFromResource(com.googlecode.rich2012cafe.R.xml.preferences);)
  * 		UserInterface (TabbedActivity)
  * 
  * TODO Add loading overlay (blocking off functionality) whilst performing database check.
- *      
- * TODO Make sure app organised into MVC.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  */

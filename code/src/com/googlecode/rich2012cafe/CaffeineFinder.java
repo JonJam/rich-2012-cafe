@@ -22,8 +22,9 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  * 2. Ensure AVD and Project are using Google APIs platform.
  * 3. Add -partition-size 1024 to run configurations for application.
  * 4. Add custom debug keystore to Android build configuration. 
- *              
- * TODO Add lat and log columns to get caffeine sources if need to. or remove from sparql query
+ * 
+ * TODO Add in check for null nodes in SPARQLQuerier functions like for lat and long so more
+ *      robust.
  * 
  * TODO Implement queries and any others people need (See DataStoreInterface):
  * 
@@ -63,6 +64,12 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  * TODO Add loading overlay (blocking off functionality) whilst performing database check.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
+ * 
+ * 
+ * SAMI
+ *  * DONE long lat 
+ *  
+ *  
  */
 public class CaffeineFinder extends Activity implements OnClickListener{
 

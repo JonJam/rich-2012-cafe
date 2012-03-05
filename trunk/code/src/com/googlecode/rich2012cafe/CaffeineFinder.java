@@ -21,14 +21,11 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  * 3. Add -partition-size 1024 to run configurations for application.
  * 4. Add custom debug keystore to Android build configuration. 
  * 
- * TODO Add in check for null nodes in SPARQLQuerier functions like for lat and long so more
- *      robust.
- * 
  * TODO Implement queries and any others people need (See DataStoreInterface):
  * 
  	*   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
  * 
- * TODO Saving settings (XML or table) and integrate into AppDataStore if appropiate. 
+ * TODO Saving settings (XML or table). (Jon and Sami working on and integrating to AppDataStore)
 	 * 		Whether student or staff
 	 * 		Product type (Setting what types of caffeine what to display All, or combination of coffee, tea, red bull, etc).
 	 * 		Display Vending Machines
@@ -53,12 +50,13 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  *  			
 * 
  * TODO Remove deprecated actions/classes in: 
- * 		Preferences (this.addPreferencesFromResource(com.googlecode.rich2012cafe.R.xml.preferences);)
  * 		UserInterface (TabbedActivity)
  * 
  * TODO Add loading overlay (blocking off functionality) whilst performing database check.
  * 
  * TODO Find way of doing database check and installation of data when install app. (Takes 1 min to download all data on my machine)
+ * 
+ * TODO Make so all controllers share same AppDataStore object.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */

@@ -2,14 +2,12 @@ package com.googlecode.rich2012cafe;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
-import com.googlecode.rich2012cafe.controller.AppController;
+
+import com.googlecode.rich2012cafe.controller.JonText;
 import com.googlecode.rich2012cafe.view.GoogleMap;
 import com.googlecode.rich2012cafe.view.UserInterface;
 
@@ -43,33 +41,26 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  * 
  * TODO Alter queries for settings
  *  		Student or Staff affects:
- *  			Get Products for a location
- *  			Get Locations - DO WE WANT ONLY DISPLAY LOCATIONS GIVEN TYPE?
+ *  			Only get Products for type set.
  *  		Favourite Products affects:
- *  			Get Locations - DO WE WANT ONLY DISPLAY LOCATIONS WHERE SERVE FAVOURITE PRODUCT?
- *  			Get Products for a location - ONLY DISPLAY FAVOURITES AND NOTHING ELSE?
+ *  			Display favourites as seperate list at top of any product list
+ *  		Favourite Locations affects:
+ *  			Always display favourite locations on map no matter what distance.
  *  		Product Types
- *  			Get Locations
- *  			Get Products for a location
+ *  			Only show places/products that server/are types.
  *  		Display Vending Machine affects:
  *  			Get Locations
  *  			
- * TODO Sort out Controller classes / Activity Classes (Jon - Think Activity classes are controllers and existing controller can
- *      be deleted)
- * 
+* 
  * TODO Remove deprecated actions/classes in: 
  * 		Preferences (this.addPreferencesFromResource(com.googlecode.rich2012cafe.R.xml.preferences);)
  * 		UserInterface (TabbedActivity)
  * 
  * TODO Add loading overlay (blocking off functionality) whilst performing database check.
  * 
- * @author Jonathan Harrison (jonjam1990@googlemail.com)
+ * TODO Find way of doing database check and installation of data when install app. (Takes 1 min to download all data on my machine)
  * 
- * 
- * SAMI
- *  * DONE long lat 
- *  
- *  
+ * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */
 public class CaffeineFinder extends Activity implements OnClickListener{
 

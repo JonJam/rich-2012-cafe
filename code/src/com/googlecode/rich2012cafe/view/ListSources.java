@@ -2,15 +2,6 @@ package com.googlecode.rich2012cafe.view;
 
 import java.util.ArrayList;
 
-import com.googlecode.rich2012cafe.R;
-import com.googlecode.rich2012cafe.controller.AppController;
-import com.googlecode.rich2012cafe.model.AppDataStore;
-import com.googlecode.rich2012cafe.model.database.CaffeineProduct;
-import com.googlecode.rich2012cafe.model.database.CaffeineProductsDataSource;
-import com.googlecode.rich2012cafe.model.database.CaffeineSource;
-import com.googlecode.rich2012cafe.model.database.CaffeineSourcesDataSource;
-import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,12 +12,18 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.ScrollView;
-import android.widget.TextView;
+
+import com.googlecode.rich2012cafe.R;
+import com.googlecode.rich2012cafe.model.AppDataStore;
+import com.googlecode.rich2012cafe.model.database.CaffeineProductsDataSource;
+import com.googlecode.rich2012cafe.model.database.CaffeineSource;
+import com.googlecode.rich2012cafe.model.database.CaffeineSourcesDataSource;
+import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
 
 public class ListSources extends Activity{
 
 	private LinearLayout ll;
-	private AppController controller;
+	private AppDataStore ds;
 	private ScrollView sv;
 
 	@Override
@@ -34,7 +31,7 @@ public class ListSources extends Activity{
 		super.onCreate(savedInstanceState);
 		sv = new ScrollView(this);
 		
-		this.controller = new AppController(new AppDataStore(new CaffeineSourcesDataSource(this), new OpeningTimesDataSource(this), new CaffeineProductsDataSource(this)));
+		ds = new AppDataStore(new CaffeineSourcesDataSource(this), new OpeningTimesDataSource(this), new CaffeineProductsDataSource(this));
 		
 		ll = new LinearLayout(this);
 		ll.setOrientation(LinearLayout.VERTICAL);
@@ -44,7 +41,7 @@ public class ListSources extends Activity{
 	}
 
 	private void generateList(){
-		ArrayList<CaffeineSource> sources = controller.getAllCaffeineSources();
+		ArrayList<CaffeineSource> sources = ds.getAllCaffeineSources();
 		
 		System.out.println(sources.size());
 		

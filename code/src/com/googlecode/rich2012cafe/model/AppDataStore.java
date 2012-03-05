@@ -3,6 +3,8 @@ package com.googlecode.rich2012cafe.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.googlecode.rich2012cafe.model.database.*;

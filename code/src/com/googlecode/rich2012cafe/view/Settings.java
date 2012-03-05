@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.googlecode.rich2012cafe.R;
+import com.googlecode.rich2012cafe.controller.Preferences;
 import com.googlecode.rich2012cafe.model.AppDataStore;
 import com.googlecode.rich2012cafe.model.database.CaffeineProductsDataSource;
 import com.googlecode.rich2012cafe.model.database.CaffeineSourcesDataSource;
@@ -41,9 +42,7 @@ public class Settings extends Activity implements OnClickListener{
 	public void onClick(View view) {
       if (view.getId() == R.id.aboutButton) {
         AlertDialog dialog= new AlertDialog.Builder(this).create();
-        
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        dialog.setMessage(sp.getString("userPref", "")+"This app helps you locate hot/cold drink vendors around Highfield Campus - Soton");
+        dialog.setMessage("This app helps you locate hot/cold drink vendors around Highfield Campus - Soton");
         dialog.show();
       }
       if (view.getId() == R.id.prefButton) {

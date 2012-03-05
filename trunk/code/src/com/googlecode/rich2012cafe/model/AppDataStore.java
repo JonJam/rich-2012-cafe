@@ -3,6 +3,8 @@ package com.googlecode.rich2012cafe.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import android.util.Log;
+
 import com.googlecode.rich2012cafe.model.database.*;
 import com.googlecode.rich2012cafe.model.interfaces.DataStoreInterface;
 
@@ -162,14 +164,17 @@ public class AppDataStore implements DataStoreInterface{
 	
 	
 	public String test(){
-		ArrayList<CaffeineSource> sources = getAllCaffeineSources();
-				String a = "";
+		ArrayList<CaffeineProduct> sources = getCaffeineProductsForCaffeineSource("http://id.southampton.ac.uk/point-of-service/38-arlott");
+		String a = "";
 		
-		for(CaffeineSource s : sources){
-			a += s.getBuildingNumber() + " " + s.getName() + " " + s.getBuildingLat() + " " + s.getBuildingLong() +"\n";
+		if(sources.size() == 0){
+			return "empty";
+		} 
+		
+		for(CaffeineProduct s : sources){
+			a += s.getId() + " " + s.getName() + " " + s.getPrice() + " " + s.getCurrency() + " " + s.getPriceType() + " " + s.getProductType() + " "
+					+ s.getCaffeineSourceId() + "\n\n";
 		}
-		
 		return a;
-	
 	}
 }

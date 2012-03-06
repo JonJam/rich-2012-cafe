@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.googlecode.rich2012cafe.controller.JonText;
-import com.googlecode.rich2012cafe.view.GoogleMap;
-import com.googlecode.rich2012cafe.view.UserInterface;
+import com.googlecode.rich2012cafe.activities.GoogleMap;
+import com.googlecode.rich2012cafe.activities.JonText;
+import com.googlecode.rich2012cafe.activities.UserInterface;
 
 /**
  * N.B. In running and developing application:

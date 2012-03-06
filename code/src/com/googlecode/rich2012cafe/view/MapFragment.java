@@ -2,8 +2,8 @@ package com.googlecode.rich2012cafe.view;
 
 import com.google.android.maps.MapView;
 import com.googlecode.rich2012cafe.R;
+import com.googlecode.rich2012cafe.activities.GoogleMap;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;

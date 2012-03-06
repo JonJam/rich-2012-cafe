@@ -1,23 +1,19 @@
-package com.googlecode.rich2012cafe.controller;
+package com.googlecode.rich2012cafe.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.googlecode.rich2012cafe.R;
-import com.googlecode.rich2012cafe.model.AppDataStore;
-import com.googlecode.rich2012cafe.model.database.CaffeineProductsDataSource;
-import com.googlecode.rich2012cafe.model.database.CaffeineSourcesDataSource;
-import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
+import com.googlecode.rich2012cafe.controllers.DataController;
 import com.googlecode.rich2012cafe.view.HomeViewInterface;
 
 public class JonText extends Activity implements OnClickListener, HomeViewInterface{
 
-	private AppDataStore ds;
+	private DataController controller;
     private TextView tv;
 	
     public void onCreate(Bundle savedInstanceState) {
@@ -26,23 +22,22 @@ public class JonText extends Activity implements OnClickListener, HomeViewInterf
 
         tv = (TextView) findViewById(R.id.textview2);
         
-        ds = new AppDataStore(new CaffeineSourcesDataSource(this), new OpeningTimesDataSource(this), new CaffeineProductsDataSource(this), 
-        		PreferenceManager.getDefaultSharedPreferences(this));
+        controller = new DataController(this);
         
-        ds.performDatabaseCheck();
+        controller.getAppDataStore().performDatabaseCheck();
         
-        String text = ds.test();
+        String text = controller.getAppDataStore().test();
         tv.setMovementMethod(new ScrollingMovementMethod());
         tv.setText(text);
     }
     
 	protected void onResume() {
-    	ds.openDataSourceConnections();
+		controller.getAppDataStore().openDataSourceConnections();
 		super.onResume();
 	}
 
 	protected void onPause() {
-		ds.closeDataSourceConnections();
+		controller.getAppDataStore().closeDataSourceConnections();
 		super.onPause();
 	}
 	    

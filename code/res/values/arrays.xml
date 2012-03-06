@@ -4,5 +4,8 @@
         <item>Staff</item>
         <item>Student</item>
     </string-array>
-
+	<string-array name="menulist">
+        <item>Map</item>
+        <item>Locations</item>
+    </string-array>
 </resources>

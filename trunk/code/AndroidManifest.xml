@@ -24,26 +24,26 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.GoogleMap" android:label="@string/map_act"
+        <activity android:name=".activities.GoogleMap" android:label="@string/map_act"
                   android:theme="@android:style/Theme.Holo">
 
          </activity>
 
-         <activity android:name=".controller.JonText" android:label="@string/app_name"
+         <activity android:name=".activities.JonText" android:label="@string/app_name"
                    android:theme="@android:style/Theme.Holo">
 
          </activity>
-                  <activity android:name=".view.UserInterface" android:label="@string/app_name"
+                  <activity android:name=".activities.UserInterfaceerface" android:label="@string/app_name"
                    android:theme="@android:style/Theme.Holo">
 
          </activity>
-                  <activity android:name=".view.Settings" android:label="@string/app_name"
+                  <activity android:name=".activities.Settingsttings" android:label="@string/app_name"
                    android:theme="@android:style/Theme.Holo">
 
          </activity>
-                   <activity android:name=".view.ListSources" android:label="@string/app_name">
+                   <activity android:name=".activities.ListSources" android:label="@string/app_name">
         </activity>
-          <activity android:name=".controller.Preferences" android:label="@string/app_name">
+          <activity android:name=".activities.Preferences" android:label="@string/app_name">
         </activity>
                   
     </application>

@@ -1,4 +1,4 @@
-package com.googlecode.rich2012cafe.controller;
+package com.googlecode.rich2012cafe.activities;
 
 import java.util.List;
 
@@ -7,8 +7,6 @@ import com.googlecode.rich2012cafe.R;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-
 /**
  * Resources used:
  * 	http://developer.android.com/reference/android/preference/PreferenceActivity.html

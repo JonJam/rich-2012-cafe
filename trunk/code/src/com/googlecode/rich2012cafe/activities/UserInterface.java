@@ -1,11 +1,13 @@
-package com.googlecode.rich2012cafe.view;
+package com.googlecode.rich2012cafe.activities;
 
 import com.googlecode.rich2012cafe.R;
+import com.googlecode.rich2012cafe.controllers.UserInterfaceController;
+import com.googlecode.rich2012cafe.view.ActionTabListener;
+import com.googlecode.rich2012cafe.view.MapFragment;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,10 +15,13 @@ import android.view.MenuItem;
 
 public class UserInterface extends Activity {
 
+	private UserInterfaceController controller;
+	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
      //   setContentView(R.layout.ui_main);
         setContentView(R.layout.ui_main_actionbar);
+        controller = new UserInterfaceController();
         
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -91,16 +96,7 @@ public class UserInterface extends Activity {
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-          Intent intent;
-          switch (item.getItemId()) {
-            case R.id.settings:
-            	intent = new Intent(this, Settings.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+          return controller.optionsActions(item, this);
     }
     
    

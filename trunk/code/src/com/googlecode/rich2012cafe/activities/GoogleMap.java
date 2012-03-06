@@ -1,4 +1,4 @@
-package com.googlecode.rich2012cafe.view;
+package com.googlecode.rich2012cafe.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +10,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import com.google.android.maps.*;
 import com.googlecode.rich2012cafe.R;
-import com.googlecode.rich2012cafe.R.drawable;
-import com.googlecode.rich2012cafe.R.id;
-import com.googlecode.rich2012cafe.R.layout;
+import com.googlecode.rich2012cafe.view.MapOverlays;
+import com.googlecode.rich2012cafe.view.MapViewInterface;
 
 
 public class GoogleMap extends MapActivity implements MapViewInterface {

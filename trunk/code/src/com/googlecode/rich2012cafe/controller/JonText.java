@@ -2,6 +2,7 @@ package com.googlecode.rich2012cafe.controller;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,9 +26,11 @@ public class JonText extends Activity implements OnClickListener, HomeViewInterf
 
         tv = (TextView) findViewById(R.id.textview2);
         
-        ds = new AppDataStore(new CaffeineSourcesDataSource(this), new OpeningTimesDataSource(this), new CaffeineProductsDataSource(this));
+        ds = new AppDataStore(new CaffeineSourcesDataSource(this), new OpeningTimesDataSource(this), new CaffeineProductsDataSource(this), 
+        		PreferenceManager.getDefaultSharedPreferences(this));
         
         ds.performDatabaseCheck();
+        
         String text = ds.test();
         tv.setMovementMethod(new ScrollingMovementMethod());
         tv.setText(text);
@@ -42,7 +45,7 @@ public class JonText extends Activity implements OnClickListener, HomeViewInterf
 		ds.closeDataSourceConnections();
 		super.onPause();
 	}
-    
+	    
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub

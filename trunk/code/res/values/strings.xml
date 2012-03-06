@@ -4,5 +4,40 @@
     <string name="loading">Loading</string>
     <string name="app_name">CaffeineFinder</string>
     <string name="map_act">Map Act</string>
+    
+    <string name="userSettingsTitle">User Settings</string>
+    <string name="userSettingsSummary">Select user type.</string>
+    
+    <string name="userPrefTitle">User Type</string>
+	<string name="userPrefSummary">Select the user type, affects the price shown.</string>
+    
+    <string name="sourceSettingsTitle">Source Settings</string>
+    <string name="sourceSettingsSummary">Select favourite sources and whether to view vending machines.</string>
+    
+	<string name="viewVendingMachinesTitle">View Vending Machines</string>
+	<string name="viewVendingMachinesSummary">Select to view vending machines.</string>
+	
+	<string name="favouriteSourcesTitle">Favourite Sources</string>
+	<string name="favouriteSourcesSummary">Select favourite sources.</string>
+	
+    <string name="productSettingsTitle">Product Settings</string>
+    <string name="productSettingsSummary">Select favourite products and product types to view.</string>
+    
+	<string name="productsToViewTitle">Products to View</string>
+	<string name="productsToViewSummary">Select which products to view.</string>
 
+	<string name="viewCoffeeTitle">Coffee</string>
+	<string name="viewCoffeeSummary">Select to view Coffee products.</string>
+    
+	<string name="viewTeaTitle">Tea</string>
+	<string name="viewTeaSummary">Select to view Tea products.</string>
+	
+	<string name="viewSoftDrinksTitle">Soft Drinks</string>
+	<string name="viewSoftDrinksSummary">Select to view Soft Drink products.</string>
+	
+	<string name="viewEnergyDrinksTitle">Coffee</string>
+	<string name="viewEnergyDrinksSummary">Select to view Energy Drink products.</string>
+	
+	<string name="favouriteProductsTitle">Favourite Products</string>
+	<string name="favouriteProductsSummary">Select favourite products.</string>
 </resources>

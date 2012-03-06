@@ -3,6 +3,7 @@ package com.googlecode.rich2012cafe.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import android.R;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -11,7 +12,9 @@ import com.googlecode.rich2012cafe.model.database.*;
 import com.googlecode.rich2012cafe.model.interfaces.DataStoreInterface;
 
 /**
- * Class which stores all data associated with the application including the database.
+ * Class which contains connections to all data associated with the application. Including:
+ * 	Database
+ * 	Shared preferences
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  */
@@ -20,8 +23,24 @@ public class AppDataStore implements DataStoreInterface{
 	private CaffeineSourcesDataSource sourcesTable;
 	private OpeningTimesDataSource openingTimesTable;
 	private CaffeineProductsDataSource productsTable;
+	private SharedPreferences settings;
+
+	//WORKING ON THIS CONSTRUCTOR
+	public AppDataStore(CaffeineSourcesDataSource sourcesTable, OpeningTimesDataSource openingTimesTable, 
+			CaffeineProductsDataSource productsTable, SharedPreferences settings){
+		
+		this.sourcesTable = sourcesTable;
+		this.openingTimesTable = openingTimesTable;
+		this.productsTable = productsTable;
+		
+		this.settings = settings;
+		
+		openDataSourceConnections();
+	}
 	
-	public AppDataStore(CaffeineSourcesDataSource sourcesTable, OpeningTimesDataSource openingTimesTable, CaffeineProductsDataSource productsTable){
+	public AppDataStore(CaffeineSourcesDataSource sourcesTable, OpeningTimesDataSource openingTimesTable, 
+			CaffeineProductsDataSource productsTable){
+		
 		this.sourcesTable = sourcesTable;
 		this.openingTimesTable = openingTimesTable;
 		this.productsTable = productsTable;
@@ -97,6 +116,16 @@ public class AppDataStore implements DataStoreInterface{
 	}
 	
 	/**
+	 * Method to get CaffeineProduct objects for a caffeine source.
+	 * 
+	 * @return ArrayList of CaffeineSource objects.
+	 */
+	public ArrayList<CaffeineSource> getAllCaffeineSources(){
+		
+		return sourcesTable.getAllCaffeineSources();
+	}
+	
+	/**
 	 * Method to get OpeningTime objects for a caffeine source.
 	 * 
 	 * @param id (String object)
@@ -117,17 +146,7 @@ public class AppDataStore implements DataStoreInterface{
 		
 		return productsTable.getCaffeineProductsForCaffeineSource(id);
 	}
-	
-	/**
-	 * Method to get CaffeineProduct objects for a caffeine source.
-	 * 
-	 * @return ArrayList of CaffeineSource objects.
-	 */
-	public ArrayList<CaffeineSource> getAllCaffeineSources(){
 		
-		return sourcesTable.getAllCaffeineSources();
-	}
-	
 	/**
 	 * Method to get all caffeine product names for a product type.
 	 * 
@@ -166,17 +185,19 @@ public class AppDataStore implements DataStoreInterface{
 	
 	
 	public String test(){
-		ArrayList<CaffeineProduct> sources = getCaffeineProductsForCaffeineSource("http://id.southampton.ac.uk/point-of-service/38-arlott");
+		//ArrayList<CaffeineSource> sources = getAllCaffeineSources();
 		String a = "";
 		
-		if(sources.size() == 0){
-			return "empty";
-		} 
+//		if(sources.size() == 0){
+//			return "empty";
+//		} 
+//		
+//		for(CaffeineSource s : sources){
+//			a += s.getId() + " " + s.getName() + " " +s.getBuildingNumber() + " " + s.getBuildingName() + " " + s.getBuildingLat() + " " 
+//					+s.getBuildingLong() + " " + s.getType() + "\n\n";
+//		}
 		
-		for(CaffeineProduct s : sources){
-			a += s.getId() + " " + s.getName() + " " + s.getPrice() + " " + s.getCurrency() + " " + s.getPriceType() + " " + s.getProductType() + " "
-					+ s.getCaffeineSourceId() + "\n\n";
-		}
-		return a;
+		//settings.getString("userPref", "not set");
+		return " " + settings.getBoolean("viewVendingMachines", false);
 	}
 }

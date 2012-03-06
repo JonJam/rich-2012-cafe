@@ -63,7 +63,7 @@ public class SPARQLQuerier {
 				+ "OPTIONAL {"
 					+ "?" + SOURCE_ID + " rdfs:label ?" + SOURCE_NAME + " ."
 					+ "?" + SOURCE_ID + " sr:within ?building ."
-					+ "?building a rooms:Building ; rdfs:label ?buildinglabel ."
+					+ "?building a rooms:Building ; rdfs:label ?" + SOURCE_BUILDING_NAME + " ."
 					+ "OPTIONAL { ?building skos:notation ?" + SOURCE_BUILDING_ID+ " }"
 					+ "OPTIONAL { ?building geo:lat ?" + SOURCE_BUILDING_LAT + " ; geo:long ?"+ SOURCE_BUILDING_LONG + " }"
 				+ "}"

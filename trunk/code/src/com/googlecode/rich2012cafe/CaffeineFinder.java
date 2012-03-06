@@ -3,6 +3,7 @@ package com.googlecode.rich2012cafe;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -25,18 +26,21 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  * 
  	*   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
  * 
- * TODO Saving settings (XML or table). (Jon and Sami working on and integrating to AppDataStore)
-	 * 		Whether student or staff
-	 * 		Product type (Setting what types of caffeine what to display All, or combination of coffee, tea, red bull, etc).
-	 * 		Display Vending Machines
+ * TODO Default settings set on app load. (JON AND SAMI: WORKING ON
+ * 	ISSUES: All other defaults except userPref not being set.
+ * )
+ * TODO Saving settings. (JON and SAMI: WORKING ON)
 	 * 		Favourite products
 	 * 		Favourite places
+	 * 		
+	 * 		QUESTION: AT MOMENT LAUNCHING AN ACTIVITY WHICH WILL DISPLAY VIEW WITH CHECKBOXES
+	 * 				  WHICH WILL INTERACT WITH DB AS APPROPIATE TO SAVE LISTS. Is this best ok before I implement it?
 	 * 
- * 	Resources: 
- * 			http://developer.android.com/guide/topics/data/data-storage.html
- * 			http://developer.android.com/reference/android/preference/PreferenceActivity.html
+	 * 		NEED TO CHANGE:
+	 * 			product_settings.xml
+	 * 			source_settings.xml
  * 
- * TODO Alter queries for settings
+ * TODO How Settings affect View / Queries.
  *  		Student or Staff affects:
  *  			Only get Products for type set.
  *  		Favourite Products affects:
@@ -58,6 +62,8 @@ import com.googlecode.rich2012cafe.view.UserInterface;
  * 
  * TODO Make so all controllers share same AppDataStore object.
  * 
+ * TODO Handle all onCreate, onResume, onPause, onDestory etc.
+ * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */
 public class CaffeineFinder extends Activity implements OnClickListener{
@@ -70,9 +76,13 @@ public class CaffeineFinder extends Activity implements OnClickListener{
         this.getSparqlButton().setOnClickListener(this);
         this.getuiButton().setOnClickListener(this);
         
-
+        //Set default preferences
+        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
+        PreferenceManager.setDefaultValues(this, R.xml.source_settings, false);
+        PreferenceManager.setDefaultValues(this, R.xml.product_settings, false);
+        PreferenceManager.setDefaultValues(this, R.xml.products_to_view_settings, false);
     }
-
+    
     private Button getViewMapButton() {
         return (Button)findViewById(R.id.viewMap);
     }

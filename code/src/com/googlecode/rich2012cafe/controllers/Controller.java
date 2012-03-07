@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 
 public class Controller {
 
@@ -22,7 +23,8 @@ public class Controller {
 		appDataStore = new AppDataStore(
 				new CaffeineSourcesDataSource(context), 
 				new OpeningTimesDataSource(context), 
-				new CaffeineProductsDataSource(context));
+				new CaffeineProductsDataSource(context),
+				PreferenceManager.getDefaultSharedPreferences(context));
 	}
 	
 	public Controller(AppDataStore appDataStore){

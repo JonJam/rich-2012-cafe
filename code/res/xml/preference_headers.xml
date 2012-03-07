@@ -1,15 +1,15 @@
 <preference-headers
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <header android:fragment="com.googlecode.rich2012cafe.controller.Preferences$UserSettingsFragment"
+    <header android:fragment="com.googlecode.rich2012cafe.activities.Preferences$UserSettingsFragment"
             android:title="@string/userSettingsTitle"
             android:summary="@string/userSettingsSummary" />
             
-    <header android:fragment="com.googlecode.rich2012cafe.controller.Preferences$ProductSettingsFragment"
+    <header android:fragment="com.googlecode.rich2012cafe.activities.Preferences$ProductSettingsFragment"
      		android:title="@string/productSettingsTitle"
             android:summary="@string/productSettingsSummary" />
             
-    <header android:fragment="com.googlecode.rich2012cafe.controller.Preferences$SourceSettingsFragment"
+    <header android:fragment="com.googlecode.rich2012cafe.activities.Preferences$SourceSettingsFragment"
             android:title="@string/sourceSettingsTitle"
             android:summary="@string/sourceSettingsSummary" />
             

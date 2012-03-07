@@ -4,7 +4,7 @@
     <PreferenceCategory android:title="@string/productSettingsTitle">
         
         <PreferenceScreen
-            android:fragment="com.googlecode.rich2012cafe.controller.Preferences$ProductsToViewFragment"
+            android:fragment="com.googlecode.rich2012cafe.activities.Preferences$ProductsToViewFragment"
             android:title="@string/productsToViewTitle"
             android:summary="@string/productsToViewSummary" />
         
@@ -15,9 +15,9 @@
             <intent 
                 android:action="android.intent.action.MAIN"
                 android:targetPackage="com.googlecode.rich2012cafe"
-                android:targetClass = "com.googlecode.rich2012cafe.controller.JonText" />
+                android:targetClass = "com.googlecode.rich2012cafe.activities.JonText" />
          </PreferenceScreen>
-         
+                  
 	</PreferenceCategory>
 	
     

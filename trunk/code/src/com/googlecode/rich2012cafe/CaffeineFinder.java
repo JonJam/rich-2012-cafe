@@ -1,6 +1,7 @@
 package com.googlecode.rich2012cafe;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -25,10 +26,11 @@ import com.googlecode.rich2012cafe.activities.UserInterface;
  * TODO Implement queries and any others people need (See DataStoreInterface):
  * 
  	*   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
+ *
+ * TODO SPARQLQuerier sort out where haves blanks for places e.g. everything apart from lat / long
  * 
- * TODO Default settings set on app load. (JON AND SAMI: WORKING ON
- * 	ISSUES: All other defaults except userPref not being set.
- * )
+ * TODO Move setPreferences method in this class to where appropiate. Ask T.
+ * 
  * TODO Saving settings. (JON and SAMI: WORKING ON)
 	 * 		Favourite products
 	 * 		Favourite places
@@ -60,7 +62,7 @@ import com.googlecode.rich2012cafe.activities.UserInterface;
  * 
  * TODO Find way of doing database check and installation of data when install app. (Takes 1 min to download all data on my machine)
  * 
- * TODO Make so all controllers share same AppDataStore object.
+ * TODO MVC layout
  * 
  * TODO Handle all onCreate, onResume, onPause, onDestory etc.
  * 
@@ -77,10 +79,7 @@ public class CaffeineFinder extends Activity implements OnClickListener{
         this.getuiButton().setOnClickListener(this);
         
         //Set default preferences
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, false);
-        PreferenceManager.setDefaultValues(this, R.xml.source_settings, false);
-        PreferenceManager.setDefaultValues(this, R.xml.product_settings, false);
-        PreferenceManager.setDefaultValues(this, R.xml.products_to_view_settings, false);
+        setPreferences();
     }
     
     private Button getViewMapButton() {
@@ -93,6 +92,12 @@ public class CaffeineFinder extends Activity implements OnClickListener{
     
     private Button getSparqlButton() {
         return (Button)findViewById(R.id.sparqlButton);
+    }
+    
+    private void setPreferences(){
+        PreferenceManager.setDefaultValues(this, R.xml.user_settings, true);
+        PreferenceManager.setDefaultValues(this, R.xml.source_settings, true);
+        PreferenceManager.setDefaultValues(this, R.xml.products_to_view_settings, true);
     }
     
     public void onClick(View view) {

@@ -7,6 +7,7 @@ import com.googlecode.rich2012cafe.R;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.util.Log;
 /**
  * Resources used:
  * 	http://developer.android.com/reference/android/preference/PreferenceActivity.html
@@ -22,6 +23,7 @@ public class Preferences extends PreferenceActivity{
            
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.user_settings);
+            
         }
     }
 	

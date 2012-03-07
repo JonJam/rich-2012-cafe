@@ -25,7 +25,6 @@ public class AppDataStore implements DataStoreInterface{
 	private CaffeineProductsDataSource productsTable;
 	private SharedPreferences settings;
 
-	//WORKING ON THIS CONSTRUCTOR
 	public AppDataStore(CaffeineSourcesDataSource sourcesTable, OpeningTimesDataSource openingTimesTable, 
 			CaffeineProductsDataSource productsTable, SharedPreferences settings){
 		
@@ -37,17 +36,7 @@ public class AppDataStore implements DataStoreInterface{
 		
 		openDataSourceConnections();
 	}
-	
-	public AppDataStore(CaffeineSourcesDataSource sourcesTable, OpeningTimesDataSource openingTimesTable, 
-			CaffeineProductsDataSource productsTable){
-		
-		this.sourcesTable = sourcesTable;
-		this.openingTimesTable = openingTimesTable;
-		this.productsTable = productsTable;
-		
-		openDataSourceConnections();
-	}
-	
+
 	/**
 	 * Method to open connections to the data source objects.
 	 */
@@ -197,7 +186,6 @@ public class AppDataStore implements DataStoreInterface{
 //					+s.getBuildingLong() + " " + s.getType() + "\n\n";
 //		}
 		
-		//settings.getString("userPref", "not set");
-		return " " + settings.getBoolean("viewVendingMachines", false);
+		return " " + settings.getBoolean("viewCoffee", false);
 	}
 }

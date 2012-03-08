@@ -108,25 +108,21 @@ public class CaffeineProductsDataSource {
 	/**
 	 * Method to get all unique CaffeineProduct names.
 	 * 
-	 * @param userType (String object)
+	 * @param viewCoffee (boolean value)
+	 * @param viewTea (boolean value)
+	 * @param viewSoftDrinks (boolean value)
+	 * @param viewEnergyDrinks (boolean value)
 	 * @return ArrayList of String objects.
 	 */
-	public ArrayList<String> getAllCaffeineProductNames(String userType, boolean viewCoffee, boolean viewTea,
+	public ArrayList<String> getAllCaffeineProductNames( boolean viewCoffee, boolean viewTea,
 			boolean viewSoftDrinks, boolean viewEnergyDrinks){
 		
 		ArrayList<String> products = new ArrayList<String>();		
 		String productWhereClause = getProductWhereClause(viewCoffee, viewTea, viewSoftDrinks, viewEnergyDrinks);
 		
 		Cursor cursor = database.rawQuery("SELECT DISTINCT name FROM caffeineProducts WHERE " 
-						+ (productWhereClause.equals("") ? "" : productWhereClause + AND)
-						+ "priceType = ? ORDER BY name ASC", new String[] {userType});
-
-		if(cursor.getCount() == 0){
-			//If there are no results for Student or Staff Type try All type.
-			cursor = database.rawQuery("SELECT DISTINCT name FROM caffeineProducts WHERE " 
-						+ (productWhereClause.equals("") ? "" : productWhereClause + AND)
-						+ "priceType = ? ORDER BY name ASC", new String[] {ALL_TYPE});
-		}
+						+ (productWhereClause.equals("") ? "" : productWhereClause)
+						+ " ORDER BY name ASC", new String[] {});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -145,21 +141,14 @@ public class CaffeineProductsDataSource {
 	 * Method to get all unique CaffeineProduct names for product type.
 	 * 
 	 * @param type (String object)
-	 * @param userType (String object)
 	 * @return ArrayList of String objects.
 	 */
-	public ArrayList<String> getCaffeineProductsForProductType(String type, String userType){
+	public ArrayList<String> getCaffeineProductsForProductType(String type){
 		
 		ArrayList<String> products = new ArrayList<String>();
 		
 		Cursor cursor = database.rawQuery("SELECT DISTINCT name FROM caffeineProducts WHERE productType = ? " 
-						+ "AND priceType = ? ORDER BY name ASC", new String[] {type, userType});
-		
-		if(cursor.getCount() == 0){
-			//If there are no results for Student or Staff Type try All type.
-			cursor = database.rawQuery("SELECT DISTINCT name FROM caffeineProducts WHERE productType = ? "
-					+ "AND priceType = ? ORDER BY name ASC", new String[] {type, ALL_TYPE});
-		}
+						+ " ORDER BY name ASC", new String[] {type});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -178,6 +167,10 @@ public class CaffeineProductsDataSource {
 	/**
 	 * Method to get all unique CaffeineProduct types.
 	 * 
+	 * @param viewCoffee (boolean value)
+	 * @param viewTea (boolean value)
+	 * @param viewSoftDrinks (boolean value)
+	 * @param viewEnergyDrinks (boolean value)
 	 * @return ArrayList of String objects.
 	 */
 	public ArrayList<String> getCaffeineProductTypes(boolean viewCoffee, boolean viewTea,
@@ -187,8 +180,7 @@ public class CaffeineProductsDataSource {
 		String productWhereClause = getProductWhereClause(viewCoffee, viewTea, viewSoftDrinks, viewEnergyDrinks);
 				
 		Cursor cursor = database.rawQuery("SELECT DISTINCT productType FROM caffeineProducts "
-						+ (productWhereClause.equals("") ? "" : "WHERE " + productWhereClause)
-						, new String[]{});
+						+ (productWhereClause.equals("") ? "" : "WHERE " + productWhereClause) , new String[]{});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -233,6 +225,10 @@ public class CaffeineProductsDataSource {
 	 * Method to get CaffeineProduct objects for a caffeine source.
 	 * 
 	 * @param id (String object)
+	 * @param viewCoffee (boolean value)
+	 * @param viewTea (boolean value)
+	 * @param viewSoftDrinks (boolean value)
+	 * @param viewEnergyDrinks (boolean value)
 	 * @return ArrayList of CaffeineProduct objects.
 	 */
 	public ArrayList<CaffeineProduct> getCaffeineProductsForCaffeineSource(String id, 
@@ -276,10 +272,13 @@ public class CaffeineProductsDataSource {
 	 * Method to get CaffeineProduct objects in price range.
 	 * 
 	 * @param maxPrice (double)
-	 * @param userType (String object)
+	 * @param viewCoffee (boolean value)
+	 * @param viewTea (boolean value)
+	 * @param viewSoftDrinks (boolean value)
+	 * @param viewEnergyDrinks (boolean value)
 	 * @return ArrayList of CaffeineProduct objects.
 	 */
-	public ArrayList<CaffeineProduct> getCaffeineProductsInPriceRange(double maxPrice, String userType,
+	public ArrayList<CaffeineProduct> getCaffeineProductsInPriceRange(double maxPrice,
 			boolean viewCoffee, boolean viewTea,
 			boolean viewSoftDrinks, boolean viewEnergyDrinks){
 		
@@ -289,16 +288,8 @@ public class CaffeineProductsDataSource {
 		
 		Cursor cursor = database.rawQuery("SELECT * FROM caffeineProducts WHERE "
 				+ (productWhereClause.equals("") ? "" : productWhereClause + AND)
-				+ "price <= ? AND priceType = ?" 
-				+ " ORDER BY price ASC", new String[] {Double.toString(maxPrice), userType});
-		
-		if(cursor.getCount() == 0){
-			//If there are no results for Student or Staff Type try All type.
-			cursor = database.rawQuery("SELECT * FROM caffeineProducts WHERE "
-					+ (productWhereClause.equals("") ? "" : productWhereClause + AND)
-					+ "price <= ? AND priceType = ?" 
-					+ " ORDER BY price ASC", new String[] {Double.toString(maxPrice), ALL_TYPE});
-		}
+				+ "price <= ?" 
+				+ " ORDER BY price ASC", new String[] {Double.toString(maxPrice)});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {

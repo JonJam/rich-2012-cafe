@@ -47,16 +47,6 @@ public class Preferences extends PreferenceActivity{
     	}
     }
 	
-	public static class ProductsToViewFragment extends PreferenceFragment{
-		
-		 public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            // Load the preferences from an XML resource
-            addPreferencesFromResource(R.xml.products_to_view_settings);
-    	}
-	}
-	
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }

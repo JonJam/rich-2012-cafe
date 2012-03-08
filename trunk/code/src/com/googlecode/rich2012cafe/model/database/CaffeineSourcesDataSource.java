@@ -82,7 +82,7 @@ public class CaffeineSourcesDataSource{
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
-			//Iterate through table and create CaffeineSource objects.
+			//Iterate through table and create FavouriteCaffeineSource objects.
 			
 			CaffeineSource source = new CaffeineSource(cursor.getString(0) , cursor.getString(1) , cursor.getString(2) , 
 					cursor.getString(3) , cursor.getDouble(4) , cursor.getDouble(5), cursor.getString(6));

@@ -3,6 +3,8 @@ package com.googlecode.rich2012cafe.controllers;
 import com.googlecode.rich2012cafe.model.AppDataStore;
 import com.googlecode.rich2012cafe.model.database.CaffeineProductsDataSource;
 import com.googlecode.rich2012cafe.model.database.CaffeineSourcesDataSource;
+import com.googlecode.rich2012cafe.model.database.FavouriteCaffeineProductsDataSource;
+import com.googlecode.rich2012cafe.model.database.FavouriteCaffeineSourcesDataSource;
 import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
 
 import android.app.Activity;
@@ -24,6 +26,8 @@ public class Controller {
 				new CaffeineSourcesDataSource(context), 
 				new OpeningTimesDataSource(context), 
 				new CaffeineProductsDataSource(context),
+				new FavouriteCaffeineProductsDataSource(context),
+				new FavouriteCaffeineSourcesDataSource(context),
 				PreferenceManager.getDefaultSharedPreferences(context));
 	}
 	

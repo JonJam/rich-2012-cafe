@@ -28,34 +28,20 @@ import com.googlecode.rich2012cafe.activities.UserInterface;
  	*   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
  	*   May need to change getCaffeineProductsinPriceRange
  *
- * TODO QUESTION: SPARQLQuerier/DATABASE Adjustments
- * 		SPARQLQuerier sort out where haves blanks for places e.g. everything apart from lat / long
- * 		How to deal with item "Self Serve Tea and Coffee"? What category to place under. (MAY LEAD TO MULTIPLE productType fields)
+ * TODO Adjust SPARQLQuerier to sort out blanks in field for source:
+ * 			Edit query or try strip out name from ID where this occurs.
  * 
- * TODO QUESTION: Move setPreferences method in this class to where appropriate. Ask T.
+ * TODO Add column into DB for Source: In campus / on campus.
+ * 		boolean value (0 / 1) 
+ * 		Setting include on and off campus values.
  * 
- * TODO QUESTION: Sort out an Agile Development process for the report.
+ * TODO Favourite Products / Places settings (ON HOLD)
+ * 		Comment out all favourite stuff in code and settings.xml files.
+ *
+ * TODO Remove user certain products.
  * 
- * TODO QUESTION: Sorting out Pitch / Video.
- * 
- * TODO QUESTION: Saving settings. (JON: WORKING ON)
-	 * 		Favourite products
-	 * 		Favourite places	
-	 * 
- * 				TEST FavouriteProducts/Sources tables created and their methods.
- * 				Create AppDataStore functions for above functions and add to interface.
- * 				Create Activities / Views for these settings
- * 				Alter Queries.
-	 * 
-	 * 		
-	 * 		QUESTION: AT MOMENT LAUNCHING AN ACTIVITY WHICH WILL DISPLAY VIEW WITH CHECKBOXES
-	 * 				  WHICH WILL INTERACT WITH DB AS APPROPIATE TO SAVE LISTS. Is this best ok before I implement it?
-	 * 
-	 * 		NEED TO CHANGE:
-	 * 			product_settings.xml
-	 * 			source_settings.xml
- * 
- * TODO QUESTION: How Settings affect View / Queries.
+ * How Settings affect View / Queries.
+ * ===================================
  * 
  *  		Student or Staff: (QUERIES COMPLETE)
  *  			Functions in AppDataStore effected:
@@ -64,13 +50,7 @@ import com.googlecode.rich2012cafe.activities.UserInterface;
  *  				getCaffeineProductsForProductType (Just in case a product only available to a certain user)
  *  				getCaffeineProductsForCaffeineSource (Get Products for user type either student or staff or all)
  *  				getCaffineProductsInPriceRange (Just in case a product only available to a certain user)
- *  
- *  			DECISIONS TO MAKE:
- *  				Should we check for a product being only available to a certain user (More for future)?
- *  					If yes, should we also only get locations where have student / staff or all products ?
- *  						If yes, what happens when place doesn't have list of products?
- *  					If no, remove as appropiate from above functions.
- *  
+ *    
  *  		Display Vending Machine: (QUERIES COMPLETE)
  *  			Functions in AppDataStore effected:
  *  				getAllCaffeineSources (Get point of sale and if applicable vending machine sources)
@@ -85,19 +65,6 @@ import com.googlecode.rich2012cafe.activities.UserInterface;
  *  				getCaffeineProductsForProductType (Inherits blocking from previous)
  *  			getCaffeineProductsForCaffeineSource (Only show products that are of wanted type)
  *  			getCaffeineProductsInPriceRange (Only show products that are of wanted type)
- *  
- *  			getAllCaffeineSources (Only show places that serve products want) (TODO)
- *  
- *  			DECISIONS TO MAKE:
- *  				For getAllCaffeineSources how do we deal when a place doesn't have list of products?
- *  
- *  		Favourite Products affects:
- *  			Display favourites as separate list at top of any product list
- *  		Favourite Locations affects:
- *  			Always display favourite locations on map no matter what distance.
- *  			 
- * TODO QUESTION: Remove deprecated actions/classes in: 
- * 		UserInterface (TabbedActivity)
  * 
  * TODO Add loading overlay (blocking off functionality) whilst performing database check.
  * 

@@ -23,13 +23,16 @@ import com.googlecode.rich2012cafe.activities.UserInterface;
  * 3. Add -partition-size 1024 to run configurations for application.
  * 4. Add custom debug keystore to Android build configuration. 
  * 
- * TODO Implement queries and any others people need (See DataStoreInterface):
+ * TODO Implement queries and adjust as others need (See DataStoreInterface):
  * 
  	*   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
+ 	*   May need to change getCaffeineProductsinPriceRange
  *
  * TODO SPARQLQuerier sort out where haves blanks for places e.g. everything apart from lat / long
  * 
- * TODO Move setPreferences method in this class to where appropiate. Ask T.
+ * TODO Move setPreferences method in this class to where appropriate. Ask T.
+ * 
+ * TODO Sort out an Agile Development process for the report.
  * 
  * TODO Saving settings. (JON and SAMI: WORKING ON)
 	 * 		Favourite products
@@ -43,16 +46,47 @@ import com.googlecode.rich2012cafe.activities.UserInterface;
 	 * 			source_settings.xml
  * 
  * TODO How Settings affect View / Queries.
- *  		Student or Staff affects:
+ * 
+ *  		Student or Staff affects: (QUERIES COMPLETE)
  *  			Only get Products for type set.
+ *  		
+ *  			Functions in AppDataStore effected:
+ *  				getAllCaffeineProductNames (Just in case a product only available to a certain user)
+ *  					getCaffeineSourcesForProductName (Inherits from previous)
+ *  				getCaffeineProductsForProductType (Just in case a product only available to a certain user)
+ *  				getCaffeineProductsForCaffeineSource
+ *  				getCaffineProductsInPriceRange (Just in case a product only available to a certain user)
+ *  
+ *  			DECISIONS TO MAKE:
+ *  				Should we check for a product being only available to a certain user (More for future)?
+ *  					If yes, should we also only get locations where have student / staff or all products ?
+ *  						If yes, what happens when place doesn't have list of products?
+ *  
+ *  		Display Vending Machine affects: (QUERIES COMPLETE)
+ *  			Get Locations
+ *  
+ *  			Functions in AppDataStore effected:
+ *  				getAllCaffeineSources
+ *  				getCaffeineSourcesForProductName			
+ *  	
+ *  		Product Types
+ *  			Only show places/products that serve/are types.
+ *  	
+ *  			getAllCaffeineProductNames (Only show products that are of wanted type)
+ *  				getCaffeineSourcesForProductNames (Inherits blocking from previous)
+ *  			getCaffeineProductTypes (Only show product types that are wanted)
+ *  				getCaffeineProductsForProductType (Inherits blocking from previous)
+ *  			getCaffeineProductsForCaffeineSource (Only show products that are of wanted type)
+ *  			getCaffeineProductsInPriceRange (Only show products that are of wanted type)
+ *  			getAllCaffeineSources (Only show places that serve products want)
+ *  
+ *  			DECISIONS TO MAKE:
+ *  				For getAllCaffeineSources how do we deal when a place doesn't have list of products?
+ *  
  *  		Favourite Products affects:
  *  			Display favourites as seperate list at top of any product list
  *  		Favourite Locations affects:
  *  			Always display favourite locations on map no matter what distance.
- *  		Product Types
- *  			Only show places/products that server/are types.
- *  		Display Vending Machine affects:
- *  			Get Locations
  *  			
 * 
  * TODO Remove deprecated actions/classes in: 

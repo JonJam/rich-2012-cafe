@@ -21,6 +21,7 @@ public interface DataStoreInterface {
 	ArrayList<CaffeineProduct> getCaffeineProductsForCaffeineSource(String id);
 	
 	ArrayList<String> getAllCaffeineProductNames();
+	ArrayList<String> getAllCaffeineProductTypes();
 	ArrayList<String> getCaffeineProductsForProductType(String type);
 	ArrayList<CaffeineProduct> getCaffeineProductsInPriceRange(double maxPrice);
 	

@@ -7,16 +7,5 @@
                 android:title="@string/viewVendingMachinesTitle"
                 android:summary="@string/viewVendingMachinesSummary"
 	 			android:defaultValue="true" />
-	
-   		<PreferenceScreen
-                android:title="@string/favouriteSourcesTitle"
-                android:summary="@string/favouriteSourcesSummary">
-
-       		<intent 
-                android:action="android.intent.action.MAIN"
-                android:targetPackage="com.googlecode.rich2012cafe"
-                android:targetClass="com.googlecode.rich2012cafe.controller.JonText" />
-         </PreferenceScreen>
-         
 	</PreferenceCategory>
 </PreferenceScreen>

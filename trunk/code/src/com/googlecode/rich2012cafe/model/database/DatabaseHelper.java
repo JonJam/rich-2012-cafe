@@ -47,12 +47,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_CURRENCY = "currency";
 	public static final String COLUMN_CAFFEINE_PRODUCT_TYPE= "productType";
 	public static final String COLUMN_PRICE_TYPE= "priceType";
-	
-	public static final String TABLE_FAVOURITE_CAFFEINE_PRODUCTS = "favouriteCaffeineProducts";
-	public static final String COLUMN_FAVOURITE_CAFFEINE_PRODUCT_NAME = "name";
-
-	public static final String TABLE_FAVOURITE_CAFFEINE_SOURCES = "favouriteCaffeineSources";
-	public static final String COLUMN_FAVOURITE_CAFFEINE_SOURCE_ID = "id";
 		
 	//SQL Table Create statements
 	private static final String DATABASE_CREATE_CAFFEINE_SOURCES = "CREATE TABLE " + TABLE_CAFFEINE_SOURCES + " ( "
@@ -88,16 +82,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ "PRIMARY KEY ( " + COLUMN_CAFFEINE_PRODUCT_ID + " )"
 		+");";
 	
-	private static final String DATABASE_CREATE_FAVOURITE_CAFFEINE_PRODUCTS = "CREATE TABLE " + TABLE_FAVOURITE_CAFFEINE_PRODUCTS + " ( "
-			+ COLUMN_FAVOURITE_CAFFEINE_PRODUCT_NAME + " TEXT, "
-			+ "PRIMARY KEY ( " + COLUMN_FAVOURITE_CAFFEINE_PRODUCT_NAME + " ) "
-		+");";
-	
-	private static final String DATABASE_CREATE_FAVOURITE_CAFFEINE_SOURCES = "CREATE TABLE " + TABLE_FAVOURITE_CAFFEINE_SOURCES + " ( "
-			+ COLUMN_FAVOURITE_CAFFEINE_SOURCE_ID + " TEXT, "
-			+ "PRIMARY KEY ( " + COLUMN_FAVOURITE_CAFFEINE_SOURCE_ID + " ) "
-		+");";
-	
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -112,8 +96,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		database.execSQL(DATABASE_CREATE_CAFFEINE_SOURCES);
 		database.execSQL(DATABASE_CREATE_OPENING_TIMES);
 		database.execSQL(DATABASE_CREATE_CAFFEINE_PRODUCTS);
-		database.execSQL(DATABASE_CREATE_FAVOURITE_CAFFEINE_PRODUCTS);
-		database.execSQL(DATABASE_CREATE_FAVOURITE_CAFFEINE_SOURCES);
 	}
 
 	/**
@@ -129,8 +111,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS" + TABLE_CAFFEINE_PRODUCTS);
 		db.execSQL("DROP TABLE IF EXISTS" + TABLE_OPENING_TIMES);
 		db.execSQL("DROP TABLE IF EXISTS" + TABLE_CAFFEINE_SOURCES);
-		db.execSQL("DROP TABLE IF EXISTS" + TABLE_FAVOURITE_CAFFEINE_PRODUCTS);
-		db.execSQL("DROP TABLE IF EXISTS" + TABLE_FAVOURITE_CAFFEINE_SOURCES);
 		onCreate(db);
 	}
 }

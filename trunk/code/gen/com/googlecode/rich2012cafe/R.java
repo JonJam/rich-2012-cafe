@@ -79,8 +79,7 @@ public final class R {
     public static final class xml {
         public static final int preference_headers=0x7f040000;
         public static final int product_settings=0x7f040001;
-        public static final int products_to_view_settings=0x7f040002;
-        public static final int source_settings=0x7f040003;
-        public static final int user_settings=0x7f040004;
+        public static final int source_settings=0x7f040002;
+        public static final int user_settings=0x7f040003;
     }
 }

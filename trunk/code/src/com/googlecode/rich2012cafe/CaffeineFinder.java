@@ -28,36 +28,29 @@ import com.googlecode.rich2012cafe.activities.UserInterface;
  	*   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
  	*   May need to change getCaffeineProductsinPriceRange
  *
- * TODO Adjust SPARQLQuerier to sort out blanks in field for source:
+ * TODO Adjust SPARQLQuerier to sort out blanks in field for source: (SAMI)
  * 			Edit query or try strip out name from ID where this occurs.
  * 
- * TODO Add column into DB for Source: In campus / on campus.
+ * TODO Add column into DB for Source: In campus / on campus. (SAMI / JON)
  * 		boolean value (0 / 1) 
  * 		Setting include on and off campus values.
  * 
- * TODO Favourite Products / Places settings (ON HOLD)
- * 		Comment out all favourite stuff in code and settings.xml files.
- *
- * TODO Remove user certain products.
+ * TODO TEST ALL QUERIES WITH SETTINGS
  * 
  * How Settings affect View / Queries.
  * ===================================
  * 
  *  		Student or Staff: (QUERIES COMPLETE)
  *  			Functions in AppDataStore effected:
- *  				getAllCaffeineProductNames (Just in case a product only available to a certain user)
- *  					getCaffeineSourcesForProductName (Inherits from previous)
- *  				getCaffeineProductsForProductType (Just in case a product only available to a certain user)
  *  				getCaffeineProductsForCaffeineSource (Get Products for user type either student or staff or all)
- *  				getCaffineProductsInPriceRange (Just in case a product only available to a certain user)
  *    
  *  		Display Vending Machine: (QUERIES COMPLETE)
  *  			Functions in AppDataStore effected:
  *  				getAllCaffeineSources (Get point of sale and if applicable vending machine sources)
  *  				getCaffeineSourcesForProductName (Get point of sale and if applicable vending machine sources)
  *  	
- *  		Product Types: (WORKING ON)
- *  			Only show places/products that serve/are types.
+ *  		Product Types: (QUERIES COMPLETE)
+ *  			Only show products that are types.
  * 
  *  			getAllCaffeineProductNames (Only show products that are of wanted type)
  *  				getCaffeineSourcesForProductNames (Inherits blocking from previous)
@@ -105,7 +98,7 @@ public class CaffeineFinder extends Activity implements OnClickListener{
     private void setPreferences(){
         PreferenceManager.setDefaultValues(this, R.xml.user_settings, true);
         PreferenceManager.setDefaultValues(this, R.xml.source_settings, true);
-        PreferenceManager.setDefaultValues(this, R.xml.products_to_view_settings, true);
+        PreferenceManager.setDefaultValues(this, R.xml.product_settings, true);
     }
     
     public void onClick(View view) {

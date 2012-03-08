@@ -2,6 +2,7 @@ package com.googlecode.rich2012cafe.activities;
 
 import java.util.ArrayList;
 import com.googlecode.rich2012cafe.controllers.DataController;
+import com.googlecode.rich2012cafe.model.AppDataStore;
 import com.googlecode.rich2012cafe.model.database.CaffeineSource;
 
 import android.app.Activity;

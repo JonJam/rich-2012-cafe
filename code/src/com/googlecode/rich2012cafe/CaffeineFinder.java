@@ -12,6 +12,10 @@ import android.widget.Button;
 import com.googlecode.rich2012cafe.activities.GoogleMap;
 import com.googlecode.rich2012cafe.activities.JonText;
 import com.googlecode.rich2012cafe.activities.UserInterface;
+import com.googlecode.rich2012cafe.model.AppDataStore;
+import com.googlecode.rich2012cafe.model.database.CaffeineProductsDataSource;
+import com.googlecode.rich2012cafe.model.database.CaffeineSourcesDataSource;
+import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
 
 /**
  * N.B. In running and developing application:
@@ -71,10 +75,18 @@ import com.googlecode.rich2012cafe.activities.UserInterface;
  */
 public class CaffeineFinder extends Activity implements OnClickListener{
 
+	private AppDataStore appDataStore;
+	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        appDataStore = new AppDataStore(
+				new CaffeineSourcesDataSource(this), 
+				new OpeningTimesDataSource(this), 
+				new CaffeineProductsDataSource(this),
+				PreferenceManager.getDefaultSharedPreferences(this));
+        
         this.getViewMapButton().setOnClickListener(this);
         this.getSparqlButton().setOnClickListener(this);
         this.getuiButton().setOnClickListener(this);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.R;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -24,6 +25,8 @@ public class AppDataStore implements DataStoreInterface{
 	private OpeningTimesDataSource openingTimesTable;
 	private CaffeineProductsDataSource productsTable;
 	private SharedPreferences settings;
+	
+	private static AppDataStore instance;
 	
 	private static final String USER_TYPE = "userPref";
 	private static final String USER_TYPE_DEFAULT = "Student";
@@ -53,8 +56,21 @@ public class AppDataStore implements DataStoreInterface{
 		this.settings = settings;
 		
 		openDataSourceConnections();
+		instance = this;
 	}
 
+	public static AppDataStore getInstance(Context context){
+		if(instance == null){
+			instance = new AppDataStore(
+					new CaffeineSourcesDataSource(context), 
+					new OpeningTimesDataSource(context), 
+					new CaffeineProductsDataSource(context),
+					PreferenceManager.getDefaultSharedPreferences(context));
+		}else{
+			Log.e("storage", "successful get instance");
+		}
+		return instance;
+	}
 	/**
 	 * Method to open connections to the data source objects.
 	 */

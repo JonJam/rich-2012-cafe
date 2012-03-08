@@ -1,6 +1,7 @@
 package com.googlecode.rich2012cafe.controllers;
 
 import com.googlecode.rich2012cafe.R;
+import com.googlecode.rich2012cafe.model.AppDataStore;
 import com.googlecode.rich2012cafe.model.database.CaffeineSource;
 
 import android.content.Context;
@@ -12,8 +13,14 @@ import android.widget.PopupMenu;
 
 public class DataController extends Controller{
 
+	private AppDataStore appDataStore;
+	
 	public DataController(Context context){
-		super(context);
+		this.appDataStore = AppDataStore.getInstance(context);
+	}
+	
+	public AppDataStore getAppDataStore(){
+		return appDataStore;
 	}
 	
 	public Button createButtonWithPopup(Context context, final CaffeineSource cs){

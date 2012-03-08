@@ -13,26 +13,9 @@ import android.preference.PreferenceManager;
 
 public class Controller {
 
-	private AppDataStore appDataStore;
 	
 	public Controller(){
 		
-	}
-	
-	public Controller(Context context){
-		appDataStore = new AppDataStore(
-				new CaffeineSourcesDataSource(context), 
-				new OpeningTimesDataSource(context), 
-				new CaffeineProductsDataSource(context),
-				PreferenceManager.getDefaultSharedPreferences(context));
-	}
-	
-	public Controller(AppDataStore appDataStore){
-		this.appDataStore = appDataStore;
-	}
-	
-	public AppDataStore getAppDataStore(){
-		return appDataStore;
 	}
 	
 	public void startActivity(Context context, Class<?> cls){

@@ -260,7 +260,7 @@ public class SPARQLQuerier {
  	   		} else if(id.endsWith(STUDENT_TYPE)){
  	   			//Student Product
  	   			
- 	   			type = STAFF_TYPE;
+ 	   			type = STUDENT_TYPE;
  	   			priceString= priceString.substring(priceString.indexOf("-") + 1, priceString.indexOf("(")).trim(); 
  	   			
  	   		} else{

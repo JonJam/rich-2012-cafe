@@ -24,6 +24,24 @@ public class AppDataStore implements DataStoreInterface{
 	private OpeningTimesDataSource openingTimesTable;
 	private CaffeineProductsDataSource productsTable;
 	private SharedPreferences settings;
+	
+	private static final String USER_TYPE = "userPref";
+	private static final String USER_TYPE_DEFAULT = "Student";
+	
+	private static final String VIEW_VENDING = "viewVendingMachines";
+	private static final boolean VIEW_VENDING_DEFAULT = true;
+	
+	private static final String VIEW_COFFEE = "viewCoffee";
+	private static final boolean VIEW_COFFEE_DEFAULT = true;
+
+	private static final String VIEW_TEA = "viewTea";
+	private static final boolean VIEW_TEA_DEFAULT = true;
+
+	private static final String VIEW_SOFT_DRINKS = "viewSoftDrinks";
+	private static final boolean VIEW_SOFT_DRINKS_DEFAULT = true;
+
+	private static final String VIEW_ENERGY_DRINKS = "viewEnergyDrinks";
+	private static final boolean VIEW_ENERGY_DRINKS_DEFAULT = true;
 
 	public AppDataStore(CaffeineSourcesDataSource sourcesTable, OpeningTimesDataSource openingTimesTable, 
 			CaffeineProductsDataSource productsTable, SharedPreferences settings){
@@ -88,7 +106,7 @@ public class AppDataStore implements DataStoreInterface{
 	 */
 	public void performDatabaseCheck(){
 				
-		if(sourcesTable.getAllCaffeineSources().size() == 0){
+		if(sourcesTable.getAllCaffeineSources(settings.getBoolean(VIEW_VENDING, VIEW_VENDING_DEFAULT)).size() == 0){
 			//No results in database so fill with data.
 			
 			insertLinkedDataIntoDatabase();
@@ -111,7 +129,7 @@ public class AppDataStore implements DataStoreInterface{
 	 */
 	public ArrayList<CaffeineSource> getAllCaffeineSources(){
 		
-		return sourcesTable.getAllCaffeineSources();
+		return sourcesTable.getAllCaffeineSources(settings.getBoolean(VIEW_VENDING, VIEW_VENDING_DEFAULT));
 	}
 	
 	/**
@@ -124,35 +142,23 @@ public class AppDataStore implements DataStoreInterface{
 		
 		return openingTimesTable.getOpeningTimesForCaffeineSource(id);
 	}
-	
-	/**
-	 * Method to get CaffeineProduct objects for a caffeine source.
-	 * 
-	 * @param id (String object)
-	 * @return ArrayList of CaffeineProduct objects.
-	 */
-	public ArrayList<CaffeineProduct> getCaffeineProductsForCaffeineSource(String id){
-		
-		return productsTable.getCaffeineProductsForCaffeineSource(id);
-	}
-		
-	/**
-	 * Method to get all caffeine product names for a product type.
-	 * 
-	 * @param type (String object)
-	 * @return ArrayList of String objects
-	 */
-	public ArrayList<String> getCaffeineProductsForProductType(String type){
-		return productsTable.getCaffeineProductsForProductType(type);
-	}
-	
+
 	/**
 	 * Method to get all caffeine product names
 	 * 
 	 * @return ArrayList of String objects.
 	 */
 	public ArrayList<String> getAllCaffeineProductNames() {
-		return productsTable.getAllCaffeineProductNames();
+		return productsTable.getAllCaffeineProductNames(settings.getString(USER_TYPE, USER_TYPE_DEFAULT));
+	}
+	
+	/*
+	 * Method to get all caffeine product types
+	 * 
+	 * @return ArrayList of String objects.
+	 */
+	public ArrayList<String> getAllCaffeineProductTypes(){
+		return productsTable.getCaffeineProductTypes();
 	}
 	
 	/**
@@ -162,30 +168,60 @@ public class AppDataStore implements DataStoreInterface{
 	 */
 	public ArrayList<CaffeineSource> getCaffeineSourcesForProductName(String productName) {
 		ArrayList<String> ids = productsTable.getCaffeineSourceIdsForProductName(productName);
-		return sourcesTable.getCaffeineSources(ids);
+		return sourcesTable.getCaffeineSources(ids,settings.getBoolean("viewVendingMachines", true));
+	}
+	
+	/**
+	 * Method to get all caffeine product names for a product type.
+	 * 
+	 * @param type (String object)
+	 * @return ArrayList of String objects
+	 */
+	public ArrayList<String> getCaffeineProductsForProductType(String type){
+		return productsTable.getCaffeineProductsForProductType(type, settings.getString(USER_TYPE, USER_TYPE_DEFAULT));
+	}
+			
+	/**
+	 * Method to get CaffeineProduct objects for a caffeine source.
+	 * 
+	 * @param id (String object)
+	 * @return ArrayList of CaffeineProduct objects.
+	 */
+	public ArrayList<CaffeineProduct> getCaffeineProductsForCaffeineSource(String id){
+		
+		return productsTable.getCaffeineProductsForCaffeineSource(id, settings.getString(USER_TYPE, USER_TYPE_DEFAULT));
 	}
 	
 	/**
 	 * Method to get CaffeineProduct objects in price range.
 	 */
 	public ArrayList<CaffeineProduct> getCaffeineProductsInPriceRange(double maxPrice){
-		return productsTable.getCaffeineProductsInPriceRange(maxPrice);
+		return productsTable.getCaffeineProductsInPriceRange(maxPrice, settings.getString(USER_TYPE, USER_TYPE_DEFAULT));
 	}
 	
 	
 	public String test(){
-		//ArrayList<CaffeineSource> sources = getAllCaffeineSources();
+		
 		String a = "";
 		
-//		if(sources.size() == 0){
-//			return "empty";
-//		} 
+//		ArrayList<CaffeineProduct> sources = getCaffeineProductsInPriceRange(2.00);
 //		
-//		for(CaffeineSource s : sources){
-//			a += s.getId() + " " + s.getName() + " " +s.getBuildingNumber() + " " + s.getBuildingName() + " " + s.getBuildingLat() + " " 
-//					+s.getBuildingLong() + " " + s.getType() + "\n\n";
+//		for(CaffeineProduct s : sources){
+//			a += s.getName() + " " + s.getPriceType() + " " + s.getPrice() + " " + "\n\n";
 //		}
 		
-		return " " + settings.getBoolean("viewCoffee", false);
+//		ArrayList<CaffeineSource> sources = getCaffeineSourcesForProductName("Red Bull Can");
+//		
+//		for(CaffeineSource s : sources){
+//			a += s.getName() + " " + s.getId() + " " + "\n\n";
+//		}
+		
+		ArrayList<String> types = getAllCaffeineProductTypes();
+		
+		for(String t : types){
+			a += t + "\n\n";
+		}
+		
+		return a;
 	}
 }

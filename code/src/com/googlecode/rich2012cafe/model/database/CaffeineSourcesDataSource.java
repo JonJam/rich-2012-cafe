@@ -17,6 +17,8 @@ public class CaffeineSourcesDataSource{
 
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
+
+	private static final String VENDING_MACHINE_TYPE = "Vending Machine";
 	
 	public CaffeineSourcesDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -60,13 +62,23 @@ public class CaffeineSourcesDataSource{
 	/**
 	 * Method to get all CaffeineSource objects in the database.
 	 * 
+	 * @param viewVendingMachines (boolean value)
 	 * @return ArrayList of CaffeineSource objects.
 	 */
-	public ArrayList<CaffeineSource> getAllCaffeineSources() {
+	public ArrayList<CaffeineSource> getAllCaffeineSources(boolean viewVendingMachines) {
 		
 		ArrayList<CaffeineSource> caffeineSources = new ArrayList<CaffeineSource>();
 		
-		Cursor cursor = database.rawQuery("SELECT * FROM caffeineSources ORDER BY buildingNumber ASC", new String[] {});
+		Cursor cursor;
+		
+		if(viewVendingMachines){
+			//Include vending machine locations
+			cursor = database.rawQuery("SELECT * FROM caffeineSources ORDER BY buildingNumber ASC", new String[] {});
+		} else {
+			//Don't include vending machine locations.
+			cursor = database.rawQuery("SELECT * FROM caffeineSources WHERE type != ? ORDER BY" 
+					+" buildingNumber ASC", new String[] {VENDING_MACHINE_TYPE});
+		}
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -88,14 +100,24 @@ public class CaffeineSourcesDataSource{
 	 * Method to get the specified CaffeineSource objects from the database.
 	 * 
 	 * @param ids (ArrayList of String objects)
+	 * @param viewVendingMachines (boolean value)
 	 * @return ArrayList of CaffeineSource objects.
 	 */
-	public ArrayList<CaffeineSource> getCaffeineSources(ArrayList<String> ids) {
+	public ArrayList<CaffeineSource> getCaffeineSources(ArrayList<String> ids, boolean viewVendingMachines) {
 		
 		ArrayList<CaffeineSource> caffeineSources = new ArrayList<CaffeineSource>();
 		
 		for(String id: ids){
-			Cursor cursor = database.rawQuery("SELECT * FROM caffeineSources WHERE id = ?", new String[]{id});
+			
+			Cursor cursor;
+			
+			if(viewVendingMachines){
+				//Include vending machine locations
+				cursor = database.rawQuery("SELECT * FROM caffeineSources WHERE id = ?", new String[]{id});
+			} else {
+				//Don't include vending machine locations.
+				cursor = database.rawQuery("SELECT * FROM caffeineSources WHERE id = ? AND type != ? ", new String[] {id, VENDING_MACHINE_TYPE});
+			}
 			
 			cursor.moveToFirst();
 			while (!cursor.isAfterLast()) {

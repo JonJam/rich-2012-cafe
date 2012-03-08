@@ -28,15 +28,25 @@ import com.googlecode.rich2012cafe.activities.UserInterface;
  	*   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
  	*   May need to change getCaffeineProductsinPriceRange
  *
- * TODO SPARQLQuerier sort out where haves blanks for places e.g. everything apart from lat / long
+ * TODO QUESTION: SPARQLQuerier/DATABASE Adjustments
+ * 		SPARQLQuerier sort out where haves blanks for places e.g. everything apart from lat / long
+ * 		How to deal with item "Self Serve Tea and Coffee"? What category to place under. (MAY LEAD TO MULTIPLE productType fields)
  * 
- * TODO Move setPreferences method in this class to where appropriate. Ask T.
+ * TODO QUESTION: Move setPreferences method in this class to where appropriate. Ask T.
  * 
- * TODO Sort out an Agile Development process for the report.
+ * TODO QUESTION: Sort out an Agile Development process for the report.
  * 
- * TODO Saving settings. (JON and SAMI: WORKING ON)
+ * TODO QUESTION: Sorting out Pitch / Video.
+ * 
+ * TODO QUESTION: Saving settings. (JON: WORKING ON)
 	 * 		Favourite products
-	 * 		Favourite places
+	 * 		Favourite places	
+	 * 
+ * 				TEST FavouriteProducts/Sources tables created and their methods.
+ * 				Create AppDataStore functions for above functions and add to interface.
+ * 				Create Activities / Views for these settings
+ * 				Alter Queries.
+	 * 
 	 * 		
 	 * 		QUESTION: AT MOMENT LAUNCHING AN ACTIVITY WHICH WILL DISPLAY VIEW WITH CHECKBOXES
 	 * 				  WHICH WILL INTERACT WITH DB AS APPROPIATE TO SAVE LISTS. Is this best ok before I implement it?
@@ -45,51 +55,48 @@ import com.googlecode.rich2012cafe.activities.UserInterface;
 	 * 			product_settings.xml
 	 * 			source_settings.xml
  * 
- * TODO How Settings affect View / Queries.
+ * TODO QUESTION: How Settings affect View / Queries.
  * 
- *  		Student or Staff affects: (QUERIES COMPLETE)
- *  			Only get Products for type set.
- *  		
+ *  		Student or Staff: (QUERIES COMPLETE)
  *  			Functions in AppDataStore effected:
  *  				getAllCaffeineProductNames (Just in case a product only available to a certain user)
  *  					getCaffeineSourcesForProductName (Inherits from previous)
  *  				getCaffeineProductsForProductType (Just in case a product only available to a certain user)
- *  				getCaffeineProductsForCaffeineSource
+ *  				getCaffeineProductsForCaffeineSource (Get Products for user type either student or staff or all)
  *  				getCaffineProductsInPriceRange (Just in case a product only available to a certain user)
  *  
  *  			DECISIONS TO MAKE:
  *  				Should we check for a product being only available to a certain user (More for future)?
  *  					If yes, should we also only get locations where have student / staff or all products ?
  *  						If yes, what happens when place doesn't have list of products?
+ *  					If no, remove as appropiate from above functions.
  *  
- *  		Display Vending Machine affects: (QUERIES COMPLETE)
- *  			Get Locations
- *  
+ *  		Display Vending Machine: (QUERIES COMPLETE)
  *  			Functions in AppDataStore effected:
- *  				getAllCaffeineSources
- *  				getCaffeineSourcesForProductName			
+ *  				getAllCaffeineSources (Get point of sale and if applicable vending machine sources)
+ *  				getCaffeineSourcesForProductName (Get point of sale and if applicable vending machine sources)
  *  	
- *  		Product Types
+ *  		Product Types: (WORKING ON)
  *  			Only show places/products that serve/are types.
- *  	
+ * 
  *  			getAllCaffeineProductNames (Only show products that are of wanted type)
  *  				getCaffeineSourcesForProductNames (Inherits blocking from previous)
  *  			getCaffeineProductTypes (Only show product types that are wanted)
  *  				getCaffeineProductsForProductType (Inherits blocking from previous)
  *  			getCaffeineProductsForCaffeineSource (Only show products that are of wanted type)
  *  			getCaffeineProductsInPriceRange (Only show products that are of wanted type)
- *  			getAllCaffeineSources (Only show places that serve products want)
+ *  
+ *  			getAllCaffeineSources (Only show places that serve products want) (TODO)
  *  
  *  			DECISIONS TO MAKE:
  *  				For getAllCaffeineSources how do we deal when a place doesn't have list of products?
  *  
  *  		Favourite Products affects:
- *  			Display favourites as seperate list at top of any product list
+ *  			Display favourites as separate list at top of any product list
  *  		Favourite Locations affects:
  *  			Always display favourite locations on map no matter what distance.
- *  			
-* 
- * TODO Remove deprecated actions/classes in: 
+ *  			 
+ * TODO QUESTION: Remove deprecated actions/classes in: 
  * 		UserInterface (TabbedActivity)
  * 
  * TODO Add loading overlay (blocking off functionality) whilst performing database check.

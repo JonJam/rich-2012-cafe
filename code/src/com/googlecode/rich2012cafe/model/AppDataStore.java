@@ -23,6 +23,8 @@ public class AppDataStore implements DataStoreInterface{
 	private CaffeineSourcesDataSource sourcesTable;
 	private OpeningTimesDataSource openingTimesTable;
 	private CaffeineProductsDataSource productsTable;
+	private FavouriteCaffeineProductsDataSource favouriteProductsTable;
+	private FavouriteCaffeineSourcesDataSource favouriteSourcesTable;
 	private SharedPreferences settings;
 	
 	private static final String USER_TYPE = "userPref";
@@ -44,11 +46,14 @@ public class AppDataStore implements DataStoreInterface{
 	private static final boolean VIEW_ENERGY_DRINKS_DEFAULT = true;
 
 	public AppDataStore(CaffeineSourcesDataSource sourcesTable, OpeningTimesDataSource openingTimesTable, 
-			CaffeineProductsDataSource productsTable, SharedPreferences settings){
+			CaffeineProductsDataSource productsTable, FavouriteCaffeineProductsDataSource favouriteProductsTable,
+			FavouriteCaffeineSourcesDataSource favouriteSourcesTable, SharedPreferences settings){
 		
 		this.sourcesTable = sourcesTable;
 		this.openingTimesTable = openingTimesTable;
 		this.productsTable = productsTable;
+		this.favouriteProductsTable = favouriteProductsTable;
+		this.favouriteSourcesTable = favouriteSourcesTable;
 		
 		this.settings = settings;
 		
@@ -62,6 +67,8 @@ public class AppDataStore implements DataStoreInterface{
 		sourcesTable.open();
 		openingTimesTable.open();
 		productsTable.open();
+		favouriteProductsTable.open();
+		favouriteSourcesTable.open();
 	}
 	
 	/**
@@ -71,6 +78,8 @@ public class AppDataStore implements DataStoreInterface{
 		sourcesTable.close();
 		openingTimesTable.close();
 		productsTable.close();
+		favouriteProductsTable.close();
+		favouriteSourcesTable.close();
 	}
 	
 	/**
@@ -149,7 +158,12 @@ public class AppDataStore implements DataStoreInterface{
 	 * @return ArrayList of String objects.
 	 */
 	public ArrayList<String> getAllCaffeineProductNames() {
-		return productsTable.getAllCaffeineProductNames(settings.getString(USER_TYPE, USER_TYPE_DEFAULT));
+		return productsTable.getAllCaffeineProductNames(settings.getString(USER_TYPE, USER_TYPE_DEFAULT),
+				settings.getBoolean(VIEW_COFFEE, VIEW_COFFEE_DEFAULT),
+				settings.getBoolean(VIEW_TEA, VIEW_TEA_DEFAULT),
+				settings.getBoolean(VIEW_SOFT_DRINKS, VIEW_SOFT_DRINKS_DEFAULT),
+				settings.getBoolean(VIEW_ENERGY_DRINKS, VIEW_ENERGY_DRINKS_DEFAULT)
+				);
 	}
 	
 	/*
@@ -158,7 +172,11 @@ public class AppDataStore implements DataStoreInterface{
 	 * @return ArrayList of String objects.
 	 */
 	public ArrayList<String> getAllCaffeineProductTypes(){
-		return productsTable.getCaffeineProductTypes();
+		return productsTable.getCaffeineProductTypes(settings.getBoolean(VIEW_COFFEE, VIEW_COFFEE_DEFAULT),
+				settings.getBoolean(VIEW_TEA, VIEW_TEA_DEFAULT),
+				settings.getBoolean(VIEW_SOFT_DRINKS, VIEW_SOFT_DRINKS_DEFAULT),
+				settings.getBoolean(VIEW_ENERGY_DRINKS, VIEW_ENERGY_DRINKS_DEFAULT)
+				);
 	}
 	
 	/**
@@ -189,14 +207,24 @@ public class AppDataStore implements DataStoreInterface{
 	 */
 	public ArrayList<CaffeineProduct> getCaffeineProductsForCaffeineSource(String id){
 		
-		return productsTable.getCaffeineProductsForCaffeineSource(id, settings.getString(USER_TYPE, USER_TYPE_DEFAULT));
-	}
+		return productsTable.getCaffeineProductsForCaffeineSource(id, settings.getString(USER_TYPE, USER_TYPE_DEFAULT),
+				settings.getBoolean(VIEW_COFFEE, VIEW_COFFEE_DEFAULT),
+				settings.getBoolean(VIEW_TEA, VIEW_TEA_DEFAULT),
+				settings.getBoolean(VIEW_SOFT_DRINKS, VIEW_SOFT_DRINKS_DEFAULT),
+				settings.getBoolean(VIEW_ENERGY_DRINKS, VIEW_ENERGY_DRINKS_DEFAULT)
+				);
+		}
 	
 	/**
 	 * Method to get CaffeineProduct objects in price range.
 	 */
 	public ArrayList<CaffeineProduct> getCaffeineProductsInPriceRange(double maxPrice){
-		return productsTable.getCaffeineProductsInPriceRange(maxPrice, settings.getString(USER_TYPE, USER_TYPE_DEFAULT));
+		return productsTable.getCaffeineProductsInPriceRange(maxPrice, settings.getString(USER_TYPE, USER_TYPE_DEFAULT),
+				settings.getBoolean(VIEW_COFFEE, VIEW_COFFEE_DEFAULT),
+				settings.getBoolean(VIEW_TEA, VIEW_TEA_DEFAULT),
+				settings.getBoolean(VIEW_SOFT_DRINKS, VIEW_SOFT_DRINKS_DEFAULT),
+				settings.getBoolean(VIEW_ENERGY_DRINKS, VIEW_ENERGY_DRINKS_DEFAULT)
+				);
 	}
 	
 	
@@ -204,11 +232,11 @@ public class AppDataStore implements DataStoreInterface{
 		
 		String a = "";
 		
-//		ArrayList<CaffeineProduct> sources = getCaffeineProductsInPriceRange(2.00);
-//		
-//		for(CaffeineProduct s : sources){
-//			a += s.getName() + " " + s.getPriceType() + " " + s.getPrice() + " " + "\n\n";
-//		}
+		ArrayList<CaffeineProduct> sources = getCaffeineProductsInPriceRange(2.00);
+				
+		for(CaffeineProduct s : sources){
+			a += s.getName() + " " + s.getPriceType() + " " + s.getPrice() + " " + "\n\n";
+		}
 		
 //		ArrayList<CaffeineSource> sources = getCaffeineSourcesForProductName("Red Bull Can");
 //		
@@ -216,12 +244,12 @@ public class AppDataStore implements DataStoreInterface{
 //			a += s.getName() + " " + s.getId() + " " + "\n\n";
 //		}
 		
-		ArrayList<String> types = getAllCaffeineProductTypes();
-		
-		for(String t : types){
-			a += t + "\n\n";
-		}
-		
+//		ArrayList<String> types = getAllCaffeineProductTypes();
+//		
+//		for(String t : types){
+//			a += t + "\n\n";
+//		}
+//		
 		return a;
 	}
 }

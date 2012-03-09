@@ -69,6 +69,11 @@ import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
  * TODO Handle all onCreate, onResume, onPause, onDestory etc.
  * 
  * TODO Backwards Compatibility (http://mobile.tutsplus.com/tutorials/android/android-compatibility-working-with-fragments/)
+ * 	At moment when use compatibility library our app I think can be used by API 11 (Android 3.0). Classes which cause this are:
+ * 		PopupMenu
+ * 		PreferenceFragment
+ * 		ActionBar
+ * 		Tab
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */

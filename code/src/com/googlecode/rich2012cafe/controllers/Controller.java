@@ -1,15 +1,9 @@
 package com.googlecode.rich2012cafe.controllers;
 
-import com.googlecode.rich2012cafe.model.AppDataStore;
-import com.googlecode.rich2012cafe.model.database.CaffeineProductsDataSource;
-import com.googlecode.rich2012cafe.model.database.CaffeineSourcesDataSource;
-import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.preference.PreferenceManager;
 
 public class Controller {
 

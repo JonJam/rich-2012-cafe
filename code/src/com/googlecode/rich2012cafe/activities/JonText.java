@@ -24,8 +24,6 @@ public class JonText extends Activity implements OnClickListener, HomeViewInterf
         
         controller = new DataController(this);
         
-        controller.getAppDataStore().performDatabaseCheck();
-        
         String text = controller.getAppDataStore().test();
         tv.setMovementMethod(new ScrollingMovementMethod());
         tv.setText(text);

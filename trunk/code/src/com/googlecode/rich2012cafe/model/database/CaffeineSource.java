@@ -21,8 +21,11 @@ public class CaffeineSource {
 	private double buildingLong;
 	//Source type
 	private String type;
+	//Whether off(1) or on(0) campus
+	private int offCampus;
 
-	public CaffeineSource(String id, String name, String buildingNumber, String buildingName, double buildingLat, double buildingLong, String type){
+	public CaffeineSource(String id, String name, String buildingNumber, String buildingName, 
+			double buildingLat, double buildingLong, String type, int offCampus){
 		this.id = id;
 		this.name = name;
 		this.buildingNumber = buildingNumber;
@@ -30,6 +33,7 @@ public class CaffeineSource {
 		this.buildingLat = buildingLat;
 		this.buildingLong = buildingLong;
 		this.type = type;
+		this.offCampus = offCampus;
 	}
 	
 	/**
@@ -140,7 +144,7 @@ public class CaffeineSource {
 		this.buildingLong = buildingLong;
 	}	
 	
-	/*
+	/**
 	 * Method to get type of caffeine source
 	 * 
 	 * @return type (String object)
@@ -149,12 +153,30 @@ public class CaffeineSource {
 		return type;
 	}
 
-	/*
+	/**
 	 * Method to set type of caffeine source
 	 * 
 	 * @param type (String object)
 	 */
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	/**
+	 * Method to get offCampus value of caffeine source.
+	 * 
+	 * @return offCampus (int value)
+	 */
+	public int getOffCampus() {
+		return offCampus;
+	}
+
+	/**
+	 * Method to set whether caffeine source off campus.
+	 * 
+	 * @param offCampus (int value)
+	 */
+	public void setOffCampus(int offCampus) {
+		this.offCampus = offCampus;
 	}
 }

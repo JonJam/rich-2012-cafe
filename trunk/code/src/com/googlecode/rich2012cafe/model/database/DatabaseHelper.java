@@ -29,6 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_BUILDING_LAT = "buildingLat";
 	public static final String COLUMN_BUILDING_LONG = "buildingLong";
 	public static final String COLUMN_TYPE = "type";
+	public static final String COLUMN_OFFCAMPUS = "offCampus";
 	
 	public static final String TABLE_OPENING_TIMES = "openingTimes";
 	public static final String COLUMN_OPENING_TIME_ID = "id";
@@ -57,6 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				+ COLUMN_BUILDING_LAT  + " REAL NOT NULL, "
 				+ COLUMN_BUILDING_LONG + " REAL NOT NULL, "
 				+ COLUMN_TYPE + " TEXT NOT NULL, "
+				+ COLUMN_OFFCAMPUS + " INTEGER NOT NULL, "
 				+ "PRIMARY KEY ( " + COLUMN_CAFFEINE_SOURCE_ID + " ) "
 			+");";
 	

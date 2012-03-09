@@ -12,16 +12,19 @@
 	<string name="userPrefSummary">Select the user type, affects the price shown.</string>
     
     <string name="sourceSettingsTitle">Source Settings</string>
-    <string name="sourceSettingsSummary">Select favourite sources and whether to view vending machines.</string>
+    <string name="sourceSettingsSummary">Select whether to view vending machines and off campus sources.</string>
     
 	<string name="viewVendingMachinesTitle">View Vending Machines</string>
 	<string name="viewVendingMachinesSummary">Select to view vending machines.</string>
+	
+	<string name="viewOffCampusTitle">View Off Campus Sources</string>
+	<string name="viewOffCampusSummary">Select to view off campus sources.</string>
 	
 	<string name="favouriteSourcesTitle">Favourite Sources</string>
 	<string name="favouriteSourcesSummary">Select favourite sources.</string>
 	
     <string name="productSettingsTitle">Product Settings</string>
-    <string name="productSettingsSummary">Select favourite products and product types to view.</string>
+    <string name="productSettingsSummary">Select product types to view.</string>
     
 	<string name="productsToViewTitle">Products to View</string>
 	<string name="productsToViewSummary">Select which products to view.</string>

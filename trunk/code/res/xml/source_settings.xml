@@ -7,5 +7,10 @@
                 android:title="@string/viewVendingMachinesTitle"
                 android:summary="@string/viewVendingMachinesSummary"
 	 			android:defaultValue="true" />
+	 	<CheckBoxPreference
+                android:key="viewOffCampus"
+                android:title="@string/viewOffCampusTitle"
+                android:summary="@string/viewOffCampusSummary"
+	 			android:defaultValue="true" />
 	</PreferenceCategory>
 </PreferenceScreen>

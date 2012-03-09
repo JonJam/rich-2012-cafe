@@ -31,14 +31,7 @@ import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
  * 
  	*   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
  	*   May need to change getCaffeineProductsinPriceRange
- *
- * TODO Adjust SPARQLQuerier to sort out blanks in field for source: (SAMI)
- * 			Edit query or try strip out name from ID where this occurs.
  * 
- * TODO Add column into DB for Source: In campus / on campus. (SAMI / JON)
- * 		boolean value (0 / 1) 
- * 		Setting include on and off campus values.
-
  * 
  * How Settings affect View / Queries.
  * ===================================
@@ -47,11 +40,15 @@ import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
  *  			Functions in AppDataStore effected:
  *  				getCaffeineProductsForCaffeineSource (Get Products for user type either student or staff or all)
  *    
- *  		Display Vending Machine: (QUERIES COMPLETE)
+ *  		Display Vending Machines: (QUERIES COMPLETE)
  *  			Functions in AppDataStore effected:
  *  				getAllCaffeineSources (Get point of sale and if applicable vending machine sources)
  *  				getCaffeineSourcesForProductName (Get point of sale and if applicable vending machine sources)
- *  	
+ *  
+ *  		Display Off Campus Locations: (QUERIES COMPLETE)
+ *  				getAllCaffeineSources (Get off campus if applicable)
+ *  				getCaffeineSourcesForProductName (Get off campus if applicable)
+ *  
  *  		Product Types: (QUERIES COMPLETE)
  *  			Only show products that are types.
  * 
@@ -61,6 +58,7 @@ import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
  *  				getCaffeineProductsForProductType (Inherits blocking from previous)
  *  			getCaffeineProductsForCaffeineSource (Only show products that are of wanted type)
  *  			getCaffeineProductsInPriceRange (Only show products that are of wanted type)
+ *  
  * 
  * TODO Add loading overlay (blocking off functionality) whilst performing database check.
  * 
@@ -69,6 +67,8 @@ import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
  * TODO MVC layout
  * 
  * TODO Handle all onCreate, onResume, onPause, onDestory etc.
+ * 
+ * TODO Backwards Compatibility (http://mobile.tutsplus.com/tutorials/android/android-compatibility-working-with-fragments/)
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */

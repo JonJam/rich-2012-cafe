@@ -1,0 +1,32 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX sr: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>
+PREFIX purl: <http://purl.org/goodrelations/v1#>
+PREFIX rooms: <http://vocab.deri.ie/rooms#>
+PREFIX pos: <http://id.southampton.ac.uk/generic-products-and-services/>
+  
+SELECT DISTINCT ?poscaffeine ?SOURCE_ID ?SOURCE_NAME ?SOURCE_BUILDING_ID ?SOURCE_BUILDING_NAME 
+?SOURCE_BUILDING_LAT ?SOURCE_BUILDING_LONG WHERE {
+  
+{
+        ?poscaffeine purl:includes pos:Caffeine .
+        ?poscaffeine purl:availableAtOrFrom ?SOURCE_ID.
+        ?SOURCE_ID rdfs:label ?SOURCE_NAME .
+  
+        ?SOURCE_ID sr:within ?building .
+        ?building a rooms:Building ; rdfs:label ?SOURCE_BUILDING_NAME .
+        ?building skos:notation ?SOURCE_BUILDING_ID .
+        ?building geo:lat ?SOURCE_BUILDING_LAT; geo:long ?SOURCE_BUILDING_LONG
+} 
+
+UNION
+{
+        ?poscaffeine purl:includes pos:Caffeine .
+        ?poscaffeine purl:availableAtOrFrom ?SOURCE_ID.
+        ?SOURCE_ID rdfs:label ?SOURCE_NAME .
+        ?SOURCE_ID rdfs:label ?SOURCE_BUILDING_NAME .
+        ?SOURCE_ID geo:lat ?SOURCE_BUILDING_LAT; geo:long ?SOURCE_BUILDING_LONG .
+  
+}
+}

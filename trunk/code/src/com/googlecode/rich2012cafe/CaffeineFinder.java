@@ -38,8 +38,7 @@ import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
  * TODO Add column into DB for Source: In campus / on campus. (SAMI / JON)
  * 		boolean value (0 / 1) 
  * 		Setting include on and off campus values.
- * 
- * TODO TEST ALL QUERIES WITH SETTINGS
+
  * 
  * How Settings affect View / Queries.
  * ===================================
@@ -90,9 +89,15 @@ public class CaffeineFinder extends Activity implements OnClickListener{
         this.getViewMapButton().setOnClickListener(this);
         this.getSparqlButton().setOnClickListener(this);
         this.getuiButton().setOnClickListener(this);
-        
+                
         //Set default preferences
-        setPreferences();
+        setDefaultPreferences();
+    }
+	
+    private void setDefaultPreferences(){
+        PreferenceManager.setDefaultValues(this, R.xml.user_settings, true);
+        PreferenceManager.setDefaultValues(this, R.xml.source_settings, true);
+        PreferenceManager.setDefaultValues(this, R.xml.product_settings, true);
     }
     
     private Button getViewMapButton() {
@@ -106,13 +111,7 @@ public class CaffeineFinder extends Activity implements OnClickListener{
     private Button getSparqlButton() {
         return (Button)findViewById(R.id.sparqlButton);
     }
-    
-    private void setPreferences(){
-        PreferenceManager.setDefaultValues(this, R.xml.user_settings, true);
-        PreferenceManager.setDefaultValues(this, R.xml.source_settings, true);
-        PreferenceManager.setDefaultValues(this, R.xml.product_settings, true);
-    }
-    
+        
     public void onClick(View view) {
 
         if (view.getId() == R.id.viewMap) {

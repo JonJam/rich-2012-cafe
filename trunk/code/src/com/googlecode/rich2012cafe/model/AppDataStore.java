@@ -57,6 +57,8 @@ public class AppDataStore implements DataStoreInterface{
 		
 		openDataSourceConnections();
 		instance = this;
+		
+        performDatabaseCheck();
 	}
 
 	public static AppDataStore getInstance(Context context){
@@ -120,7 +122,7 @@ public class AppDataStore implements DataStoreInterface{
 	 * either conditions are not met then the appropriate actions are taken by calling 
 	 * insertLinkedDataIntoDatabase.
 	 */
-	public void performDatabaseCheck(){
+	private void performDatabaseCheck(){
 				
 		if(sourcesTable.getAllCaffeineSources(settings.getBoolean(VIEW_VENDING, VIEW_VENDING_DEFAULT)).size() == 0){
 			//No results in database so fill with data.

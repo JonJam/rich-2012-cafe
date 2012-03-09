@@ -18,7 +18,10 @@ public class CaffeineSourcesDataSource{
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
 
-	private static final String VENDING_MACHINE_TYPE = "Vending Machine";
+	private static final String VENDING_MACHINE_WHERE = "type != 'Vending Machine'";
+	private static final String OFF_CAMPUS_WHERE = "offCampus = 0";
+	private static final String AND = " AND ";
+	private static final String WHERE = "WHERE ";
 	
 	public CaffeineSourcesDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -55,6 +58,7 @@ public class CaffeineSourcesDataSource{
 		values.put(DatabaseHelper.COLUMN_BUILDING_LAT , caffeineSource.getBuildingLat());
 		values.put(DatabaseHelper.COLUMN_BUILDING_LONG , caffeineSource.getBuildingLong());
 		values.put(DatabaseHelper.COLUMN_TYPE , caffeineSource.getType());
+		values.put(DatabaseHelper.COLUMN_OFFCAMPUS , caffeineSource.getOffCampus());
 		
 		database.insert(DatabaseHelper.TABLE_CAFFEINE_SOURCES, null, values);
 	}
@@ -65,27 +69,34 @@ public class CaffeineSourcesDataSource{
 	 * @param viewVendingMachines (boolean value)
 	 * @return ArrayList of CaffeineSource objects.
 	 */
-	public ArrayList<CaffeineSource> getAllCaffeineSources(boolean viewVendingMachines) {
+	public ArrayList<CaffeineSource> getAllCaffeineSources(boolean viewVendingMachines, boolean viewOffCampus) {
 		
 		ArrayList<CaffeineSource> caffeineSources = new ArrayList<CaffeineSource>();
 		
 		Cursor cursor;
 		
-		if(viewVendingMachines){
-			//Include vending machine locations
-			cursor = database.rawQuery("SELECT * FROM caffeineSources ORDER BY buildingNumber ASC", new String[] {});
-		} else {
-			//Don't include vending machine locations.
-			cursor = database.rawQuery("SELECT * FROM caffeineSources WHERE type != ? ORDER BY" 
-					+" buildingNumber ASC", new String[] {VENDING_MACHINE_TYPE});
+		String whereClause = "";
+		
+		if(!viewVendingMachines){
+			whereClause += VENDING_MACHINE_WHERE;
 		}
+		
+		if(!viewOffCampus){
+			if(!whereClause.equals("")) whereClause += AND;
+			whereClause +=  OFF_CAMPUS_WHERE;
+		}
+		
+	
+		cursor = database.rawQuery("SELECT * FROM caffeineSources " 
+				+ (whereClause.equals("") ? "" : WHERE + whereClause)
+				+ " ORDER BY buildingNumber ASC", new String[] {});
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			//Iterate through table and create FavouriteCaffeineSource objects.
 			
 			CaffeineSource source = new CaffeineSource(cursor.getString(0) , cursor.getString(1) , cursor.getString(2) , 
-					cursor.getString(3) , cursor.getDouble(4) , cursor.getDouble(5), cursor.getString(6));
+					cursor.getString(3) , cursor.getDouble(4) , cursor.getDouble(5), cursor.getString(6), cursor.getInt(7));
 			
 			caffeineSources.add(source);
 			cursor.moveToNext();
@@ -103,20 +114,37 @@ public class CaffeineSourcesDataSource{
 	 * @param viewVendingMachines (boolean value)
 	 * @return ArrayList of CaffeineSource objects.
 	 */
-	public ArrayList<CaffeineSource> getCaffeineSources(ArrayList<String> ids, boolean viewVendingMachines) {
+	public ArrayList<CaffeineSource> getCaffeineSources(ArrayList<String> ids, boolean viewVendingMachines, 
+			boolean viewOffCampus) {
 		
 		ArrayList<CaffeineSource> caffeineSources = new ArrayList<CaffeineSource>();
 		
 		for(String id: ids){
 			
 			Cursor cursor;
+
+			String whereClause = "";
+			
+			if(!viewVendingMachines){
+				whereClause += VENDING_MACHINE_WHERE;
+			}
+			
+			if(!viewOffCampus){
+				if(!whereClause.equals("")) whereClause += AND;
+				whereClause +=  OFF_CAMPUS_WHERE;
+			}
+			
+		
+			cursor = database.rawQuery("SELECT * FROM caffeineSources WHERE " 
+					+ "id = ? "
+					+ (whereClause.equals("") ? "" : AND + whereClause), new String[] {id});
 			
 			if(viewVendingMachines){
 				//Include vending machine locations
 				cursor = database.rawQuery("SELECT * FROM caffeineSources WHERE id = ?", new String[]{id});
 			} else {
 				//Don't include vending machine locations.
-				cursor = database.rawQuery("SELECT * FROM caffeineSources WHERE id = ? AND type != ? ", new String[] {id, VENDING_MACHINE_TYPE});
+				cursor = database.rawQuery("SELECT * FROM caffeineSources WHERE id = ? AND type != ? ", new String[] {id, "Vending Machine"});
 			}
 			
 			cursor.moveToFirst();
@@ -125,7 +153,7 @@ public class CaffeineSourcesDataSource{
 				//Iterate through table and create CaffeineSource objects.
 				
 				CaffeineSource source = new CaffeineSource(cursor.getString(0) , cursor.getString(1) , cursor.getString(2) , 
-						cursor.getString(3) , cursor.getDouble(4) , cursor.getDouble(5), cursor.getString(6));
+						cursor.getString(3) , cursor.getDouble(4) , cursor.getDouble(5), cursor.getString(6), cursor.getInt(7));
 				
 				caffeineSources.add(source);
 				cursor.moveToNext();

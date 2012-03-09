@@ -6,6 +6,7 @@ import java.util.Collections;
 import android.R;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -34,6 +35,9 @@ public class AppDataStore implements DataStoreInterface{
 	private static final String VIEW_VENDING = "viewVendingMachines";
 	private static final boolean VIEW_VENDING_DEFAULT = true;
 	
+	private static final String VIEW_OFF_CAMPUS = "viewOffCampus";
+	private static final boolean VIEW_OFF_CAMPUS_DEFAULT = true;
+	
 	private static final String VIEW_COFFEE = "viewCoffee";
 	private static final boolean VIEW_COFFEE_DEFAULT = true;
 
@@ -58,9 +62,23 @@ public class AppDataStore implements DataStoreInterface{
 		openDataSourceConnections();
 		instance = this;
 		
-        performDatabaseCheck();
+		DatabaseCheck dc = new DatabaseCheck();
+		dc.execute();
 	}
 
+	 /**
+     * Asynchronous task to perform database check which may involve network activity.
+     * 
+     */
+    private class DatabaseCheck extends AsyncTask<Void, Void, Void>{
+            
+        @Override
+        protected Void doInBackground(Void... params) {
+                performDatabaseCheck();
+                return null;
+        }
+    }
+	
 	public static AppDataStore getInstance(Context context){
 		if(instance == null){
 			instance = new AppDataStore(
@@ -124,7 +142,9 @@ public class AppDataStore implements DataStoreInterface{
 	 */
 	private void performDatabaseCheck(){
 				
-		if(sourcesTable.getAllCaffeineSources(settings.getBoolean(VIEW_VENDING, VIEW_VENDING_DEFAULT)).size() == 0){
+		if(sourcesTable.getAllCaffeineSources(
+				settings.getBoolean(VIEW_VENDING, VIEW_VENDING_DEFAULT),
+				settings.getBoolean(VIEW_OFF_CAMPUS, VIEW_OFF_CAMPUS_DEFAULT)).size() == 0){
 			//No results in database so fill with data.
 			
 			insertLinkedDataIntoDatabase();
@@ -147,7 +167,8 @@ public class AppDataStore implements DataStoreInterface{
 	 */
 	public ArrayList<CaffeineSource> getAllCaffeineSources(){
 		
-		return sourcesTable.getAllCaffeineSources(settings.getBoolean(VIEW_VENDING, VIEW_VENDING_DEFAULT));
+		return sourcesTable.getAllCaffeineSources(settings.getBoolean(VIEW_VENDING, VIEW_VENDING_DEFAULT),
+				settings.getBoolean(VIEW_OFF_CAMPUS, VIEW_OFF_CAMPUS_DEFAULT));
 	}
 	
 	/**
@@ -194,7 +215,9 @@ public class AppDataStore implements DataStoreInterface{
 	 */
 	public ArrayList<CaffeineSource> getCaffeineSourcesForProductName(String productName) {
 		ArrayList<String> ids = productsTable.getCaffeineSourceIdsForProductName(productName);
-		return sourcesTable.getCaffeineSources(ids,settings.getBoolean("viewVendingMachines", true));
+		return sourcesTable.getCaffeineSources(ids,
+				settings.getBoolean(VIEW_VENDING,VIEW_VENDING_DEFAULT),
+				settings.getBoolean(VIEW_OFF_CAMPUS, VIEW_OFF_CAMPUS_DEFAULT));
 	}
 	
 	/**
@@ -239,18 +262,19 @@ public class AppDataStore implements DataStoreInterface{
 	public String test(){
 		
 		String a = "";
-		
-		ArrayList<CaffeineProduct> sources = getCaffeineProductsInPriceRange(1.20);
-				
-		for(CaffeineProduct s : sources){
-			a += s.getName() + " " + s.getProductType() + " " + s.getPriceType()+ "\n\n";
-		}
-		
-//		ArrayList<CaffeineSource> sources = getCaffeineProductsForProductType("Coffee");
+//		
+//		ArrayList<CaffeineProduct> sources = getCaffeineProductsInPriceRange(1.20);
 //				
-//		for(CaffeineSource s : sources){
-//			a += s.getName() + " " + s.getType() + " " + "\n\n";
+//		for(CaffeineProduct s : sources){
+//			a += s.getName() + " " + s.getProductType() + " " + s.getPriceType()+ "\n\n";
 //		}
+		
+		ArrayList<CaffeineSource> sources = getCaffeineSourcesForProductName("Red Bull Can");
+				
+		for(CaffeineSource s : sources){
+			a += s.getName() + " " + s.getType() + " " 
+					+ s.getOffCampus() + "\n\n";
+		}
 		
 //		ArrayList<String> types = 
 //		

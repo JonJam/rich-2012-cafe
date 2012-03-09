@@ -29,15 +29,15 @@ public class JonText extends Activity implements OnClickListener, HomeViewInterf
         tv.setText(text);
     }
     
-	protected void onResume() {
-		controller.getAppDataStore().openDataSourceConnections();
-		super.onResume();
-	}
-
-	protected void onPause() {
-		controller.getAppDataStore().closeDataSourceConnections();
-		super.onPause();
-	}
+//	protected void onResume() {
+//		controller.getAppDataStore().openDataSourceConnections();
+//		super.onResume();
+//	}
+//
+//	protected void onPause() {
+//		controller.getAppDataStore().closeDataSourceConnections();
+//		super.onPause();
+//	}
 	    
 	@Override
 	public void onClick(View v) {

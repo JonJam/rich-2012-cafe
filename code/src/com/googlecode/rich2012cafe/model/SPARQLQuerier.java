@@ -50,25 +50,30 @@ public class SPARQLQuerier {
 	
 	//Queries
 	private static final String CAFFEINE_SOURCES_QUERY = "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>"
-			+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-			+ "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>"
-			+ "PREFIX sr: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>"
-			+ "PREFIX purl: <http://purl.org/goodrelations/v1#>"
-			+ "PREFIX rooms: <http://vocab.deri.ie/rooms#>"
-			+ "PREFIX pos: <http://id.southampton.ac.uk/generic-products-and-services/>"
-			+ "SELECT DISTINCT ?" + SOURCE_ID + " ?" + SOURCE_NAME + " ?" + SOURCE_BUILDING_ID + " ?" + SOURCE_BUILDING_NAME 
-			+ " ?"+ SOURCE_BUILDING_LAT + " ?" + SOURCE_BUILDING_LONG + " WHERE {"
-				+ "?poscaffeine purl:includes pos:Caffeine ."
-				+ "?poscaffeine purl:availableAtOrFrom ?" + SOURCE_ID + " ."
-				+ "OPTIONAL {"
-					+ "?" + SOURCE_ID + " rdfs:label ?" + SOURCE_NAME + " ."
-					+ "?" + SOURCE_ID + " sr:within ?building ."
-					+ "?building a rooms:Building ; rdfs:label ?" + SOURCE_BUILDING_NAME + " ."
-					+ "OPTIONAL { ?building skos:notation ?" + SOURCE_BUILDING_ID+ " }"
-					+ "OPTIONAL { ?building geo:lat ?" + SOURCE_BUILDING_LAT + " ; geo:long ?"+ SOURCE_BUILDING_LONG + " }"
-				+ "}"
-				+ "OPTIONAL { ?" + SOURCE_ID + " geo:lat ?" + SOURCE_BUILDING_LAT + " ; geo:long ?"+ SOURCE_BUILDING_LONG + " }"
-			+ "}";
+			+ " PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+			+ " PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>"
+			+ " PREFIX sr: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/>"
+			+ " PREFIX purl: <http://purl.org/goodrelations/v1#>"
+			+ " PREFIX rooms: <http://vocab.deri.ie/rooms#>"
+			+ " PREFIX pos: <http://id.southampton.ac.uk/generic-products-and-services/>"
+			+ " SELECT DISTINCT ?" + SOURCE_ID + " ?" + SOURCE_NAME + " ?" + SOURCE_BUILDING_ID + " ?" + SOURCE_BUILDING_NAME
+			+ " ?" + SOURCE_BUILDING_LAT + " ?" + SOURCE_BUILDING_LONG + " WHERE {"
+				+ " {"
+					+ " ?poscaffeine purl:includes pos:Caffeine ."
+					+ " ?poscaffeine purl:availableAtOrFrom ?" + SOURCE_ID + " ."
+					+ " ?" + SOURCE_ID + " rdfs:label ?" + SOURCE_NAME + " ."
+					+ " ?" + SOURCE_ID + " sr:within ?building ."
+					+ " ?building a rooms:Building ; rdfs:label ?" + SOURCE_BUILDING_NAME + " ."
+					+ " ?building skos:notation ?" + SOURCE_BUILDING_ID + " ."
+					+ " ?building geo:lat ?" + SOURCE_BUILDING_LAT + " ; geo:long ?" + SOURCE_BUILDING_LONG
+				+ " } UNION {"
+					+ " ?poscaffeine purl:includes pos:Caffeine ."
+					+ " ?poscaffeine purl:availableAtOrFrom ?" + SOURCE_ID + " ."
+					+ " ?" + SOURCE_ID + " rdfs:label ?" + SOURCE_NAME + " ."
+					+ " ?" + SOURCE_ID + " rdfs:label ?" + SOURCE_BUILDING_NAME + " ."
+					+ " ?" + SOURCE_ID + " geo:lat ?" + SOURCE_BUILDING_LAT + " ; geo:long ?" + SOURCE_BUILDING_LONG + " ."
+				+ " }"
+			+ " }";
 	
 	private static final String OPENING_TIMES_QUERY1 = "PREFIX gr: <http://purl.org/goodrelations/v1#>"
 			+ "PREFIX xs: <http://www.w3.org/2001/XMLSchema#>"
@@ -142,18 +147,8 @@ public class SPARQLQuerier {
             QuerySolution solution = caffeineSourcesResults.next();
             
             String id = solution.getResource(SOURCE_ID).getURI();
-            
-            RDFNode name = solution.get(SOURCE_NAME);
-            RDFNode buildingNumber = solution.get(SOURCE_BUILDING_ID);
-            RDFNode buildingName = solution.get(SOURCE_BUILDING_NAME);
-            RDFNode buildingLat = solution.get(SOURCE_BUILDING_LAT);
-            RDFNode buildingLong = solution.get(SOURCE_BUILDING_LONG);
-            
-            if(buildingLat == null || buildingLong == null){
-            	//If there is no position data or incomplete position data then throw away 
-            	continue;
-            }
-        	
+            String buildingNumber;
+            int offCampus;
             String type;
             
             if(id.contains("vending-machine")){
@@ -166,12 +161,24 @@ public class SPARQLQuerier {
             	type = POS_TYPE;
             }
             
+            if(solution.get(SOURCE_BUILDING_ID) == null){
+            	//No building number so set as off campus
+            	
+            	buildingNumber = "N/A";
+            	offCampus = 1;
+            } else{
+            	//Building number so set as on campus
+            	
+            	buildingNumber = solution.getLiteral(SOURCE_BUILDING_ID).getString();
+            	offCampus = 0;
+            }
+            
             CaffeineSource source = new CaffeineSource(id, 
-            		(name == null ? "" : solution.getLiteral(SOURCE_NAME).getString()), 
-            		(buildingNumber == null ? "" : solution.getLiteral(SOURCE_BUILDING_ID).getString()), 
-            		(buildingName == null ? "" : solution.getLiteral(SOURCE_BUILDING_NAME).getString()), 
+            		solution.getLiteral(SOURCE_NAME).getString(), 
+            		buildingNumber, 
+            		solution.getLiteral(SOURCE_BUILDING_NAME).getString(), 
             		solution.getLiteral(SOURCE_BUILDING_LAT).getDouble(), 
-            		solution.getLiteral(SOURCE_BUILDING_LONG).getDouble(), type);
+            		solution.getLiteral(SOURCE_BUILDING_LONG).getDouble(), type, offCampus);
             sources.add(source);
 
         }

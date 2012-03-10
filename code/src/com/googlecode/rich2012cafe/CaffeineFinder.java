@@ -1,16 +1,14 @@
 package com.googlecode.rich2012cafe;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
-import com.googlecode.rich2012cafe.activities.GoogleMap;
 import com.googlecode.rich2012cafe.activities.JonText;
+import com.googlecode.rich2012cafe.activities.MapView;
 import com.googlecode.rich2012cafe.activities.UserInterface;
 import com.googlecode.rich2012cafe.model.AppDataStore;
 import com.googlecode.rich2012cafe.model.database.CaffeineProductsDataSource;
@@ -120,7 +118,7 @@ public class CaffeineFinder extends Activity implements OnClickListener{
     public void onClick(View view) {
 
         if (view.getId() == R.id.viewMap) {
-        	Intent intent = new Intent(view.getContext(), GoogleMap.class);
+        	Intent intent = new Intent(view.getContext(), MapView.class);
         	this.startActivity(intent);
         }  else if (view.getId() == R.id.sparqlButton) {
         	Intent intent = new Intent(view.getContext(), JonText.class);

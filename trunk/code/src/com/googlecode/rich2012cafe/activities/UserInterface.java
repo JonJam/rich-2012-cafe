@@ -1,10 +1,5 @@
 package com.googlecode.rich2012cafe.activities;
 
-import com.googlecode.rich2012cafe.R;
-import com.googlecode.rich2012cafe.controllers.UserInterfaceController;
-import com.googlecode.rich2012cafe.view.ActionTabListener;
-import com.googlecode.rich2012cafe.view.MapFragment;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -12,6 +7,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import com.googlecode.rich2012cafe.R;
+import com.googlecode.rich2012cafe.controllers.UserInterfaceController;
+import com.googlecode.rich2012cafe.view.ActionTabListener;
+import com.googlecode.rich2012cafe.view.MapFragment;
 
 public class UserInterface extends Activity {
 
@@ -52,7 +51,7 @@ public class UserInterface extends Activity {
         		  Intent intent;
                   switch (position) {
 		        	  case 1:
-		                  intent = new Intent(this, GoogleMap.class);
+		                  intent = new Intent(this, MapView.class);
 		                  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		                  startActivity(intent);
 		                  return true;
@@ -71,7 +70,7 @@ public class UserInterface extends Activity {
         tabHost.setup();
         
         TabHost.TabSpec mapSpec = tabHost.newTabSpec("Map");
-        mapSpec.setContent(new Intent(this, GoogleMap.class));
+        mapSpec.setContent(new Intent(this, MapView.class));
         mapSpec.setIndicator("Map");
         
         TabHost.TabSpec buildSpec = tabHost.newTabSpec("Locations");

@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.GoogleMap" android:label="@string/map_act"
+        <activity android:name=".activities.MapView" android:label="@string/map_act"
                   android:theme="@android:style/Theme.Holo">
 
          </activity>

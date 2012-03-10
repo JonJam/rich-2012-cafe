@@ -1,5 +1,6 @@
 package com.googlecode.rich2012cafe.view;
 
+import android.location.Location;
 import com.google.android.maps.MapView;
 
 /**
@@ -10,5 +11,7 @@ import com.google.android.maps.MapView;
 public interface MapViewInterface {
 
     public MapView getMapView();
+
+    public void handleLocationChanged(Location location);
 
 }

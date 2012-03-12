@@ -22,12 +22,6 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * 3. Add -partition-size 1024 to run configurations for application.
  * 4. Add custom debug keystore to Android build configuration. 
  * 
- * TODO Implement queries and adjust as others need (See DataStoreInterface):
- * 
- 	*   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
- 	*   May need to change getCaffeineProductsinPriceRange
- * 
- * 
  * How Settings affect View / Queries.
  * ===================================
  * 
@@ -54,7 +48,11 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  *  			getCaffeineProductsForCaffeineSource (Only show products that are of wanted type)
  *  			getCaffeineProductsInPriceRange (Only show products that are of wanted type)
  *  
+ * TODO Implement queries and adjust as others need (See DataStoreInterface):
  * 
+ *   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
+ *   May need to change getCaffeineProductsinPriceRange
+ *   
  * TODO Add loading overlay (blocking off functionality) whilst performing database check.
  * 
  * TODO Find way of doing database check and installation of data when install app. (Takes 1 min to download all data on my machine)
@@ -64,11 +62,17 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * TODO Handle all onCreate, onResume, onPause, onDestory etc.
  * 
  * TODO Backwards Compatibility (http://mobile.tutsplus.com/tutorials/android/android-compatibility-working-with-fragments/)
- * 	At moment when use compatibility library our app I think can be used by API 11 (Android 3.0). Classes which cause this are:
+ * 	At moment when use compatibility library our app I think can be used by API 13. Classes which cause this are:
  * 		PopupMenu
  * 		PreferenceFragment
  * 		ActionBar
  * 		Tab
+ * 
+ * TODO Alter settings to remove PreferenceFragments so all in one view and compatiblity (ASSIGNED TO: T)
+ * TODO Overlay map of locations (ASSIGNED TO: Craig)
+ * TODO Sort out Actionbar compatibility (ASSSIGNED TO: Mike)
+ * TODO Research Sections of Document (ASSIGNED TO: Costello)
+ * TODO Project Tools, Techniques, Future Work of Document (ASSIGNED TO: Sami)
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */

@@ -11,9 +11,6 @@ import com.googlecode.rich2012cafe.activities.JonText;
 import com.googlecode.rich2012cafe.activities.MapView;
 import com.googlecode.rich2012cafe.activities.UserInterface;
 import com.googlecode.rich2012cafe.model.AppDataStore;
-import com.googlecode.rich2012cafe.model.database.CaffeineProductsDataSource;
-import com.googlecode.rich2012cafe.model.database.CaffeineSourcesDataSource;
-import com.googlecode.rich2012cafe.model.database.OpeningTimesDataSource;
 
 /**
  * N.B. In running and developing application:
@@ -83,11 +80,7 @@ public class CaffeineFinder extends Activity implements OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        appDataStore = new AppDataStore(
-				new CaffeineSourcesDataSource(this), 
-				new OpeningTimesDataSource(this), 
-				new CaffeineProductsDataSource(this),
-				PreferenceManager.getDefaultSharedPreferences(this));
+        appDataStore = AppDataStore.getInstance(this);
         
         this.getViewMapButton().setOnClickListener(this);
         this.getSparqlButton().setOnClickListener(this);

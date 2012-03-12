@@ -18,17 +18,13 @@ public class CustomLocationListener implements LocationListener {
         this.activity = activity;
     }
 
-    @Override
     public void onLocationChanged(Location location) {
         activity.handleLocationChanged(location);
     }
 
-    @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {}
 
-    @Override
     public void onProviderEnabled(String s) {}
 
-    @Override
     public void onProviderDisabled(String s) {}
 }

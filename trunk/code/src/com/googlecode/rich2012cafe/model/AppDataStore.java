@@ -1,17 +1,13 @@
 package com.googlecode.rich2012cafe.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import android.R;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
 import com.googlecode.rich2012cafe.model.database.*;
 import com.googlecode.rich2012cafe.model.interfaces.DataStoreInterface;
+
+import java.util.ArrayList;
 
 /**
  * Class which contains connections to all data associated with the application. Including:
@@ -50,7 +46,7 @@ public class AppDataStore implements DataStoreInterface{
 	private static final String VIEW_ENERGY_DRINKS = "viewEnergyDrinks";
 	private static final boolean VIEW_ENERGY_DRINKS_DEFAULT = true;
 
-	public AppDataStore(CaffeineSourcesDataSource sourcesTable, OpeningTimesDataSource openingTimesTable, 
+	private AppDataStore(CaffeineSourcesDataSource sourcesTable, OpeningTimesDataSource openingTimesTable,
 			CaffeineProductsDataSource productsTable, SharedPreferences settings){
 		
 		this.sourcesTable = sourcesTable;
@@ -79,18 +75,18 @@ public class AppDataStore implements DataStoreInterface{
         }
     }
 	
-	public static AppDataStore getInstance(Context context){
-		if(instance == null){
+	public static AppDataStore getInstance(Context context) {
+		if (instance == null) {
+
 			instance = new AppDataStore(
 					new CaffeineSourcesDataSource(context), 
 					new OpeningTimesDataSource(context), 
 					new CaffeineProductsDataSource(context),
 					PreferenceManager.getDefaultSharedPreferences(context));
-		}else{
-			Log.e("storage", "successful get instance");
 		}
 		return instance;
 	}
+
 	/**
 	 * Method to open connections to the data source objects.
 	 */

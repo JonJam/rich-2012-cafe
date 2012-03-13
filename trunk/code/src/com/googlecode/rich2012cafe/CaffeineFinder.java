@@ -74,6 +74,9 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * TODO Research Sections of Document (ASSIGNED TO: Costello)
  * TODO Project Tools, Techniques, Future Work of Document (ASSIGNED TO: Sami)
  * 
+ * TODO Locations option in UI displays same info for multiple items. Think may need to change SPARQL query or what locations tab uses.
+ * 
+ * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */
 public class CaffeineFinder extends Activity implements OnClickListener{

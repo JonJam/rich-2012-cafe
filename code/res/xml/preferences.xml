@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:threefiftyprefs="http://schemas.android.com/apk/res/com.googlecode.rich2012cafe"
+        android:id="@+id/prefs_screen"
+        android:key="preferencescreen"
+    >
+    <PreferenceCategory android:title="User Settings">
+              <ListPreference
+                        android:title="User Type"
+                        android:summary="Select the user type, affects the price shown."
+                        android:key="userPref"
+                        android:defaultValue="Student"
+                        android:entries="@array/usertype"
+                        android:entryValues="@array/usertype" />
+        </PreferenceCategory>
+
+                <PreferenceCategory android:title="@string/productsToViewTitle">
+        	<com.googlecode.rich2012cafe.activities.ListPreferenceMultiSelect 
+		threefiftyprefs:checkAll="check" threefiftyprefs:separator="|"
+		android:defaultValue="All"
+	    android:key="pref_product_sources"
+	    android:title="@string/productsToViewTitle" android:dialogTitle="@string/productsToViewTitle"
+	    android:summary="@string/productsToViewSummary"
+	    android:entries="@array/producttype"
+	    android:entryValues="@array/producttype"/>
+		</PreferenceCategory>
+		    <PreferenceCategory android:title="@string/sourceSettingsTitle">
+	 	<CheckBoxPreference
+                android:key="viewVendingMachines"
+                android:title="@string/viewVendingMachinesTitle"
+                android:summary="@string/viewVendingMachinesSummary"
+	 			android:defaultValue="true" />
+	 	<CheckBoxPreference
+                android:key="viewOffCampus"
+                android:title="@string/viewOffCampusTitle"
+                android:summary="@string/viewOffCampusSummary"
+	 			android:defaultValue="true" />
+	</PreferenceCategory>
+</PreferenceScreen>
+

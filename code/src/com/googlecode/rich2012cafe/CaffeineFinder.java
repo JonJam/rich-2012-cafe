@@ -65,8 +65,9 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * 
  * TODO Locations option in UI displays same info for multiple items. Think may need to change SPARQL query or what locations tab uses.
  * 
- * TODO NEW APP FEATURES - Add logging and getting University Timetable information
- * TODO NEW APP FEATURES - Create database on permanant system to store leaderboards
+ * TODO NEW APP FEATURES - Add logging and getting University Timetable information (JON - Emailed guy who wrote iSoton after speaking to Ash to
+ * find out how done it)
+ * TODO NEW APP FEATURES - Create database on permanent system to store leaderboards
  * TODO NEW APP FEATURES - Find research in order to be able to calculate caffeine levels and requirements etc.
  * TODO NEW APP FEATURES - Work out scoring system.
  * TODO NEW APP FEATURES - Notifications / Alerts

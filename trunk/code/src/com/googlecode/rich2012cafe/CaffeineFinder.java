@@ -61,21 +61,25 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * 
  * TODO Handle all onCreate, onResume, onPause, onDestory etc.
  * 
- * TODO Backwards Compatibility (http://mobile.tutsplus.com/tutorials/android/android-compatibility-working-with-fragments/)
- * 	At moment when use compatibility library our app I think can be used by API 13. Classes which cause this are:
- * 		PopupMenu
- * 		PreferenceFragment
- * 		ActionBar
- * 		Tab
+ * TODO Backwards Compatibility
  * 
+ * TODO Locations option in UI displays same info for multiple items. Think may need to change SPARQL query or what locations tab uses.
+ * 
+ * TODO NEW APP FEATURES - Add logging and getting University Timetable information
+ * TODO NEW APP FEATURES - Create database on permanant system to store leaderboards
+ * TODO NEW APP FEATURES - Find research in order to be able to calculate caffeine levels and requirements etc.
+ * TODO NEW APP FEATURES - Work out scoring system.
+ * TODO NEW APP FEATURES - Notifications / Alerts
+ * 
+ * CURRENT TASKS
+ * =============
  * TODO Alter settings to remove PreferenceFragments so all in one view and compatiblity (ASSIGNED TO: T)
+ * 		- Check all settings still work when makes changes and affect db queries appropiatly.
+ * 		- Remove redundant XML files.
  * TODO Overlay map of locations (ASSIGNED TO: Craig)
  * TODO Sort out Actionbar compatibility (ASSSIGNED TO: Mike)
  * TODO Research Sections of Document (ASSIGNED TO: Costello)
  * TODO Project Tools, Techniques, Future Work of Document (ASSIGNED TO: Sami)
- * 
- * TODO Locations option in UI displays same info for multiple items. Think may need to change SPARQL query or what locations tab uses.
- * 
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */

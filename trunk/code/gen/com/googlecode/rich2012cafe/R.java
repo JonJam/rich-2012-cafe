@@ -10,9 +10,26 @@ package com.googlecode.rich2012cafe;
 public final class R {
     public static final class array {
         public static final int menulist=0x7f050001;
+        public static final int producttype=0x7f050002;
         public static final int usertype=0x7f050000;
     }
     public static final class attr {
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int checkAll=0x7f010000;
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int separator=0x7f010001;
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
@@ -22,13 +39,14 @@ public final class R {
     }
     public static final class id {
         public static final int aboutButton=0x7f080004;
-        public static final int loc_menu_fav=0x7f08000b;
-        public static final int loc_menu_map=0x7f080009;
-        public static final int loc_menu_prod=0x7f08000a;
+        public static final int loc_menu_fav=0x7f08000c;
+        public static final int loc_menu_map=0x7f08000a;
+        public static final int loc_menu_prod=0x7f08000b;
         public static final int mapview=0x7f080003;
-        public static final int menu_search=0x7f080007;
+        public static final int menu_search=0x7f080008;
         public static final int prefButton=0x7f080005;
-        public static final int settings=0x7f080008;
+        public static final int prefs_screen=0x7f080007;
+        public static final int settings=0x7f080009;
         public static final int sparqlButton=0x7f080001;
         public static final int textview2=0x7f080006;
         public static final int uiButton=0x7f080002;
@@ -80,8 +98,54 @@ public final class R {
     }
     public static final class xml {
         public static final int preference_headers=0x7f040000;
-        public static final int product_settings=0x7f040001;
-        public static final int source_settings=0x7f040002;
-        public static final int user_settings=0x7f040003;
+        public static final int preferences=0x7f040001;
+        public static final int product_settings=0x7f040002;
+        public static final int source_settings=0x7f040003;
+        public static final int user_settings=0x7f040004;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a ListPreferenceMultiSelect.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #ListPreferenceMultiSelect_checkAll com.googlecode.rich2012cafe:checkAll}</code></td><td></td></tr>
+           <tr><td><code>{@link #ListPreferenceMultiSelect_separator com.googlecode.rich2012cafe:separator}</code></td><td></td></tr>
+           </table>
+           @see #ListPreferenceMultiSelect_checkAll
+           @see #ListPreferenceMultiSelect_separator
+         */
+        public static final int[] ListPreferenceMultiSelect = {
+            0x7f010000, 0x7f010001
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.googlecode.rich2012cafe.R.attr#checkAll}
+          attribute's value can be found in the {@link #ListPreferenceMultiSelect} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:checkAll
+        */
+        public static final int ListPreferenceMultiSelect_checkAll = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.googlecode.rich2012cafe.R.attr#separator}
+          attribute's value can be found in the {@link #ListPreferenceMultiSelect} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:separator
+        */
+        public static final int ListPreferenceMultiSelect_separator = 1;
+    };
 }

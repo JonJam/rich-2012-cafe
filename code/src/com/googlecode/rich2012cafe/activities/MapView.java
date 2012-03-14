@@ -57,12 +57,14 @@ public class MapView extends MapActivity implements MapViewInterface {
 
         currentBestLocation = handleQuickFixFromLastKnownLocation(lastGPSKnownLocation, lastNetworkKnownLocation);
 
-        if (currentBestLocation != null) {
-            showCurrentLocationOnMap(currentBestLocation);
-        }
 
         Drawable drawable = this.getResources().getDrawable(R.drawable.marker);
         itemizedOverlays = new MapOverlays(drawable);
+
+        if (currentBestLocation != null) {
+            Log.e("Caffeinder", currentBestLocation.toString());
+            showCurrentLocationOnMap(currentBestLocation);
+        }
 
         LocationListener locationListener = new CustomLocationListener(this);
 
@@ -77,21 +79,20 @@ public class MapView extends MapActivity implements MapViewInterface {
     }
 
     private Location handleQuickFixFromLastKnownLocation(Location lastGPSKnownLocation, Location lastNetworkKnownLocation) {
-        Location quickFixLocation = null;
 
         if (lastGPSKnownLocation != null && lastNetworkKnownLocation != null) {
             if (lastGPSKnownLocation.hasAccuracy() && lastNetworkKnownLocation.hasAccuracy()) {
-                quickFixLocation = lastGPSKnownLocation.getAccuracy() <= lastNetworkKnownLocation.getAccuracy() ? lastGPSKnownLocation : lastNetworkKnownLocation;
+                return lastGPSKnownLocation.getAccuracy() <= lastNetworkKnownLocation.getAccuracy() ? lastGPSKnownLocation : lastNetworkKnownLocation;
             }
         } else if (lastGPSKnownLocation == null) {
             if (lastNetworkKnownLocation != null) {
-                quickFixLocation = lastNetworkKnownLocation;
+                return lastNetworkKnownLocation;
             }
         } else {
-            quickFixLocation = lastGPSKnownLocation;
+            return lastGPSKnownLocation;
         }
 
-        return quickFixLocation;
+        return null;
     }
 
     @Override

@@ -13,7 +13,8 @@ import com.googlecode.rich2012cafe.activities.UserInterface;
 import com.googlecode.rich2012cafe.model.AppDataStore;
 
 /**
- * N.B. In running and developing application:
+ * In running and developing application:
+ * ======================================
  * 1. Need to increase Eclipse minimum/maximum memory requirements by altering eclipse.ini file (Linux - located in /usr/lib/eclipse/)
  *    and change appropriate lines to this:
  *              -Xms512m
@@ -22,7 +23,7 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * 3. Add -partition-size 1024 to run configurations for application.
  * 4. Add custom debug keystore to Android build configuration. 
  * 
- * How Settings affect View / Queries.
+ * How Settings affect View / Queries:
  * ===================================
  * 
  *  		Student or Staff: (QUERIES COMPLETE)
@@ -47,7 +48,9 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  *  				getCaffeineProductsForProductType (Inherits blocking from previous)
  *  			getCaffeineProductsForCaffeineSource (Only show products that are of wanted type)
  *  			getCaffeineProductsInPriceRange (Only show products that are of wanted type)
- *  
+ * 
+ * WORK
+ * ==== 
  * TODO Implement queries and adjust as others need (See DataStoreInterface):
  * 
  *   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
@@ -65,12 +68,16 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * 
  * TODO Locations option in UI displays same info for multiple items. Think may need to change SPARQL query or what locations tab uses.
  * 
- * TODO NEW APP FEATURES - Add logging and getting University Timetable information (JON - Emailed guy who wrote iSoton after speaking to Ash to
+ * TODO Add logging and getting University Timetable information (JON - Emailed guy who wrote iSoton after speaking to Ash to
  * find out how done it)
- * TODO NEW APP FEATURES - Create database on permanent system to store leaderboards
- * TODO NEW APP FEATURES - Find research in order to be able to calculate caffeine levels and requirements etc.
- * TODO NEW APP FEATURES - Work out scoring system.
- * TODO NEW APP FEATURES - Notifications / Alerts
+ * TODO Caffeine MG for CaffeineProducts
+ * TODO Make system so can update accordingly in backend
+ * TODO Complete Settings (Inc Favourites) 
+ * TODO Change appDataStore functions for new uses cases / settings.
+ * TODO Research about caffeine decay and having minimum of requirements to enter (i.e decay rate, optimal level)
+ * TODO Create database on permanent system to store leaderboards
+ * TODO Scoring system.
+ * TODO Notifications / Alerts
  * 
  * CURRENT TASKS
  * =============
@@ -80,7 +87,8 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * TODO Overlay map of locations (ASSIGNED TO: Craig)
  * TODO Sort out Actionbar compatibility (ASSSIGNED TO: Mike)
  * TODO Research Sections of Document (ASSIGNED TO: Costello)
- * TODO Project Tools, Techniques, Future Work of Document (ASSIGNED TO: Sami)
+ * TODO Project Tools, Techniques, Future Work of Document / Help Jon (ASSIGNED TO: Sami)
+ * TODO Login and DB stuff (Assigned to: Jon)
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */

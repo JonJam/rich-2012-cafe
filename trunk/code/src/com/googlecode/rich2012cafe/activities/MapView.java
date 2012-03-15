@@ -18,7 +18,8 @@ import com.googlecode.rich2012cafe.controllers.listeners.CustomLocationListener;
 import com.googlecode.rich2012cafe.model.AppDataStore;
 import com.googlecode.rich2012cafe.model.database.CaffeineSource;
 import com.googlecode.rich2012cafe.utils.LocationUtils;
-import com.googlecode.rich2012cafe.view.MapOverlays;
+import com.googlecode.rich2012cafe.view.CaffeineSourcesLocationOverlay;
+import com.googlecode.rich2012cafe.view.CurrentLocationOverlay;
 import com.googlecode.rich2012cafe.view.MapViewInterface;
 
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ public class MapView extends MapActivity implements MapViewInterface {
 
     private com.google.android.maps.MapView mapView;
     private MapController mapController;
-    private MapOverlays currentLocationOverlay;
-    private MapOverlays caffeineSourcesLocationOverlay;
+    private CurrentLocationOverlay currentLocationOverlay;
+    private CaffeineSourcesLocationOverlay caffeineSourcesLocationOverlay;
     private LocationManager locationManager;
     private AppDataStore appDataStore;
     private Location currentBestLocation;
@@ -67,8 +68,8 @@ public class MapView extends MapActivity implements MapViewInterface {
 
         Drawable currentLocationMarker = this.getResources().getDrawable(R.drawable.current_location_marker);
         Drawable caffeineLocationMarker = this.getResources().getDrawable(R.drawable.marker);
-        currentLocationOverlay = new MapOverlays(currentLocationMarker);
-        caffeineSourcesLocationOverlay = new MapOverlays(caffeineLocationMarker);
+        currentLocationOverlay = new CurrentLocationOverlay(currentLocationMarker, this);
+        caffeineSourcesLocationOverlay = new CaffeineSourcesLocationOverlay(caffeineLocationMarker, this);
 
 
         if (currentBestLocation != null) {
@@ -100,20 +101,6 @@ public class MapView extends MapActivity implements MapViewInterface {
         mapView.getOverlays().add(caffeineSourcesLocationOverlay);
     }
 
-    private void showCaffeineSourceOnMap(CaffeineSource caffeineSource) {
-
-        String sourceTitle = caffeineSource.getBuildingName() + "(" + caffeineSource.getBuildingNumber() + ")";
-
-        int buildingLat = (int) (caffeineSource.getBuildingLat() * 1E6);
-        int buildingLong = (int) (caffeineSource.getBuildingLong() * 1E6);
-        GeoPoint point = new GeoPoint(buildingLat, buildingLong);
-
-        OverlayItem overlayItem = new OverlayItem(point, sourceTitle, "");
-        caffeineSourcesLocationOverlay.addOverlay(overlayItem);
-
-
-    }
-
     private Location handleQuickFixFromLastKnownLocation(Location lastGPSKnownLocation, Location lastNetworkKnownLocation) {
 
         if (lastGPSKnownLocation != null && lastNetworkKnownLocation != null) {
@@ -139,6 +126,19 @@ public class MapView extends MapActivity implements MapViewInterface {
         }
     }
 
+    private void showCaffeineSourceOnMap(CaffeineSource caffeineSource) {
+
+        String sourceTitle = caffeineSource.getBuildingName() + " (" + caffeineSource.getBuildingNumber() + ")";
+        String snippet = "Long: " + caffeineSource.getBuildingLong() + ", Lat: " + caffeineSource.getBuildingLat();
+        int buildingLat = (int) (caffeineSource.getBuildingLat() * 1E6);
+        int buildingLong = (int) (caffeineSource.getBuildingLong() * 1E6);
+        GeoPoint point = new GeoPoint(buildingLat, buildingLong);
+
+        OverlayItem overlayItem = new OverlayItem(point, sourceTitle, snippet);
+        caffeineSourcesLocationOverlay.addOverlay(overlayItem);
+
+    }
+
     private void showCurrentLocationOnMap(Location location) {
 
         if (location != null) {
@@ -153,7 +153,7 @@ public class MapView extends MapActivity implements MapViewInterface {
             currentLocationOverlay.addOverlay(overlayItem);
             mapView.getOverlays().add(currentLocationOverlay);
             mapController.animateTo(point);
-            mapController.setZoom(10);
+            mapController.setZoom(15);
 
         }
     }

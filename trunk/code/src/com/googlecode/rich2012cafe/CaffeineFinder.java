@@ -23,61 +23,24 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * 3. Add -partition-size 1024 to run configurations for application.
  * 4. Add custom debug keystore to Android build configuration. 
  * 
- * How Settings affect View / Queries:
- * ===================================
- * 
- *  		Student or Staff: (QUERIES COMPLETE)
- *  			Functions in AppDataStore effected:
- *  				getCaffeineProductsForCaffeineSource (Get Products for user type either student or staff or all)
- *    
- *  		Display Vending Machines: (QUERIES COMPLETE)
- *  			Functions in AppDataStore effected:
- *  				getAllCaffeineSources (Get point of sale and if applicable vending machine sources)
- *  				getCaffeineSourcesForProductName (Get point of sale and if applicable vending machine sources)
- *  
- *  		Display Off Campus Locations: (QUERIES COMPLETE)
- *  				getAllCaffeineSources (Get off campus if applicable)
- *  				getCaffeineSourcesForProductName (Get off campus if applicable)
- *  
- *  		Product Types: (QUERIES COMPLETE)
- *  			Only show products that are types.
- * 
- *  			getAllCaffeineProductNames (Only show products that are of wanted type)
- *  				getCaffeineSourcesForProductNames (Inherits blocking from previous)
- *  			getCaffeineProductTypes (Only show product types that are wanted)
- *  				getCaffeineProductsForProductType (Inherits blocking from previous)
- *  			getCaffeineProductsForCaffeineSource (Only show products that are of wanted type)
- *  			getCaffeineProductsInPriceRange (Only show products that are of wanted type)
- * 
  * WORK
  * ==== 
- * TODO Implement queries and adjust as others need (See DataStoreInterface):
+ * TODO Sort out source queries and adjust as others need (See DataStoreInterface).
+ * TODO Sort out settings - what settings to have and how going to be used.
+ * TODO Move Google calendar stuff from JonText To AppDataStore (WHEN NECESSARY - JON WILL DO THIS)
+ * TODO Sort out leaderboard database.
  * 
- *   Get sources given lat and long (NEED TO DECIDE WHAT GIVING MODEL EITHER OBJECT OR COORDINATES)
- *   May need to change getCaffeineProductsinPriceRange
- *   
- * TODO Add loading overlay (blocking off functionality) whilst performing database check.
+ * TODO Sort out storage of data and updating.
  * 
- * TODO Find way of doing database check and installation of data when install app. (Takes 1 min to download all data on my machine)
- * 
- * TODO MVC layout
- * 
- * TODO Handle all onCreate, onResume, onPause, onDestory etc.
- * 
- * TODO Backwards Compatibility
- * 
- * TODO Locations option in UI displays same info for multiple items. Think may need to change SPARQL query or what locations tab uses.
- * 
- * TODO Add logging and getting University Timetable information (JON - Emailed guy who wrote iSoton after speaking to Ash to
- * find out how done it)
- * TODO Caffeine MG for CaffeineProducts
- * TODO Make system so can update accordingly in backend
- * TODO Complete Settings (Inc Favourites) 
- * TODO Change appDataStore functions for new uses cases / settings.
- * TODO Research about caffeine decay and having minimum of requirements to enter (i.e decay rate, optimal level)
- * TODO Create database on permanent system to store leaderboards
- * TODO Scoring system.
+ * TODO Research caffeine milligrammes for CaffeineProducts, caffeine decay calculations, optimal level etc using minimum of data
+ *      users have to enter.
+ *      
+ * TODO Sort out scoring system and communication with leaderboards.
+ * TODO Consume caffeine functionality
+ * TODO View leaderboard functionality (e.g. my position, viewing all, friends (maybe))
  * TODO Notifications / Alerts
+ * 
+ * TODO Web Interface for Leaderboard (MAYBE)
  * 
  * CURRENT TASKS
  * =============
@@ -88,7 +51,7 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * TODO Sort out Actionbar compatibility (ASSSIGNED TO: Mike)
  * TODO Research Sections of Document (ASSIGNED TO: Costello)
  * TODO Project Tools, Techniques, Future Work of Document / Help Jon (ASSIGNED TO: Sami)
- * TODO Login and DB stuff (Assigned to: Jon)
+ * TODO Timetable /google calendar stuff(Assigned to: Jon)
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */

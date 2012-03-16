@@ -39,19 +39,20 @@ containing a value of this type.
         public static final int settings=0x7f020004;
     }
     public static final class id {
-        public static final int aboutButton=0x7f080004;
-        public static final int loc_menu_fav=0x7f08000c;
-        public static final int loc_menu_map=0x7f08000a;
-        public static final int loc_menu_prod=0x7f08000b;
-        public static final int mapview=0x7f080003;
-        public static final int menu_search=0x7f080008;
-        public static final int prefButton=0x7f080005;
-        public static final int prefs_screen=0x7f080007;
-        public static final int settings=0x7f080009;
+        public static final int aboutButton=0x7f080005;
+        public static final int loc_menu_fav=0x7f08000d;
+        public static final int loc_menu_map=0x7f08000b;
+        public static final int loc_menu_prod=0x7f08000c;
+        public static final int mapview=0x7f080004;
+        public static final int menu_search=0x7f080009;
+        public static final int prefButton=0x7f080006;
+        public static final int prefs_screen=0x7f080008;
+        public static final int settings=0x7f08000a;
         public static final int sparqlButton=0x7f080001;
-        public static final int textview2=0x7f080006;
+        public static final int textview2=0x7f080007;
         public static final int uiButton=0x7f080002;
         public static final int viewMap=0x7f080000;
+        public static final int widget_textview=0x7f080003;
     }
     public static final class layout {
         public static final int main=0x7f030000;
@@ -98,11 +99,12 @@ containing a value of this type.
         public static final int viewVendingMachinesTitle=0x7f060009;
     }
     public static final class xml {
-        public static final int preference_headers=0x7f040000;
-        public static final int preferences=0x7f040001;
-        public static final int product_settings=0x7f040002;
-        public static final int source_settings=0x7f040003;
-        public static final int user_settings=0x7f040004;
+        public static final int notify_widget_provider=0x7f040000;
+        public static final int preference_headers=0x7f040001;
+        public static final int preferences=0x7f040002;
+        public static final int product_settings=0x7f040003;
+        public static final int source_settings=0x7f040004;
+        public static final int user_settings=0x7f040005;
     }
     public static final class styleable {
         /** Attributes that can be used with a ListPreferenceMultiSelect.

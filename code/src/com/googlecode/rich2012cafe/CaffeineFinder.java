@@ -41,6 +41,7 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * TODO Notifications / Alerts
  * 
  * TODO Web Interface for Leaderboard (MAYBE)
+ * TODO Settings to select which calendars to read from.
  * 
  * CURRENT TASKS
  * =============
@@ -51,7 +52,7 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * TODO Sort out Actionbar compatibility (ASSSIGNED TO: Mike)
  * TODO Research Sections of Document (ASSIGNED TO: Costello)
  * TODO Project Tools, Techniques, Future Work of Document / Help Jon (ASSIGNED TO: Sami)
- * TODO Timetable /google calendar stuff(Assigned to: Jon)
+ * TODO Sort out database / backend things (Working on GAE Database at moment) (Assigned to: Jon)
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */

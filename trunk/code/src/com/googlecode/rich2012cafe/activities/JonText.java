@@ -58,7 +58,6 @@ public class JonText extends Activity implements OnClickListener, HomeViewInterf
         		CalendarContract.Events.DTEND //End time of event in UTC Milliseconds
         };
         
-        
         Cursor calendarCursor = cr.query(calendarUri, calendarProjection, null, null, null);
         
         calendarCursor.moveToFirst();

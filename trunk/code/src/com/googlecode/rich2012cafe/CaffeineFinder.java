@@ -32,13 +32,12 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * 
  * TODO Sort out storage of data and updating.
  * 
- * TODO Research caffeine milligrammes for CaffeineProducts, caffeine decay calculations, optimal level etc using minimum of data
- *      users have to enter.
- *      
+ * TODO Caffeine Calculations.
  * TODO Sort out scoring system and communication with leaderboards.
  * TODO Consume caffeine functionality
  * TODO View leaderboard functionality (e.g. my position, viewing all, friends (maybe))
  * TODO Notifications / Alerts
+ * TODO About Section - Saying how we promote responsible caffeine intake and age range etc.
  * 
  * TODO Web Interface for Leaderboard (MAYBE)
  * TODO Settings to select which calendars to read from.
@@ -52,7 +51,7 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * TODO Sort out Actionbar compatibility (ASSSIGNED TO: Mike)
  * TODO Research Sections of Document (ASSIGNED TO: Costello)
  * TODO Project Tools, Techniques, Future Work of Document / Help Jon (ASSIGNED TO: Sami)
- * TODO Sort out database / backend things (Working on GAE Database at moment) (Assigned to: Jon)
+ * TODO Sort out database / backend things (Assigned to: Jon)
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */

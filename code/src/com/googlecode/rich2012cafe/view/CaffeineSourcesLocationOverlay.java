@@ -3,7 +3,7 @@ package com.googlecode.rich2012cafe.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import com.google.android.maps.OverlayItem;
+import android.os.Bundle;
 import com.googlecode.rich2012cafe.activities.BuildingDetails;
 
 /**
@@ -19,13 +19,15 @@ public class CaffeineSourcesLocationOverlay extends MapOverlays {
 
     protected boolean onTap(int index) {
 
-        OverlayItem item =  getOverlays().get(index);
+        CaffeineSourceOverlayItem item = (CaffeineSourceOverlayItem) getOverlays().get(index);
 
         Intent intent = new Intent(getContext(), BuildingDetails.class);
 
-//        Bundle b = new Bundle();
-//
-//        b.putInt();
+        Bundle dataBundle = new Bundle();
+        dataBundle.putString("source_id", item.getCaffeineSourceId());
+        
+        intent.putExtras(dataBundle);
+
         getContext().startActivity(intent);
 
         return true;

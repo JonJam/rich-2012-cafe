@@ -18,6 +18,7 @@ import com.googlecode.rich2012cafe.controllers.listeners.CustomLocationListener;
 import com.googlecode.rich2012cafe.model.AppDataStore;
 import com.googlecode.rich2012cafe.model.database.CaffeineSource;
 import com.googlecode.rich2012cafe.utils.LocationUtils;
+import com.googlecode.rich2012cafe.view.CaffeineSourceOverlayItem;
 import com.googlecode.rich2012cafe.view.CaffeineSourcesLocationOverlay;
 import com.googlecode.rich2012cafe.view.CurrentLocationOverlay;
 import com.googlecode.rich2012cafe.view.MapViewInterface;
@@ -127,14 +128,16 @@ public class MapView extends MapActivity implements MapViewInterface {
     }
 
     private void showCaffeineSourceOnMap(CaffeineSource caffeineSource) {
-
+        
         String sourceTitle = caffeineSource.getBuildingName() + " (" + caffeineSource.getBuildingNumber() + ")";
         String snippet = "Long: " + caffeineSource.getBuildingLong() + ", Lat: " + caffeineSource.getBuildingLat();
+        String caffeineSourceId = caffeineSource.getId();
+                
         int buildingLat = (int) (caffeineSource.getBuildingLat() * 1E6);
         int buildingLong = (int) (caffeineSource.getBuildingLong() * 1E6);
         GeoPoint point = new GeoPoint(buildingLat, buildingLong);
 
-        OverlayItem overlayItem = new OverlayItem(point, sourceTitle, snippet);
+        OverlayItem overlayItem = new CaffeineSourceOverlayItem(point, sourceTitle, snippet, caffeineSourceId);
         caffeineSourcesLocationOverlay.addOverlay(overlayItem);
 
     }

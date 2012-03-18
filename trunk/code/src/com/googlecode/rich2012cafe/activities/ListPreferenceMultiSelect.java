@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.preference.ListPreference;
 import android.util.AttributeSet;
-import android.util.Log;
 
 
 public class ListPreferenceMultiSelect extends ListPreference {
@@ -51,16 +50,7 @@ public class ListPreferenceMultiSelect extends ListPreference {
 
 	private void restoreCheckedEntries() {
 		CharSequence[] entryValues = getEntryValues();
-		for(CharSequence c: entryValues){
-			Log.e("T-Out", c.toString());
-		}
 		String[] vals = parseStoredValue(getValue());
-//		boolean empty = true;
-//		for(String s: vals){
-//			if(s != null){
-//				empty = false;
-//			}
-//		}
 		if (vals != null){
 			for (int j = 0; j < vals.length; j++) {
 				String val = vals[j].trim();

@@ -1,5 +1,6 @@
 package com.googlecode.rich2012cafe.activities;
 
+import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +14,7 @@ public class ListPreferenceMultiSelect extends ListPreference {
 	//Not using any fancy symbols because this is interpreted as a regex for splitting strings.
 	private static final String SEPARATOR = "OV=I=XseparatorX=I=VO";
 
+	
 	public ListPreferenceMultiSelect(Context context) {
 		super(context);
 	}
@@ -21,7 +23,8 @@ public class ListPreferenceMultiSelect extends ListPreference {
 		super(context, attrs);
 	}
 
-	protected void onPrepareDialogBuilder(Builder builder) {
+	protected void onPrepareDialogBuilder(final Builder builder) {
+
 		CharSequence[] entries = getEntries();
 		CharSequence[] entryValues = getEntryValues();
 		if (entries == null || entryValues == null
@@ -32,13 +35,28 @@ public class ListPreferenceMultiSelect extends ListPreference {
 
 		mClickedDialogEntryIndices = new boolean[entryValues.length] ;
 		restoreCheckedEntries();
+
 		builder.setMultiChoiceItems(entries, mClickedDialogEntryIndices,
 				new DialogInterface.OnMultiChoiceClickListener() {
 			public void onClick(DialogInterface dialog, int which,
 					boolean val) {
 				mClickedDialogEntryIndices[which] = val;
+				boolean empty = true;
+				CharSequence[] entryValues = getEntryValues();
+				for (int i = 0; i < entryValues.length; i++) {
+					if (mClickedDialogEntryIndices[i]) {
+						empty = false;
+					}
+				}
+				if(empty){
+					AlertDialog dialognew= new AlertDialog.Builder(builder.getContext()).create();
+					dialognew.setMessage("You Must Select Atleast One Product");
+					dialognew.show();
+				}
 			}
 		});
+		
+
 	}
 
 	public static String[] parseStoredValue(CharSequence val) {
@@ -73,7 +91,7 @@ public class ListPreferenceMultiSelect extends ListPreference {
 	@Override
 	protected void onDialogClosed(boolean positiveResult) {
 		// super.onDialogClosed(positiveResult);
-
+		
 		CharSequence[] entryValues = getEntryValues();
 		if (positiveResult && entryValues != null) {
 			StringBuffer value = new StringBuffer();

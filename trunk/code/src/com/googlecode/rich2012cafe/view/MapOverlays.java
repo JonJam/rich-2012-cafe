@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * User: CS
  * Date: 01/03/12
  * Time: 10:39
- * To change this template use File | Settings | File Templates.
  */
 public abstract class MapOverlays extends ItemizedOverlay<OverlayItem> {
 

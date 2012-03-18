@@ -39,29 +39,32 @@ containing a value of this type.
         public static final int settings=0x7f020004;
     }
     public static final class id {
-        public static final int aboutButton=0x7f080005;
-        public static final int loc_menu_fav=0x7f08000d;
-        public static final int loc_menu_map=0x7f08000b;
-        public static final int loc_menu_prod=0x7f08000c;
-        public static final int mapview=0x7f080004;
-        public static final int menu_search=0x7f080009;
-        public static final int prefButton=0x7f080006;
-        public static final int prefs_screen=0x7f080008;
-        public static final int settings=0x7f08000a;
-        public static final int sparqlButton=0x7f080001;
-        public static final int textview2=0x7f080007;
-        public static final int uiButton=0x7f080002;
-        public static final int viewMap=0x7f080000;
-        public static final int widget_textview=0x7f080003;
+        public static final int ListView01=0x7f080001;
+        public static final int aboutButton=0x7f080007;
+        public static final int loc_menu_fav=0x7f08000f;
+        public static final int loc_menu_map=0x7f08000d;
+        public static final int loc_menu_prod=0x7f08000e;
+        public static final int mapview=0x7f080006;
+        public static final int menu_search=0x7f08000b;
+        public static final int prefButton=0x7f080008;
+        public static final int prefs_screen=0x7f08000a;
+        public static final int settings=0x7f08000c;
+        public static final int sparqlButton=0x7f080003;
+        public static final int textview2=0x7f080009;
+        public static final int tv_holder=0x7f080000;
+        public static final int uiButton=0x7f080004;
+        public static final int viewMap=0x7f080002;
+        public static final int widget_textview=0x7f080005;
     }
     public static final class layout {
-        public static final int main=0x7f030000;
-        public static final int map=0x7f030001;
-        public static final int settings=0x7f030002;
-        public static final int textview=0x7f030003;
-        public static final int ui_main=0x7f030004;
-        public static final int ui_main_actionbar=0x7f030005;
-        public static final int ui_main_mapviewer=0x7f030006;
+        public static final int buildings_details=0x7f030000;
+        public static final int main=0x7f030001;
+        public static final int map=0x7f030002;
+        public static final int settings=0x7f030003;
+        public static final int textview=0x7f030004;
+        public static final int ui_main=0x7f030005;
+        public static final int ui_main_actionbar=0x7f030006;
+        public static final int ui_main_mapviewer=0x7f030007;
     }
     public static final class menu {
         public static final int actionmenu=0x7f070000;
@@ -73,6 +76,7 @@ containing a value of this type.
         public static final int favouriteProductsTitle=0x7f06001b;
         public static final int favouriteSourcesSummary=0x7f06000e;
         public static final int favouriteSourcesTitle=0x7f06000d;
+        public static final int holdingtext=0x7f06001d;
         public static final int loading=0x7f060000;
         public static final int map_act=0x7f060002;
         public static final int productSettingsSummary=0x7f060010;

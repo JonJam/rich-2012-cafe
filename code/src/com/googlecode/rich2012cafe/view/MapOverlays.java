@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public abstract class MapOverlays extends ItemizedOverlay<OverlayItem> {
 
     private ArrayList<OverlayItem> overlays = new ArrayList<OverlayItem>();
+
     private Context context;
 
     public MapOverlays(Drawable defaultMarker, Context context) {
@@ -47,11 +48,15 @@ public abstract class MapOverlays extends ItemizedOverlay<OverlayItem> {
         dialog.setTitle(item.getTitle());
         dialog.setMessage(item.getSnippet());
         dialog.show();
-        
+
         return true;
     }
 
-    public ArrayList<OverlayItem> getOverlays() {
+    protected Context getContext() {
+        return context;
+    }
+
+    protected ArrayList<OverlayItem> getOverlays() {
         return overlays;
     }
 

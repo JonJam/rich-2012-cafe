@@ -43,4 +43,5 @@
 	
 	<string name="favouriteProductsTitle">Favourite Products</string>
 	<string name="favouriteProductsSummary">Select favourite products.</string>
+    <string name="holdingtext">Holding Text</string>
 </resources>

@@ -52,6 +52,7 @@ public class ListPreferenceMultiSelect extends ListPreference {
 					AlertDialog dialognew= new AlertDialog.Builder(builder.getContext()).create();
 					dialognew.setMessage("You Must Select Atleast One Product");
 					dialognew.show();
+					mClickedDialogEntryIndices[which] = true;
 				}
 			}
 		});

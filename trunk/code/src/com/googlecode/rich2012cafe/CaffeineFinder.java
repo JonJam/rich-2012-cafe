@@ -23,36 +23,6 @@ import com.googlecode.rich2012cafe.model.AppDataStore;
  * 3. Add -partition-size 1024 to run configurations for application.
  * 4. Add custom debug keystore to Android build configuration. 
  * 
- * WORK
- * ==== 
- * TODO Sort out source queries and adjust as others need (See DataStoreInterface).
- * TODO Sort out settings - what settings to have and how going to be used.
- * TODO Move Google calendar stuff from JonText To AppDataStore (WHEN NECESSARY - JON WILL DO THIS)
- * TODO Sort out leaderboard database.
- * 
- * TODO Sort out storage of data and updating.
- * 
- * TODO Caffeine Calculations.
- * TODO Sort out scoring system and communication with leaderboards.
- * TODO Consume caffeine functionality
- * TODO View leaderboard functionality (e.g. my position, viewing all, friends (maybe))
- * TODO Notifications / Alerts
- * TODO About Section - Saying how we promote responsible caffeine intake and age range etc.
- * 
- * TODO Web Interface for Leaderboard (MAYBE)
- * TODO Settings to select which calendars to read from.
- * 
- * CURRENT TASKS
- * =============
- * TODO Alter settings to remove PreferenceFragments so all in one view and compatiblity (ASSIGNED TO: T)
- * 		- Check all settings still work when makes changes and affect db queries appropiatly.
- * 		- Remove redundant XML files.
- * TODO Overlay map of locations (ASSIGNED TO: Craig)
- * TODO Sort out Actionbar compatibility (ASSSIGNED TO: Mike)
- * TODO Research Sections of Document (ASSIGNED TO: Costello)
- * TODO Project Tools, Techniques, Future Work of Document / Help Jon (ASSIGNED TO: Sami)
- * TODO Sort out database / backend things (Assigned to: Jon)
- * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com) 
  */
 public class CaffeineFinder extends Activity implements OnClickListener{

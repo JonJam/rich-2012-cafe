@@ -1,10 +1,7 @@
 package com.googlecode.rich2012cafe.server;
 
-import java.util.List;
-
 import com.googlecode.rich2012cafe.annotation.ServiceMethod;
 import com.googlecode.rich2012cafe.server.datastore.DataStore;
-import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSource;
 
 /*
  * Resources:

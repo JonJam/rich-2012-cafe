@@ -208,7 +208,9 @@ public class Util {
             reader = new BufferedReader(new InputStreamReader(is));
             while (true) {
                 //String s = reader.readLine();
-            	String s = "url=http://192.168.2.10:8888";
+            	
+            	//HACK FOR LINUX TO GET DEBUGGER TO WORK
+            	String s = "url=http://192.168.2.12:8888";
                 if (s == null) {
                     break;
                 }

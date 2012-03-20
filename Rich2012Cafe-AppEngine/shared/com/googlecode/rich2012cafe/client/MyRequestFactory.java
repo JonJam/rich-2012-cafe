@@ -22,41 +22,45 @@ import com.google.web.bindery.requestfactory.shared.ServiceName;
 
 import com.googlecode.rich2012cafe.shared.MessageProxy;
 import com.googlecode.rich2012cafe.shared.RegistrationInfoProxy;
+import com.googlecode.rich2012cafe.shared.Rich2012CafeRequest;
 
 public interface MyRequestFactory extends RequestFactory {
 
-  @ServiceName("com.googlecode.rich2012cafe.server.HelloWorldService")
-  public interface HelloWorldRequest extends RequestContext {
-    /**
-     * Retrieve a "Hello, World" message from the server.
-     */
-    Request<String> getMessage();
-  }
+	@ServiceName("com.googlecode.rich2012cafe.server.HelloWorldService")
+	public interface HelloWorldRequest extends RequestContext {
+		/**
+		 * Retrieve a "Hello, World" message from the server.
+		 */
+		Request<String> getMessage();
+	}
 
-  @ServiceName("com.googlecode.rich2012cafe.server.RegistrationInfo")
-  public interface RegistrationInfoRequest extends RequestContext {
-    /**
-     * Register a device for C2DM messages.
-     */
-    InstanceRequest<RegistrationInfoProxy, Void> register();
+	@ServiceName("com.googlecode.rich2012cafe.server.RegistrationInfo")
+	public interface RegistrationInfoRequest extends RequestContext {
+		/**
+		 * Register a device for C2DM messages.
+		 */
+		InstanceRequest<RegistrationInfoProxy, Void> register();
 
-    /**
-     * Unregister a device for C2DM messages.
-     */
-    InstanceRequest<RegistrationInfoProxy, Void> unregister();
-  }
+		/**
+		 * Unregister a device for C2DM messages.
+		 */
+		InstanceRequest<RegistrationInfoProxy, Void> unregister();
+	}
 
-  @ServiceName("com.googlecode.rich2012cafe.server.Message")
-  public interface MessageRequest extends RequestContext {
-    /**
-     * Send a message to a device using C2DM.
-     */
-    InstanceRequest<MessageProxy, String> send();
-  }
+	@ServiceName("com.googlecode.rich2012cafe.server.Message")
+	public interface MessageRequest extends RequestContext {
+		/**
+		 * Send a message to a device using C2DM.
+		 */
+		InstanceRequest<MessageProxy, String> send();
+	}
 
-  HelloWorldRequest helloWorldRequest();
+	HelloWorldRequest helloWorldRequest();
 
-  RegistrationInfoRequest registrationInfoRequest();
+	RegistrationInfoRequest registrationInfoRequest();
 
-  MessageRequest messageRequest();
+	MessageRequest messageRequest();
+
+	Rich2012CafeRequest rich2012CafeRequest();
+
 }

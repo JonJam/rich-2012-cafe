@@ -40,6 +40,21 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
+ * NOTES
+ * =====
+ * 
+ * - Need to install Google App Engine Plugin with SDKs.
+ * - To run project, have to select Android project and select debug as Local App Engine Connected Android Application
+ * - Issues which you may have which I encountered are:
+ * 
+ * 		When default time zone not being set for Google App Engine server.
+ * 			http://code.google.com/p/googleappengine/issues/detail?id=6928
+ * 
+ * 		In Util Lines 210 - 212, in order for communication to work on linux between phone and app had to insert IP
+ * 		address:
+ * 			http://code.google.com/p/google-plugin-for-eclipse/issues/detail?id=46
+ * 		Everyone else use the commented out line.
+ * 
  * Main activity - requests "Hello, World" messages from the server and provides
  * a menu item to invoke the accounts activity.
  */

@@ -32,7 +32,6 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
-import com.googlecode.rich2012cafe.client.MyRequestFactory.HelloWorldRequest;
 import com.googlecode.rich2012cafe.client.MyRequestFactory.MessageRequest;
 import com.googlecode.rich2012cafe.shared.MessageProxy;
 
@@ -131,21 +130,21 @@ public class Rich2012CafeWidget extends Composite {
 
     sayHelloButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
-        sayHelloButton.setEnabled(false);
-        HelloWorldRequest helloWorldRequest = requestFactory.helloWorldRequest();
-        helloWorldRequest.getMessage().fire(new Receiver<String>() {
-          @Override
-          public void onFailure(ServerFailure error) {
-            sayHelloButton.setEnabled(true);
-            setStatus(error.getMessage(), true);
-          }
-
-          @Override
-          public void onSuccess(String response) {
-            sayHelloButton.setEnabled(true);
-            setStatus(response, response.startsWith("Failure:"));
-          }
-        });
+//        sayHelloButton.setEnabled(false);
+//        HelloWorldRequest helloWorldRequest = requestFactory.helloWorldRequest();
+//        helloWorldRequest.getMessage().fire(new Receiver<String>() {
+//          @Override
+//          public void onFailure(ServerFailure error) {
+//            sayHelloButton.setEnabled(true);
+//            setStatus(error.getMessage(), true);
+//          }
+//
+//          @Override
+//          public void onSuccess(String response) {
+//            sayHelloButton.setEnabled(true);
+//            setStatus(response, response.startsWith("Failure:"));
+//          }
+//        });
       }
     });
   }

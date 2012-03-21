@@ -147,31 +147,31 @@ public class Rich2012CafeActivity extends Activity {
 
     private void setHelloWorldScreenContent() {
     	
-        new AsyncTask<Void, Void, String>() {
-        	String message;
-        	
-            @Override
-            protected String doInBackground(Void... arg0) {
-                MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
-                
-                requestFactory.rich2012CafeRequest().updateDataStore().fire(new Receiver<String>(){
-                    @Override
-                    public void onSuccess(String result) {
-                    	message = result;
-                    }
-                    @Override
-                    public void onFailure(ServerFailure error) {
-                        message = "Failure: " + error.getMessage();
-                    }
-                });
-                return message;
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                tv.setMovementMethod(new ScrollingMovementMethod());
-                tv.setText(result);
-            }
-        }.execute();
+//        new AsyncTask<Void, Void, String>() {
+//        	String message;
+//        	
+//            @Override
+//            protected String doInBackground(Void... arg0) {
+//                MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
+//                
+//                requestFactory.rich2012CafeRequest().updateDataStore().fire(new Receiver<String>(){
+//                    @Override
+//                    public void onSuccess(String result) {
+//                    	message = result;
+//                    }
+//                    @Override
+//                    public void onFailure(ServerFailure error) {
+//                        message = "Failure: " + error.getMessage();
+//                    }
+//                });
+//                return message;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(String result) {
+//                tv.setMovementMethod(new ScrollingMovementMethod());
+//                tv.setText(result);
+//            }
+//        }.execute();
     }
 }

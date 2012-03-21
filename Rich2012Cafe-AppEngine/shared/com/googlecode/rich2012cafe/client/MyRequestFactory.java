@@ -26,14 +26,6 @@ import com.googlecode.rich2012cafe.shared.Rich2012CafeRequest;
 
 public interface MyRequestFactory extends RequestFactory {
 
-	@ServiceName("com.googlecode.rich2012cafe.server.HelloWorldService")
-	public interface HelloWorldRequest extends RequestContext {
-		/**
-		 * Retrieve a "Hello, World" message from the server.
-		 */
-		Request<String> getMessage();
-	}
-
 	@ServiceName("com.googlecode.rich2012cafe.server.RegistrationInfo")
 	public interface RegistrationInfoRequest extends RequestContext {
 		/**
@@ -55,12 +47,9 @@ public interface MyRequestFactory extends RequestFactory {
 		InstanceRequest<MessageProxy, String> send();
 	}
 
-	HelloWorldRequest helloWorldRequest();
-
 	RegistrationInfoRequest registrationInfoRequest();
 
 	MessageRequest messageRequest();
 
 	Rich2012CafeRequest rich2012CafeRequest();
-
 }

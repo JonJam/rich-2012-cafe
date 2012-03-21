@@ -9,6 +9,18 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/c2dm-server.jar" sourcepath="war/WEB-INF/lib/c2dm-server-src.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-codec-1.5.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/httpclient-4.1.2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/httpcore-4.1.3.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/icu4j-3.4.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jena-arq-2.9.0-incubating.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jena-core-2.7.0-incubating.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jena-iri-0.9.0-incubating.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-log4j12-1.6.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/xercesImpl-2.10.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/xml-apis-1.4.01.jar"/>
 	<classpathentry kind="src" path=".apt_generated">
 		<attributes>
 			<attribute name="optional" value="true"/>

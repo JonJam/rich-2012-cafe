@@ -55,6 +55,11 @@ import android.widget.TextView;
  * 			http://code.google.com/p/google-plugin-for-eclipse/issues/detail?id=46
  * 		Everyone else use the commented out line.
  * 
+ * 		Shared folder in Rich2012Cafe-Android is linked to shared folder in Rich2012Cafe-AppEngine
+ * 			Need to make sure linked and if not follow:
+ * 				http://stackoverflow.com/questions/1907275/in-eclipse-cdt-shared-resource-folder-that-is-built-differently-for-the-project
+ * 
+ * 
  * Main activity - requests "Hello, World" messages from the server and provides
  * a menu item to invoke the accounts activity.
  */

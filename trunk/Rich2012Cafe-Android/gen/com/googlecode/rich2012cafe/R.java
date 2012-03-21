@@ -25,9 +25,7 @@ public final class R {
         public static final int disconnect_text=0x7f060007;
         public static final int divider=0x7f060003;
         public static final int header=0x7f060000;
-        public static final int hello_world=0x7f06000c;
         public static final int hello_world_info=0x7f06000a;
-        public static final int say_hello=0x7f06000b;
         public static final int select_account=0x7f060004;
         public static final int select_text=0x7f060002;
     }

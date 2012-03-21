@@ -19,7 +19,6 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 import com.googlecode.rich2012cafe.activities.AccountsActivity;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
-import com.googlecode.rich2012cafe.client.MyRequestFactory.HelloWorldRequest;
 import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
 import com.googlecode.rich2012cafe.utils.Util;
 
@@ -31,12 +30,9 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -64,15 +60,12 @@ import android.widget.TextView;
  * a menu item to invoke the accounts activity.
  */
 public class Rich2012CafeActivity extends Activity {
-    /**
-     * Tag for logging.
-     */
+    
+	//Tag for logging.
     private static final String TAG = "Rich2012CafeActivity";
-
-    /**
-     * The current context.
-     */
+    //The current context.
     private Context mContext = this;
+    private TextView tv;
 
     /**
      * A {@link BroadcastReceiver} to receive the response from a register or
@@ -104,30 +97,18 @@ public class Rich2012CafeActivity extends Activity {
         }
     };
 
-    /**
-     * Begins the activity.
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate");
-        super.onCreate(savedInstanceState);
-
-        // Register a receiver to provide register/unregister notifications
-        registerReceiver(mUpdateUIReceiver, new IntentFilter(Util.UPDATE_UI_INTENT));
-    }
-
     @Override
     public void onResume() {
         super.onResume();
 
         SharedPreferences prefs = Util.getSharedPreferences(mContext);
         String connectionStatus = prefs.getString(Util.CONNECTION_STATUS, Util.DISCONNECTED);
+        
         if (Util.DISCONNECTED.equals(connectionStatus)) {
             startActivity(new Intent(this, AccountsActivity.class));
         }
-        setScreenContent(R.layout.hello_world);
     }
-
+    
     /**
      * Shuts down the activity.
      */
@@ -136,71 +117,61 @@ public class Rich2012CafeActivity extends Activity {
         unregisterReceiver(mUpdateUIReceiver);
         super.onDestroy();
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+        
         // Invoke the Register activity
         menu.getItem(0).setIntent(new Intent(this, AccountsActivity.class));
         return true;
     }
+    
+    //CHANGED BELOW
+    
+    /**
+     * Begins the activity.
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    // Manage UI Screens
-
-    private void setHelloWorldScreenContent() {
+        // Register a receiver to provide register/unregister notifications
+        registerReceiver(mUpdateUIReceiver, new IntentFilter(Util.UPDATE_UI_INTENT));
+        
         setContentView(R.layout.hello_world);
-
-        final TextView helloWorld = (TextView) findViewById(R.id.hello_world);
-        final Button sayHelloButton = (Button) findViewById(R.id.say_hello);
-        sayHelloButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                sayHelloButton.setEnabled(false);
-                helloWorld.setText(R.string.contacting_server);
-
-                // Use an AsyncTask to avoid blocking the UI thread
-                new AsyncTask<Void, Void, String>() {
-                    private String message;
-
-                    @Override
-                    protected String doInBackground(Void... arg0) {
-                        MyRequestFactory requestFactory = Util.getRequestFactory(mContext,
-                                MyRequestFactory.class);
-                        final HelloWorldRequest request = requestFactory.helloWorldRequest();
-                        Log.i(TAG, "Sending request to server");
-                        request.getMessage().fire(new Receiver<String>() {
-                            @Override
-                            public void onFailure(ServerFailure error) {
-                                message = "Failure: " + error.getMessage();
-                            }
-
-                            @Override
-                            public void onSuccess(String result) {
-                                message = result;
-                            }
-                        });
-                        return message;
-                    }
-
-                    @Override
-                    protected void onPostExecute(String result) {
-                        helloWorld.setText(result);
-                        sayHelloButton.setEnabled(true);
-                    }
-                }.execute();
-            }
-        });
+        tv = (TextView) findViewById(R.id.hello_world_info);
+        setHelloWorldScreenContent();
     }
 
-    /**
-     * Sets the screen content based on the screen id.
-     */
-    private void setScreenContent(int screenId) {
-        setContentView(screenId);
-        switch (screenId) {
-            case R.layout.hello_world:
-                setHelloWorldScreenContent();
-                break;
-        }
+    private void setHelloWorldScreenContent() {
+    	
+        new AsyncTask<Void, Void, String>() {
+        	String message;
+        	
+            @Override
+            protected String doInBackground(Void... arg0) {
+                MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
+                
+                requestFactory.rich2012CafeRequest().updateDataStore().fire(new Receiver<String>(){
+                    @Override
+                    public void onSuccess(String result) {
+                    	message = result;
+                    }
+                    @Override
+                    public void onFailure(ServerFailure error) {
+                        message = "Failure: " + error.getMessage();
+                    }
+                });
+                return message;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                tv.setMovementMethod(new ScrollingMovementMethod());
+                tv.setText(result);
+            }
+        }.execute();
     }
 }

@@ -7,5 +7,5 @@ import com.google.web.bindery.requestfactory.shared.ServiceName;
 @ServiceName(value = "com.googlecode.rich2012cafe.server.Rich2012CafeService", locator = "com.googlecode.rich2012cafe.server.Rich2012CafeServiceLocator")
 public interface Rich2012CafeRequest extends RequestContext {
 
-	Request<String> updateDataStore();
+	Request<Void> updateDataStore();
 }

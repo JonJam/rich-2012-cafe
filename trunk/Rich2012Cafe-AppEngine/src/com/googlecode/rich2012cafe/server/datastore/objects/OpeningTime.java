@@ -1,5 +1,7 @@
 package com.googlecode.rich2012cafe.server.datastore.objects;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -14,10 +16,10 @@ public class OpeningTime {
 	private String day;
 	private String openingTime;
 	private String closingTime;
-	private String validFrom;
-	private String validTo;
+	private Date validFrom;
+	private Date validTo;
 	
-	public OpeningTime(String id, String caffeineSourceId, String day, String openingTime, String closingTime, String validFrom, String validTo){
+	public OpeningTime(String id, String caffeineSourceId, String day, String openingTime, String closingTime, Date validFrom, Date validTo){
 		this.id = id;
 		this.caffeineSourceId = caffeineSourceId;
 		this.day = day;
@@ -120,36 +122,36 @@ public class OpeningTime {
 	/**
 	 * Method to get valid from date.
 	 * 
-	 * @return validFrom (String object)
+	 * @return validFrom (Date object)
 	 */
-	public String getValidFrom() {
+	public Date getValidFrom() {
 		return validFrom;
 	}
 
 	/**
 	 * Method to set valid from date
 	 * 
-	 * @param validFrom (String object)
+	 * @param validFrom (Date object)
 	 */
-	public void setValidFrom(String validFrom) {
+	public void setValidFrom(Date validFrom) {
 		this.validFrom = validFrom;
 	}
 
 	/**
 	 * Method to get valid to date.
 	 * 
-	 * @return validTo (String object)
+	 * @return validTo (Date object)
 	 */
-	public String getValidTo() {
+	public Date getValidTo() {
 		return validTo;
 	}
 
 	/**
 	 * Method to set valid to date.
 	 * 
-	 * @param validTo (String object)
+	 * @param validTo (Date object)
 	 */
-	public void setValidTo(String validTo) {
+	public void setValidTo(Date validTo) {
 		this.validTo = validTo;
 	}
 	

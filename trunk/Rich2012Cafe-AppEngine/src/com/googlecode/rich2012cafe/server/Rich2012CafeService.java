@@ -2,7 +2,6 @@ package com.googlecode.rich2012cafe.server;
 
 import com.googlecode.rich2012cafe.annotation.ServiceMethod;
 import com.googlecode.rich2012cafe.server.datastore.DataStore;
-
 /*
  * Resources:
  * 	http://code.google.com/eclipse/docs/appeng_android_add_rpc.html
@@ -22,13 +21,19 @@ public class Rich2012CafeService {
 		
 	}
 	
-	/*
-	 * METHOD THAT WILL BE USED BY SCHEDULED JOB TO UPDATE DATASTORE.
-	 * 
-	 * CHANGE AS NEED
-	 */
 	@ServiceMethod
 	public void updateDataStore(){
-		
+	
+		if(db.getAllCaffeineSources() == null){
+			//Empty datastore
+			
+			db.populateDatastore();
+			
+		}  else if(db.getExpiredOpeningTimes() != null){
+			//Expired Opening Times
+
+			db.clearDatastore();
+			db.populateDatastore();
+		}
 	}
 }

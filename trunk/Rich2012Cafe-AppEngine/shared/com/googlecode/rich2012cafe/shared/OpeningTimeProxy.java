@@ -1,9 +1,11 @@
 package com.googlecode.rich2012cafe.shared;
 
+import java.util.Date;
+
 import com.google.web.bindery.requestfactory.shared.ProxyForName;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
 
-@ProxyForName(value = "com.googlecode.rich2012cafe.server.objects.OpeningTime", locator = "com.googlecode.rich2012cafe.server.objects.OpeningTimeLocator")
+@ProxyForName(value = "com.googlecode.rich2012cafe.server.datastore.objects.OpeningTime", locator = "com.googlecode.rich2012cafe.server.datastore.objects.OpeningTimeLocator")
 public interface OpeningTimeProxy extends ValueProxy {
 
 	String getId();
@@ -24,12 +26,12 @@ public interface OpeningTimeProxy extends ValueProxy {
 
 	void setClosingTime(String closingTime);
 
-	String getValidFrom();
+	Date getValidFrom();
 
-	void setValidFrom(String validFrom);
+	void setValidFrom(Date validFrom);
 
-	String getValidTo();
+	Date getValidTo();
 
-	void setValidTo(String validTo);
+	void setValidTo(Date validTo);
 
 }

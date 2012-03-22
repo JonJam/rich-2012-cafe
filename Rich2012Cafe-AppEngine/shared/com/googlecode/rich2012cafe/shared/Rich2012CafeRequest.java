@@ -10,5 +10,8 @@ import com.google.web.bindery.requestfactory.shared.ServiceName;
 public interface Rich2012CafeRequest extends RequestContext {
 
 	Request<List<CaffeineProductProxy>> getAllCaffeineProducts();
+	Request<List<CaffeineSourceProductProxy>> getCaffeineSourceProductsForCaffeineSource(String id);
+	Request<List<OpeningTimeProxy>> getOpeningTimesForCaffeineSource(String id);
+	Request<List<CaffeineSourceProxy>> getCaffeineSourcesGiven();
 	Request<Void> updateDataStore();
 }

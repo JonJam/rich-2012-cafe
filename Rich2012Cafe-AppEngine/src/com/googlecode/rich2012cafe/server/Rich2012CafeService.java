@@ -5,22 +5,29 @@ import java.util.List;
 import com.googlecode.rich2012cafe.annotation.ServiceMethod;
 import com.googlecode.rich2012cafe.server.datastore.DataStore;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineProduct;
+import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSource;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceProduct;
+import com.googlecode.rich2012cafe.server.datastore.objects.OpeningTime;
 
 
 public class Rich2012CafeService {
 
 	static DataStore db = new DataStore();
 	
-	/*
-	 * METHOD THAT WILL BE USED TO GET SOURCES GIVEN LOCATION AND SETTINGS INFO 
-	 * 
-	 * CHANGE AS NEED
-	 */
-//	@ServiceMethod
-//	public void getCaffeineSources(){
-//		
-//	}
+	@ServiceMethod
+	public List<CaffeineSource> getCaffeineSourcesGiven(){
+		return db.getCaffeineSourcesGiven();
+	}
+	
+	@ServiceMethod
+	public List<CaffeineSourceProduct> getCaffeineSourceProductsForCaffeineSource(String id){
+		return db.getCaffeineSourceProductsForCaffeineSource(id);
+	}
+	
+	@ServiceMethod
+	public List<OpeningTime> getOpeningTimesForCaffeineSource(String id){
+		return db.getOpeningTimesForCaffeineSource(id);
+	}
 	
 	@ServiceMethod
 	public List<CaffeineProduct> getAllCaffeineProducts(){

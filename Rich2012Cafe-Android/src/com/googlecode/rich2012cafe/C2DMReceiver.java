@@ -12,15 +12,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.googlecode.rich2012cafe.utils;
+package com.googlecode.rich2012cafe;
 
 import com.google.android.c2dm.C2DMBaseReceiver;
+import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
+import com.googlecode.rich2012cafe.utils.MessageDisplay;
+import com.googlecode.rich2012cafe.utils.Setup;
+import com.googlecode.rich2012cafe.utils.Util;
 
 import java.io.IOException;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Receive a push message from the Cloud to Device Messaging (C2DM) service.

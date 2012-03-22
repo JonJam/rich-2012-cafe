@@ -149,52 +149,53 @@ public class Rich2012CafeActivity extends Activity {
     private void setHelloWorldScreenContent() {
     	tv = (TextView) findViewById(R.id.hello_world_info);
 
-//        new AsyncTask<Void, Void, String>() {
-//        	String message = "";
-//        	
-//            @Override
-//            protected String doInBackground(Void... arg0) {
-//                MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
-//                
-////                requestFactory.rich2012CafeRequest().getUniqueCaffeineProducts().fire(
-////                		new Receiver<List<CaffeineProductProxy>>(){
-////					
-////        			@Override
-////					public void onSuccess(List<CaffeineProductProxy> products) {
-////						for(CaffeineProductProxy c : products){
-////							message += c + "\n";
-////						}
-////					}
-////                	
-////					@Override
-////                    public void onFailure(ServerFailure error) {
-////                        message = "Failure: " + error.getMessage();
-////                    }
-////
-////                });
+        new AsyncTask<Void, Void, String>() {
+        	String message = "";
+        	
+            @Override
+            protected String doInBackground(Void... arg0) {
+                MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
+                
+                requestFactory.rich2012CafeRequest().getAllCaffeineProducts().fire(
+                		new Receiver<List<CaffeineProductProxy>>(){
+					
+        			@Override
+					public void onSuccess(List<CaffeineProductProxy> products) {
+						for(CaffeineProductProxy c : products){
+							message += c.getName() + " " + c.getProductType() + " " + c.getCaffeineContent() + "\n\n";
+						}
+					}
+                	
+					@Override
+                    public void onFailure(ServerFailure error) {
+                        message = "Failure: " + error.getMessage();
+                    }
+
+                });
 //              requestFactory.rich2012CafeRequest().updateDataStore().fire(
-//        		new Receiver<String>(){
-//			
-//				@Override
-//				public void onSuccess(String products) {
-//					message = products;
-//				}
-//        	
+//        		new Receiver<Void>(){
+//			        	
 //				@Override
 //	            public void onFailure(ServerFailure error) {
 //	                message = "Failure: " + error.getMessage();
 //	            }
+//
+//				@Override
+//				public void onSuccess(Void arg0) {
+//					message = "UPDATED";
+//				}
 //	
 //	        });
-//                return message;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(String result) {
-//                tv.setMovementMethod(new ScrollingMovementMethod());
-//                tv.setText(result);
-//            }
-//        }.execute();
+                
+				return message;
+            }
+            
+            @Override
+            protected void onPostExecute(String result) {
+                tv.setMovementMethod(new ScrollingMovementMethod());
+                tv.setText(result);
+            }
+        }.execute();
     }
 
     /**

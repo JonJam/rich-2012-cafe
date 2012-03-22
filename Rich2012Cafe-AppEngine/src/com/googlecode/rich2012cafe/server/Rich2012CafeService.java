@@ -1,5 +1,7 @@
 package com.googlecode.rich2012cafe.server;
 
+import java.util.List;
+
 import com.googlecode.rich2012cafe.annotation.ServiceMethod;
 import com.googlecode.rich2012cafe.server.datastore.DataStore;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineProduct;
@@ -20,10 +22,10 @@ public class Rich2012CafeService {
 //		
 //	}
 	
-//	@ServiceMethod
-//	public List<CaffeineProduct> getUniqueCaffeineProducts(){
-//		return db.getUniqueCaffeineProducts();
-//	}
+	@ServiceMethod
+	public List<CaffeineProduct> getAllCaffeineProducts(){
+		return db.getAllCaffeineProducts();
+	}
 	
 	@ServiceMethod
 	public void updateDataStore(){

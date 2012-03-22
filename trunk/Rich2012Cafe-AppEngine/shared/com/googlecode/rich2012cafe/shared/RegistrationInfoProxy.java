@@ -21,7 +21,7 @@ import com.google.web.bindery.requestfactory.shared.ValueProxy;
  * A proxy object containing device registration information:
  * email account name, device id, and device registration id.
  */
-@ProxyForName("com.googlecode.rich2012cafe.server.RegistrationInfo")
+@ProxyForName("com.googlecode.rich2012cafe.server.utils.RegistrationInfo")
 public interface RegistrationInfoProxy extends ValueProxy {
   String getDeviceId();
   String getDeviceRegistrationId();

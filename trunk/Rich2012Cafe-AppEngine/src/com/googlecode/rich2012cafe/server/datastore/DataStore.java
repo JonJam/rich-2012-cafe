@@ -249,34 +249,67 @@ public class DataStore {
 	
 	//Get Methods
 	
+	@SuppressWarnings("unchecked")
+	public List<CaffeineSource> getCaffeineSourcesGiven(){
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		try {
+			Query query = pm.newQuery("SELECT FROM " + CaffeineSource.class.getName());
+			List<CaffeineSource> list = (List<CaffeineSource>) query.execute();
+		
+			return list.size() == 0 ? null : list.subList(0, 5);
+	  	} catch (RuntimeException e) {
+	  		System.out.println(e);
+	  		throw e;
+	  	} finally {
+	  		pm.close();
+	  	}
+	}
 
+	@SuppressWarnings("unchecked")
+	public List<CaffeineSourceProduct> getCaffeineSourceProductsForCaffeineSource(String id){
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		try {
+			Query query = pm.newQuery("SELECT FROM " + CaffeineSourceProduct.class.getName() 
+					+ " WHERE caffeineSourceId == '" + id + "'");
+			List<CaffeineSourceProduct> list = (List<CaffeineSourceProduct>) query.execute();
+		
+			return list.size() == 0 ? null : list;
+	  	} catch (RuntimeException e) {
+	  		System.out.println(e);
+	  		throw e;
+	  	} finally {
+	  		pm.close();
+	  	}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<OpeningTime> getOpeningTimesForCaffeineSource(String id){
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		try {
+			Query query = pm.newQuery("SELECT FROM " + OpeningTime.class.getName() 
+					+ " WHERE caffeineSourceId == '" + id + "'");
+			List<OpeningTime> list = (List<OpeningTime>) query.execute();
+		
+			return list.size() == 0 ? null : list;
+	  	} catch (RuntimeException e) {
+	  		System.out.println(e);
+	  		throw e;
+	  	} finally {
+	  		pm.close();
+	  	}
+	}
 	
 	
 //	
 //	//Get Methods
 //	
-//	//USE TO GET SOURCE GIVEN LOCATION, SETTINGS INFO
-//	public void getCaffeineSources(){
-//		
-//	}
+
 //	
-//	@SuppressWarnings("unchecked")
-//	public List<CaffeineProduct> getCaffeineProductsForCaffeineSource(String id){
-//		PersistenceManager pm = PMF.get().getPersistenceManager();
-//		
-//		try {
-//			Query query = pm.newQuery("SELECT FROM " + CaffeineProduct.class.getName() 
-//					+ "WHERE caffeineSourceId == '" + id + "'");
-//			List<CaffeineProduct> list = (List<CaffeineProduct>) query.execute();
-//		
-//			return list.size() == 0 ? null : list;
-//	  	} catch (RuntimeException e) {
-//	  		System.out.println(e);
-//	  		throw e;
-//	  	} finally {
-//	  		pm.close();
-//	  	}
-//	}
+
 //
 //	@SuppressWarnings("unchecked")
 //	public List<OpeningTime> getOpeningTimesForCaffeineSource(String id){

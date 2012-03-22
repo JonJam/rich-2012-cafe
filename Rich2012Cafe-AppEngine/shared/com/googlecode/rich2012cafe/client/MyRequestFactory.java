@@ -23,6 +23,9 @@ import com.googlecode.rich2012cafe.shared.MessageProxy;
 import com.googlecode.rich2012cafe.shared.RegistrationInfoProxy;
 import com.googlecode.rich2012cafe.shared.Rich2012CafeRequest;
 
+/**
+ * GENERATED CLASS
+ */
 public interface MyRequestFactory extends RequestFactory {
 
 	@ServiceName("com.googlecode.rich2012cafe.server.utils.RegistrationInfo")

@@ -20,6 +20,8 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.Syntax;
 
 /**
+ * Class to perform SPARQL queries on endpoints and create datastore objects.
+ * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com), Samantha Kanza (samikanza@gmail.com)
  */
 public class SPARQLQuerier {
@@ -223,10 +225,19 @@ public class SPARQLQuerier {
 		return sourceProducts;
 	}
 	
+	/**
+	 * Method to determine whether a CaffeineProduct object already exists with the given name.
+	 * 
+	 * @param name (String object)
+	 * @return boolean value.
+	 */
 	private boolean containsProduct(String name){
 		
 		for(CaffeineProduct p : products){
+			
 			if(p.getName().equals(name)){
+				//Object exists so return true.
+				
 				return true;
 			}
 		}
@@ -234,6 +245,12 @@ public class SPARQLQuerier {
 		return false;
 	}
 	
+	/**
+	 * Method to create a CaffeineProduct object.
+	 * 
+	 * @param name (String object)
+	 * @return CaffeineProduct object
+	 */
 	private CaffeineProduct createCaffeineProduct(String name){
 		
 		String productType = "";
@@ -275,6 +292,12 @@ public class SPARQLQuerier {
    		return new CaffeineProduct(name, productType, caffeineContent);
 	}
 	
+	/**
+	 * Method to get list of CaffeineProduct object.
+	 * 
+	 * N.B. SHOULD ONLY BE CALLED AFTER CALLING getCaffeineSourceProducts.
+	 * @return
+	 */
 	public ArrayList<CaffeineProduct> getCaffeineProducts(){
 		return products;
 	}

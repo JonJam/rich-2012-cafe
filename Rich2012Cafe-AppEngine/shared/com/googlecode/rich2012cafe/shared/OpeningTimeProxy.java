@@ -5,6 +5,9 @@ import java.util.Date;
 import com.google.web.bindery.requestfactory.shared.ProxyForName;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
 
+/**
+ * GENERATED CLASS
+ */
 @ProxyForName(value = "com.googlecode.rich2012cafe.server.datastore.objects.OpeningTime", locator = "com.googlecode.rich2012cafe.server.datastore.objects.OpeningTimeLocator")
 public interface OpeningTimeProxy extends ValueProxy {
 

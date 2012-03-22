@@ -3,6 +3,11 @@ package com.googlecode.rich2012cafe.server.datastore.objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * Entity class to represent an instance of a caffeine product at a caffeine source.
+ * 
+ * @author Jonathan Harrison (jonjam1990@googlemail.com)
+ */
 @Entity
 public class CaffeineSourceProduct {
 	

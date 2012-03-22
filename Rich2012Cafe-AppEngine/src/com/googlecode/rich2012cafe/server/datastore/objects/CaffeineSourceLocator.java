@@ -2,7 +2,9 @@ package com.googlecode.rich2012cafe.server.datastore.objects;
 
 import com.google.web.bindery.requestfactory.shared.Locator;
 
-
+/**
+ * GENERATED CLASS
+ */
 public class CaffeineSourceLocator extends Locator<CaffeineSource, Void> {
 
 	@Override

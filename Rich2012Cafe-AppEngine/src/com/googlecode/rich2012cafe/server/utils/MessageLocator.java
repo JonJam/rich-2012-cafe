@@ -17,6 +17,9 @@ package com.googlecode.rich2012cafe.server.utils;
 import com.google.web.bindery.requestfactory.server.RequestFactoryServlet;
 import com.google.web.bindery.requestfactory.shared.Locator;
 
+/**
+ * GENERATED CLASS
+ */
 public class MessageLocator extends Locator<Message, Void> {
   
   @Override

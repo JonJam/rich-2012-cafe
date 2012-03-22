@@ -18,6 +18,9 @@ import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
 
+/**
+ * GENERATED CLASS
+ */
 public class Message {
 
   private static final Logger log = Logger.getLogger(Message.class.getName());

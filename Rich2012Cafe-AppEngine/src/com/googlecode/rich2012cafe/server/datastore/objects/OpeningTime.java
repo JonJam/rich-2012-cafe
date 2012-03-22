@@ -5,6 +5,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * Entity class to represent an opening time for a caffeine source.
+ * 
+ * @author Jonathan Harrison (jonjam1990@googlemail.com)
+ */
 @Entity
 public class OpeningTime {
 	

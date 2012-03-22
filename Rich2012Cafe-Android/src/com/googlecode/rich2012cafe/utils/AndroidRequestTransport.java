@@ -31,6 +31,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 
 /**
+ * GENERATED CLASS
+ * 
  * An implementation of RequestTransport for use between an Android client and a
  * Google AppEngine server.
  */

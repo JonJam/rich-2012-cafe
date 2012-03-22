@@ -60,6 +60,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
+ * GENERATED CLASS
+ * 
  * Account selections activity - handles device registration and unregistration.
  */
 public class AccountsActivity extends Activity {

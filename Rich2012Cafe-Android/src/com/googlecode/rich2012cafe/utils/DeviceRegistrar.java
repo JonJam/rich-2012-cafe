@@ -29,6 +29,8 @@ import android.provider.Settings.Secure;
 import android.util.Log;
 
 /**
+ * GENERATED CLASS
+ * 
  * Register/unregister with the third-party App Engine server using
  * RequestFactory.
  */

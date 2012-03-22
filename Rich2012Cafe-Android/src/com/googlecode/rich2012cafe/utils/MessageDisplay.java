@@ -23,6 +23,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 /**
+ * GENERATED CLASS
+ * 
  * Display a message as a notification, with an accompanying sound.
  */
 public class MessageDisplay {

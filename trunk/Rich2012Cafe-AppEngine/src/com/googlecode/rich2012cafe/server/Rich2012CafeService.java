@@ -23,12 +23,12 @@ public class Rich2012CafeService {
 	
 	@ServiceMethod
 	public void updateDataStore(){
-	
+		
 		if(db.getAllCaffeineSources() == null){
 			//Empty datastore
 			
 			db.populateDatastore();
-			
+
 		}  else if(db.getExpiredOpeningTimes() != null){
 			//Expired Opening Times
 

@@ -71,7 +71,7 @@ public class DataStore {
 	
 
 	@SuppressWarnings("unchecked")
-	private List<CaffeineProduct> getAllCaffeineProducts(){
+	public List<CaffeineProduct> getAllCaffeineProducts(){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		try {

@@ -14,11 +14,14 @@
  *******************************************************************************/
 package com.googlecode.rich2012cafe;
 
+import java.util.List;
+
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 import com.googlecode.rich2012cafe.activities.AccountsActivity;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
+import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
 import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
 import com.googlecode.rich2012cafe.utils.Util;
 
@@ -97,6 +100,18 @@ public class Rich2012CafeActivity extends Activity {
         }
     };
 
+    /**
+     * Begins the activity.
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Register a receiver to provide register/unregister notifications
+        registerReceiver(mUpdateUIReceiver, new IntentFilter(Util.UPDATE_UI_INTENT));
+        
+    }
+    
     @Override
     public void onResume() {
         super.onResume();
@@ -107,6 +122,9 @@ public class Rich2012CafeActivity extends Activity {
         if (Util.DISCONNECTED.equals(connectionStatus)) {
             startActivity(new Intent(this, AccountsActivity.class));
         }
+        
+        setScreenContent(R.layout.hello_world);
+
     }
     
     /**
@@ -127,43 +145,47 @@ public class Rich2012CafeActivity extends Activity {
         menu.getItem(0).setIntent(new Intent(this, AccountsActivity.class));
         return true;
     }
-    
-    //CHANGED BELOW
-    
-    /**
-     * Begins the activity.
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Register a receiver to provide register/unregister notifications
-        registerReceiver(mUpdateUIReceiver, new IntentFilter(Util.UPDATE_UI_INTENT));
-        
-        setContentView(R.layout.hello_world);
-        tv = (TextView) findViewById(R.id.hello_world_info);
-        setHelloWorldScreenContent();
-    }
 
     private void setHelloWorldScreenContent() {
-    	
+    	tv = (TextView) findViewById(R.id.hello_world_info);
+
 //        new AsyncTask<Void, Void, String>() {
-//        	String message;
+//        	String message = "";
 //        	
 //            @Override
 //            protected String doInBackground(Void... arg0) {
 //                MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
 //                
-//                requestFactory.rich2012CafeRequest().updateDataStore().fire(new Receiver<String>(){
-//                    @Override
-//                    public void onSuccess(String result) {
-//                    	message = result;
-//                    }
-//                    @Override
-//                    public void onFailure(ServerFailure error) {
-//                        message = "Failure: " + error.getMessage();
-//                    }
-//                });
+////                requestFactory.rich2012CafeRequest().getUniqueCaffeineProducts().fire(
+////                		new Receiver<List<CaffeineProductProxy>>(){
+////					
+////        			@Override
+////					public void onSuccess(List<CaffeineProductProxy> products) {
+////						for(CaffeineProductProxy c : products){
+////							message += c + "\n";
+////						}
+////					}
+////                	
+////					@Override
+////                    public void onFailure(ServerFailure error) {
+////                        message = "Failure: " + error.getMessage();
+////                    }
+////
+////                });
+//              requestFactory.rich2012CafeRequest().updateDataStore().fire(
+//        		new Receiver<String>(){
+//			
+//				@Override
+//				public void onSuccess(String products) {
+//					message = products;
+//				}
+//        	
+//				@Override
+//	            public void onFailure(ServerFailure error) {
+//	                message = "Failure: " + error.getMessage();
+//	            }
+//	
+//	        });
 //                return message;
 //            }
 //
@@ -173,5 +195,17 @@ public class Rich2012CafeActivity extends Activity {
 //                tv.setText(result);
 //            }
 //        }.execute();
+    }
+
+    /**
+     * Sets the screen content based on the screen id.
+     */
+    private void setScreenContent(int screenId) {
+        setContentView(screenId);
+        switch (screenId) {
+            case R.layout.hello_world:
+                setHelloWorldScreenContent();
+                break;
+        }
     }
 }

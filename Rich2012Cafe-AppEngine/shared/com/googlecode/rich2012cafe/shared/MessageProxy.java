@@ -21,8 +21,8 @@ import com.google.web.bindery.requestfactory.shared.ValueProxy;
  * A proxy object containing a message destined for a particular
  * recipient, identified by email address.
  */
-@ProxyForName(value = "com.googlecode.rich2012cafe.server.Message",
-    locator = "com.googlecode.rich2012cafe.server.MessageLocator")
+@ProxyForName(value = "com.googlecode.rich2012cafe.server.utils.Message",
+    locator = "com.googlecode.rich2012cafe.server.utils.MessageLocator")
 public interface MessageProxy extends ValueProxy {
   String getMessage();
   String getRecipient();

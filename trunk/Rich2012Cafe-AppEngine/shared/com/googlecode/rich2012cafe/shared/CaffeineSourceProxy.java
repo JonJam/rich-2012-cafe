@@ -3,6 +3,9 @@ package com.googlecode.rich2012cafe.shared;
 import com.google.web.bindery.requestfactory.shared.ProxyForName;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
 
+/**
+ * GENERATED CLASS
+ */
 @ProxyForName(value = "com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSource", locator = "com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceLocator")
 public interface CaffeineSourceProxy extends ValueProxy {
 

@@ -31,6 +31,8 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
+ * GENERATED CLASS
+ * 
  * Registration info.
  *
  * An account may be associated with multiple phones,

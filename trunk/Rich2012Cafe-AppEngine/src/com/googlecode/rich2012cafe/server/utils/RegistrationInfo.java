@@ -28,6 +28,9 @@ import java.util.logging.Logger;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 
+/**
+ *  GENERATED CLASS
+ */
 public class RegistrationInfo {
 
   private static final Logger log = Logger.getLogger(RegistrationInfo.class.getName());

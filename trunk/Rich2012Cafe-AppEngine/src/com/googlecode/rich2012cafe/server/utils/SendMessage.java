@@ -28,6 +28,8 @@ import javax.jdo.PersistenceManager;
 import javax.servlet.ServletContext;
 
 /**
+ * GENERATED CLASS
+ * 
  * Send a message using C2DM.
  */
 public class SendMessage {

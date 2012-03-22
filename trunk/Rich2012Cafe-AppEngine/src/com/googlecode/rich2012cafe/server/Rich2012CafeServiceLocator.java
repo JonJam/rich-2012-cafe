@@ -2,7 +2,9 @@ package com.googlecode.rich2012cafe.server;
 
 import com.google.web.bindery.requestfactory.shared.ServiceLocator;
 
-
+/**
+ * GENERATED CLASS
+ */
 public class Rich2012CafeServiceLocator implements ServiceLocator {
 
 	@Override

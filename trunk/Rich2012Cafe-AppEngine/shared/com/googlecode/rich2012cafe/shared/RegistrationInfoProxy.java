@@ -18,6 +18,8 @@ import com.google.web.bindery.requestfactory.shared.ProxyForName;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
 
 /**
+ * GENERATED CLASS
+ * 
  * A proxy object containing device registration information:
  * email account name, device id, and device registration id.
  */

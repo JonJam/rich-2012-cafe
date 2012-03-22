@@ -1,5 +1,10 @@
 package com.googlecode.rich2012cafe.server.utils;
 
+/**
+ * Class to contain all static variables used throughout project.
+ * 
+ * @author Jonathan Harrison (jonjam1990@googlemail.com)
+ */
 public class Rich2012CafeUtil {
 
 	//SPARQL Endpoint

@@ -18,6 +18,8 @@ import com.google.web.bindery.requestfactory.shared.ProxyForName;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
 
 /**
+ * GENERATED CLASS
+ * 
  * A proxy object containing a message destined for a particular
  * recipient, identified by email address.
  */

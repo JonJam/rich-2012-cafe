@@ -50,6 +50,7 @@ public class RegistrationInfo {
   }
 
   public void register() {
+	  
     log.info("register " + this);
     try {
       doRegister(getDeviceRegistrationId(), "ac2dm", getDeviceId(), getAccountName());
@@ -100,6 +101,7 @@ public class RegistrationInfo {
 
   private void doRegister(String deviceRegistrationId, String deviceType, String deviceId,
       String accountName) throws Exception {
+	 	  
     log.info("in register: accountName = " + accountName);
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {

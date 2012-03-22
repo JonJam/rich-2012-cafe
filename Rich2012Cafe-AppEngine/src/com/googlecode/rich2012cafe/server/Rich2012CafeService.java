@@ -2,11 +2,10 @@ package com.googlecode.rich2012cafe.server;
 
 import com.googlecode.rich2012cafe.annotation.ServiceMethod;
 import com.googlecode.rich2012cafe.server.datastore.DataStore;
-/*
- * Resources:
- * 	http://code.google.com/eclipse/docs/appeng_android_add_rpc.html
- *  http://bradabrams.com/2011/05/google-io-session-overview-android-app-engine-a-developers-dream-combination/
- */
+import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineProduct;
+import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceProduct;
+
+
 public class Rich2012CafeService {
 
 	static DataStore db = new DataStore();
@@ -16,14 +15,19 @@ public class Rich2012CafeService {
 	 * 
 	 * CHANGE AS NEED
 	 */
-	@ServiceMethod
-	public void getCaffeineSources(){
-		
-	}
+//	@ServiceMethod
+//	public void getCaffeineSources(){
+//		
+//	}
+	
+//	@ServiceMethod
+//	public List<CaffeineProduct> getUniqueCaffeineProducts(){
+//		return db.getUniqueCaffeineProducts();
+//	}
 	
 	@ServiceMethod
 	public void updateDataStore(){
-		
+	
 		if(db.getAllCaffeineSources() == null){
 			//Empty datastore
 			

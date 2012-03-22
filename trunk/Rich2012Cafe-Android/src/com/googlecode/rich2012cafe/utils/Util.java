@@ -40,6 +40,8 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 /**
+ * GENERATED CLASS
+ * 
  * Utility methods for getting the base URL for client-server communication and
  * retrieving shared preferences.
  */

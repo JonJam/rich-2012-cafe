@@ -157,7 +157,8 @@ public class Rich2012CafeActivity extends Activity {
 			@Override
             protected String doInBackground(Void... arg0) {
                 MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
-                
+                                           
+                //Get Opening times
                 requestFactory.rich2012CafeRequest()
             	.getOpeningTimesForCaffeineSource("http://id.southampton.ac.uk/point-of-service/38-arlott")
             	.fire(new Receiver<List<OpeningTimeProxy>>(){

@@ -28,6 +28,10 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 /**
+ * GENERATED CLASS
+ * 
+ * NOTE: DO NOT MOVE FROM TOP LEVEL
+ * 
  * Receive a push message from the Cloud to Device Messaging (C2DM) service.
  * This class should be modified to include functionality specific to your
  * application. This class must have a no-arg constructor and pass the sender id

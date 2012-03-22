@@ -15,6 +15,8 @@
 package com.googlecode.rich2012cafe.utils;
 
 /**
+ * GENERATED CLASS
+ * 
  * Class to be customized with app-specific data. The Eclipse plugin will set
  * these values when the project is created.
  */

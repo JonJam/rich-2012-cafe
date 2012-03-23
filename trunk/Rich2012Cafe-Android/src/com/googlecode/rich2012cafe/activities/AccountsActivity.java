@@ -26,12 +26,17 @@ import com.googlecode.rich2012cafe.utils.Util;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.ClientPNames;
+import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -234,7 +239,9 @@ public class AccountsActivity extends Activity {
         for (Account acct : accts) {
             final Account account = acct;
             if (account.name.equals(accountName)) {
+            	            	
                 if (Util.isDebug(mContext)) {
+                	
                     // Use a fake cookie for the dev mode app engine server
                     // The cookie has the form email:isAdmin:userId
                     // We set the userId to be the same as the email
@@ -243,20 +250,28 @@ public class AccountsActivity extends Activity {
                     prefs.edit().putString(Util.AUTH_COOKIE, authCookie).commit();
                     C2DMessaging.register(mContext, Setup.SENDER_ID);
                 } else {
+
                     // Get the auth token from the AccountManager and convert
                     // it into a cookie for the appengine server
                     final Activity activity = this;
                     mgr.getAuthToken(account, "ah", null, activity, new AccountManagerCallback<Bundle>() {
                         public void run(AccountManagerFuture<Bundle> future) {
+                        	                        	
                             String authToken = getAuthToken(future);
                             // Ensure the token is not expired by invalidating it and
                             // obtaining a new one
                             mgr.invalidateAuthToken(account.type, authToken);
                             mgr.getAuthToken(account, "ah", null, activity, new AccountManagerCallback<Bundle>() {
-                                public void run(AccountManagerFuture<Bundle> future) {
+                              public void run(AccountManagerFuture<Bundle> future) {
+                                	                                	
                                     String authToken = getAuthToken(future);
+                                    Log.i("ACTION","GOT AUTHTOKEN : " + authToken);
+                                    
                                     // Convert the token into a cookie for future use
                                     String authCookie = getAuthCookie(authToken);
+                                    
+                                    Log.i("ACTION","GOT AUTHCOOKIE");
+                                    
                                     Editor editor = prefs.edit();
                                     editor.putString(Util.AUTH_COOKIE, authCookie);
                                     editor.commit();
@@ -290,27 +305,46 @@ public class AccountsActivity extends Activity {
      * backend (as opposed to a dev mode server).
      */
     private String getAuthCookie(String authToken) {
+    	
+        Log.i("ACTION","CALLED GET AUTH COOKIE");
+        
         DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
             // Get SACSID cookie
             httpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
-            String uri = Setup.PROD_URL + "/_ah/login?continue=http://localhost/&auth=" + authToken;
+            
+            //String uri = Setup.PROD_URL + "/_ah/login?continue=http://localhost/&auth=" + authToken;
+            String uri = Setup.PROD_URL + "/_ah/login?continue=" + URLEncoder.encode(Setup.PROD_URL, "UTF-8") + "&auth=" + authToken;
+            		
             HttpGet method = new HttpGet(uri);
 
-            HttpResponse res = httpClient.execute(method);
+
+            final HttpParams getParams = new BasicHttpParams();
+            HttpClientParams.setRedirecting(getParams, false);
+            method.setParams(getParams);
+            Log.i("ACTION","BEFORE EXECUTE: " + uri);
+            
+            HttpResponse res = httpClient.execute(method); // ISSUE IS HERE
+
+            Log.i("ACTION","EXECUTED REQUEST ");
+            
             StatusLine statusLine = res.getStatusLine();
             int statusCode = statusLine.getStatusCode();
             Header[] headers = res.getHeaders("Set-Cookie");
             if (statusCode != 302 || headers.length == 0) {
                 return null;
             }
-
+            
             for (Cookie cookie : httpClient.getCookieStore().getCookies()) {
                 if (AUTH_COOKIE_NAME.equals(cookie.getName())) {
                     return AUTH_COOKIE_NAME + "=" + cookie.getValue();
                 }
             }
         } catch (IOException e) {
+        	
+        	Log.i("ACTION", "ERROR");
+        	Log.i("ACTION",Log.getStackTraceString(e));
+        	
             Log.w(TAG, "Got IOException " + e);
             Log.w(TAG, Log.getStackTraceString(e));
         } finally {

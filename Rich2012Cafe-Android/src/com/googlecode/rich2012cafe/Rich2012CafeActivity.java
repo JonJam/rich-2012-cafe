@@ -21,6 +21,7 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 import com.googlecode.rich2012cafe.activities.AccountsActivity;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
+import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
 import com.googlecode.rich2012cafe.shared.CaffeineSourceProductProxy;
 import com.googlecode.rich2012cafe.shared.CaffeineSourceProxy;
 import com.googlecode.rich2012cafe.shared.OpeningTimeProxy;
@@ -158,25 +159,25 @@ public class Rich2012CafeActivity extends Activity {
             protected String doInBackground(Void... arg0) {
                 MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
                                            
-                //Get Opening times
-                requestFactory.rich2012CafeRequest()
-            	.getOpeningTimesForCaffeineSource("http://id.southampton.ac.uk/point-of-service/38-arlott")
-            	.fire(new Receiver<List<OpeningTimeProxy>>(){
-            	
-            	@Override
-				public void onSuccess(List<OpeningTimeProxy> products) {
-					for(OpeningTimeProxy c : products){
-						message +=  c.getId() + " " + c.getCaffeineSourceId() + " " + c.getDay() + " " + c.getOpeningTime()
-								+ " " + c.getClosingTime() + " " + c.getValidFrom() + " " + c.getValidTo() + "\n\n";
-					}
-				}
-	        	
-				@Override
-	            public void onFailure(ServerFailure error) {
-	                message = "Failure: " + error.getMessage();
-	            }
-            });
-            
+//                //Get Opening times
+//                requestFactory.rich2012CafeRequest()
+//            	.getOpeningTimesForCaffeineSource("http://id.southampton.ac.uk/point-of-service/38-arlott")
+//            	.fire(new Receiver<List<OpeningTimeProxy>>(){
+//            	
+//            	@Override
+//				public void onSuccess(List<OpeningTimeProxy> products) {
+//					for(OpeningTimeProxy c : products){
+//						message +=  c.getId() + " " + c.getCaffeineSourceId() + " " + c.getDay() + " " + c.getOpeningTime()
+//								+ " " + c.getClosingTime() + " " + c.getValidFrom() + " " + c.getValidTo() + "\n\n";
+//					}
+//				}
+//	        	
+//				@Override
+//	            public void onFailure(ServerFailure error) {
+//	                message = "Failure: " + error.getMessage();
+//	            }
+//            });
+//            
                 
                 //Get caffeine source products.
 //                requestFactory.rich2012CafeRequest()
@@ -216,38 +217,21 @@ public class Rich2012CafeActivity extends Activity {
 //                });
                 
                 //Get all caffeine products
-//                requestFactory.rich2012CafeRequest().getAllCaffeineProducts().fire(
-//                		new Receiver<List<CaffeineProductProxy>>(){
-//					
-//        			@Override
-//					public void onSuccess(List<CaffeineProductProxy> products) {
-//						for(CaffeineProductProxy c : products){
-//							message += c.getName() + " " + c.getProductType() + " " + c.getCaffeineContent() + "\n\n";
-//						}
-//					}
-//                	
-//					@Override
-//                    public void onFailure(ServerFailure error) {
-//                        message = "Failure: " + error.getMessage();
-//                    }
-//
-//                });
+        		requestFactory.rich2012CafeRequest().getAllCaffeineProducts().fire(new Receiver<List<CaffeineProductProxy>>(){
+					
+        			@Override
+					public void onSuccess(List<CaffeineProductProxy> products) {
+						for(CaffeineProductProxy c : products){
+							message += c.getName() + " " + c.getProductType() + " " + c.getCaffeineContent() + "\n\n";
+						}
+					}
+                	
+					@Override
+                    public void onFailure(ServerFailure error) {
+                        message = "Failure: " + error.getMessage();
+                    }
 
-                //Update database method.
-//              requestFactory.rich2012CafeRequest().updateDataStore().fire(
-//        		new Receiver<Void>(){
-//			        	
-//				@Override
-//	            public void onFailure(ServerFailure error) {
-//	                message = "Failure: " + error.getMessage();
-//	            }
-//
-//				@Override
-//				public void onSuccess(Void arg0) {
-//					message = "UPDATED";
-//				}
-//	
-//	        });
+                });
                 
 				return message;
             }

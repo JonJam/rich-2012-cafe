@@ -60,23 +60,4 @@ public class Rich2012CafeService {
 	public List<CaffeineProduct> getAllCaffeineProducts(){
 		return db.getAllCaffeineProducts();
 	}
-	
-	/**
-	 * Method to update the datastore.
-	 */
-	@ServiceMethod
-	public void updateDataStore(){
-	
-		if(db.getAllCaffeineSources() == null){
-			//Empty datastore
-			
-			db.populateDatastore();
-
-		}  else if(db.getExpiredOpeningTimes() != null){
-			//Expired Opening Times
-
-			db.clearDatastore();
-			db.populateDatastore();
-		}
-	}
 }

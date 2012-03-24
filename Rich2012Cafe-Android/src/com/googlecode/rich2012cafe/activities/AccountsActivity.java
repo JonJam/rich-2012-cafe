@@ -54,8 +54,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.Settings;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -64,10 +67,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-/**
- * GENERATED CLASS
- * 
+/** 
  * Account selections activity - handles device registration and unregistration.
+ * 
+ * This GENERATED class has been modified to remove NetworkOnMainThreadException.
+ * 
+ * Modified by Jonathan Harrison (jonjam1990@googlemail.com)
  */
 public class AccountsActivity extends Activity {
 
@@ -102,7 +107,7 @@ public class AccountsActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         SharedPreferences prefs = Util.getSharedPreferences(mContext);
         String deviceRegistrationID = prefs.getString(Util.DEVICE_REGISTRATION_ID, null);
         if (deviceRegistrationID == null) {
@@ -172,7 +177,9 @@ public class AccountsActivity extends Activity {
                     TextView account = (TextView) listView.getChildAt(mAccountSelectedPosition);
                     // Register
                     register((String) account.getText());
-                    finish();
+                    
+                    //Commented out due to AsyncTask in register
+                    //finish();
                 }
             });
         }
@@ -226,6 +233,7 @@ public class AccountsActivity extends Activity {
      */
     private void register(final String accountName) {
         // Store the account name in shared preferences
+    	
         final SharedPreferences prefs = Util.getSharedPreferences(mContext);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(Util.ACCOUNT_NAME, accountName);
@@ -256,26 +264,58 @@ public class AccountsActivity extends Activity {
                     final Activity activity = this;
                     mgr.getAuthToken(account, "ah", null, activity, new AccountManagerCallback<Bundle>() {
                         public void run(AccountManagerFuture<Bundle> future) {
-                        	                        	
-                            String authToken = getAuthToken(future);
-                            // Ensure the token is not expired by invalidating it and
+                        	                            
+                        	String authToken = getAuthToken(future);
+                            
+                        	// Ensure the token is not expired by invalidating it and
                             // obtaining a new one
-                            mgr.invalidateAuthToken(account.type, authToken);
+                        	mgr.invalidateAuthToken(account.type, authToken);
+                            
+                        	//Original generated code.
+                        	
+//                            mgr.getAuthToken(account, "ah", null, activity, new AccountManagerCallback<Bundle>() {
+//                            	public void run(AccountManagerFuture<Bundle> future) {
+//                                	                           	
+//                            		final String authToken = getAuthToken(future);
+//                                    
+//                                    // Convert the token into a cookie for future use
+//                                    String authCookie = getAuthCookie(authToken);
+//                                    
+//                                    Editor editor = prefs.edit();
+//                                    editor.putString(Util.AUTH_COOKIE, authCookie);
+//                                    editor.commit();
+//                                    C2DMessaging.register(mContext, Setup.SENDER_ID);
+//                                                                     
+//                                }
+//                            }, null);
+                             
+                        	//Added to perform network operation outside main thread.
+                        	
                             mgr.getAuthToken(account, "ah", null, activity, new AccountManagerCallback<Bundle>() {
-                              public void run(AccountManagerFuture<Bundle> future) {
-                                	                                	
-                                    String authToken = getAuthToken(future);
-                                    Log.i("ACTION","GOT AUTHTOKEN : " + authToken);
-                                    
-                                    // Convert the token into a cookie for future use
-                                    String authCookie = getAuthCookie(authToken);
-                                    
-                                    Log.i("ACTION","GOT AUTHCOOKIE");
-                                    
-                                    Editor editor = prefs.edit();
-                                    editor.putString(Util.AUTH_COOKIE, authCookie);
-                                    editor.commit();
-                                    C2DMessaging.register(mContext, Setup.SENDER_ID);
+                                public void run(AccountManagerFuture<Bundle> future) {
+                                	final String authToken = getAuthToken(future);
+		                            
+                                	new AsyncTask<Void, Void, Void>() {
+		
+                                		@Override
+		                    			protected Void doInBackground(Void... arg0) {
+                                			// Convert the token into a cookie for future use
+		                    				String authCookie = getAuthCookie(authToken);
+		
+		                    				Editor editor = prefs.edit();
+		                    				editor.putString(Util.AUTH_COOKIE, authCookie);
+		                    				editor.commit();
+		                    				C2DMessaging.register(mContext, Setup.SENDER_ID);
+		                    				
+		                    				return null;
+		                    			}
+		                    		
+		                    			@Override
+		                        		protected void onPostExecute(Void result) {
+
+		                    				activity.finish();
+		                    			}
+		                            }.execute();
                                 }
                             }, null);
                         }
@@ -285,7 +325,7 @@ public class AccountsActivity extends Activity {
             }
         }
     }
-
+    
     private String getAuthToken(AccountManagerFuture<Bundle> future) {
         try {
             Bundle authTokenBundle = future.getResult();
@@ -306,27 +346,19 @@ public class AccountsActivity extends Activity {
      */
     private String getAuthCookie(String authToken) {
     	
-        Log.i("ACTION","CALLED GET AUTH COOKIE");
-        
         DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
             // Get SACSID cookie
             httpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
             
+            //Original generated code.
             //String uri = Setup.PROD_URL + "/_ah/login?continue=http://localhost/&auth=" + authToken;
+            
             String uri = Setup.PROD_URL + "/_ah/login?continue=" + URLEncoder.encode(Setup.PROD_URL, "UTF-8") + "&auth=" + authToken;
             		
             HttpGet method = new HttpGet(uri);
 
-
-            final HttpParams getParams = new BasicHttpParams();
-            HttpClientParams.setRedirecting(getParams, false);
-            method.setParams(getParams);
-            Log.i("ACTION","BEFORE EXECUTE: " + uri);
-            
-            HttpResponse res = httpClient.execute(method); // ISSUE IS HERE
-
-            Log.i("ACTION","EXECUTED REQUEST ");
+            HttpResponse res = httpClient.execute(method); 
             
             StatusLine statusLine = res.getStatusLine();
             int statusCode = statusLine.getStatusCode();
@@ -341,10 +373,6 @@ public class AccountsActivity extends Activity {
                 }
             }
         } catch (IOException e) {
-        	
-        	Log.i("ACTION", "ERROR");
-        	Log.i("ACTION",Log.getStackTraceString(e));
-        	
             Log.w(TAG, "Got IOException " + e);
             Log.w(TAG, Log.getStackTraceString(e));
         } finally {

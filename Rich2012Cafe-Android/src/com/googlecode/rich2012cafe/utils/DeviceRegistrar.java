@@ -100,6 +100,7 @@ public class DeviceRegistrar {
                 updateUIIntent.putExtra(ACCOUNT_NAME_EXTRA, accountName);
                 updateUIIntent.putExtra(STATUS_EXTRA, register ? REGISTERED_STATUS
                         : UNREGISTERED_STATUS);
+                
                 context.sendBroadcast(updateUIIntent);
             }
         });

@@ -35,6 +35,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.util.Log;
@@ -44,6 +45,10 @@ import android.util.Log;
  * 
  * Utility methods for getting the base URL for client-server communication and
  * retrieving shared preferences.
+ * 
+ * Modified by Jonathan Harrison (jonjam1990@googlemail.com):
+ * 		To remove NullPointerException when generating Notification.
+ * 		Incorrect debug url being given when testing on linux.
  */
 public class Util {
 
@@ -119,10 +124,15 @@ public class Util {
         long when = System.currentTimeMillis();
 
         Notification notification = new Notification(icon, message, when);
-        notification.setLatestEventInfo(context, "C2DM Example", message,
-                PendingIntent.getActivity(context, 0, null, PendingIntent.FLAG_CANCEL_CURRENT));
+          
+        notification.setLatestEventInfo(context, "Rich2012Cafe", message,
+        		
+        		//Original Generated code
+                //PendingIntent.getActivity(context, 0, null, PendingIntent.FLAG_CANCEL_CURRENT));
+        		
+        		PendingIntent.getActivity(context, 0, new Intent(), PendingIntent.FLAG_CANCEL_CURRENT));
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
-
+        
         SharedPreferences settings = Util.getSharedPreferences(context);
         int notificatonID = settings.getInt("notificationID", 0);
 

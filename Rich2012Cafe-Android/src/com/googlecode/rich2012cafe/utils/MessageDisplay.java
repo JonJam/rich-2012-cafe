@@ -14,6 +14,7 @@
  *******************************************************************************/
 package com.googlecode.rich2012cafe.utils;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;

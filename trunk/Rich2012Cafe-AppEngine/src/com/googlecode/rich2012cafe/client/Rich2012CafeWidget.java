@@ -57,9 +57,6 @@ public class Rich2012CafeWidget extends Composite {
   DivElement status;
 
   @UiField
-  Button sayHelloButton;
-
-  @UiField
   Button sendMessageButton;
 
   /**
@@ -92,7 +89,6 @@ public class Rich2012CafeWidget extends Composite {
 
   public Rich2012CafeWidget() {
     initWidget(uiBinder.createAndBindUi(this));
-    sayHelloButton.getElement().setClassName("send centerbtn");
     sendMessageButton.getElement().setClassName("send");
 
     final EventBus eventBus = new SimpleEventBus();
@@ -125,26 +121,6 @@ public class Rich2012CafeWidget extends Composite {
             setStatus(response, response.startsWith("Failure:"));
           }
         });
-      }
-    });
-
-    sayHelloButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-//        sayHelloButton.setEnabled(false);
-//        HelloWorldRequest helloWorldRequest = requestFactory.helloWorldRequest();
-//        helloWorldRequest.getMessage().fire(new Receiver<String>() {
-//          @Override
-//          public void onFailure(ServerFailure error) {
-//            sayHelloButton.setEnabled(true);
-//            setStatus(error.getMessage(), true);
-//          }
-//
-//          @Override
-//          public void onSuccess(String response) {
-//            sayHelloButton.setEnabled(true);
-//            setStatus(response, response.startsWith("Failure:"));
-//          }
-//        });
       }
     });
   }

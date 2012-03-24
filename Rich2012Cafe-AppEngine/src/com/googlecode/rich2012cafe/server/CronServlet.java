@@ -8,6 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.googlecode.rich2012cafe.server.datastore.DataStore;
 
+/**
+ * HttpServlet to run database check and update which is called via cron job.
+ * 
+ * @author Jonathan Harrison (jonjam1990@googlemail.com)
+ */
 public class CronServlet extends HttpServlet{
 
 	private static DataStore db = new DataStore();

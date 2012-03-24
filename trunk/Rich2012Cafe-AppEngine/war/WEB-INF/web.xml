@@ -56,6 +56,8 @@
       <url-pattern>/tasks/c2dm</url-pattern>
   </servlet-mapping>
   
+  
+  <!-- Cron job servlet -->
 	<servlet>
 		<servlet-name>CronServlet</servlet-name>
 		<servlet-class>com.googlecode.rich2012cafe.server.CronServlet</servlet-class>
@@ -89,6 +91,7 @@
     </auth-constraint>
   </security-constraint>
   
+  <!-- Require admin role for Cron job servlet -->
     <security-constraint>
     <web-resource-collection>
       <url-pattern>/cron</url-pattern>

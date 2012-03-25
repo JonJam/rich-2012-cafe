@@ -54,4 +54,5 @@ public interface MyRequestFactory extends RequestFactory {
 	MessageRequest messageRequest();
 
 	Rich2012CafeRequest rich2012CafeRequest();
+
 }

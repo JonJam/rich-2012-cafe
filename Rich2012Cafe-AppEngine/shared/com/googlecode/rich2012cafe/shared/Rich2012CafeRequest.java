@@ -18,4 +18,7 @@ public interface Rich2012CafeRequest extends RequestContext {
 	Request<List<CaffeineSourceProductProxy>> getCaffeineSourceProductsForCaffeineSource(String id);
 	Request<List<OpeningTimeProxy>> getOpeningTimesForCaffeineSource(String id);
 	Request<List<CaffeineSourceProxy>> getCaffeineSourcesGiven();
+	Request<LeaderboardScoreProxy> getLeaderboardScore();
+	Request<Void> updateLeaderboardScore(double score);
+
 }

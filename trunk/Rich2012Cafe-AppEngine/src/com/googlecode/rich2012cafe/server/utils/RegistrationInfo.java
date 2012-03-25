@@ -30,6 +30,8 @@ import javax.jdo.PersistenceManager;
 
 /**
  *  GENERATED CLASS
+ *  
+ *  Modified by Jonathan Harrison (jonjam1990@googlemail.com) to delete DeviceInfo instances upon unregistration.
  */
 public class RegistrationInfo {
 
@@ -119,7 +121,12 @@ public class RegistrationInfo {
         // unused registrations
         DeviceInfo oldest = registrations.get(0);
         if (oldest.getRegistrationTimestamp() == null) {
-          pm.deletePersistent(oldest);
+        	
+        	//Original code
+			//pm.deletePersistent(oldest);
+			
+			oldest = pm.getObjectById(DeviceInfo.class, oldest.getKey());
+			pm.deletePersistent(oldest);
         } else {
           long oldestTime = oldest.getRegistrationTimestamp().getTime();
           for (int i = 1; i < registrations.size(); i++) {
@@ -128,7 +135,11 @@ public class RegistrationInfo {
               oldestTime = oldest.getRegistrationTimestamp().getTime();
             }
           }
-          pm.deletePersistent(oldest);
+			//Original code
+			//pm.deletePersistent(oldest);
+			
+			oldest = pm.getObjectById(DeviceInfo.class, oldest.getKey());
+			pm.deletePersistent(oldest);
         }
       }
 
@@ -171,8 +182,15 @@ public class RegistrationInfo {
       List<DeviceInfo> registrations = DeviceInfo.getDeviceInfoForUser(accountName);
       for (int i = 0; i < registrations.size(); i++) {
         DeviceInfo deviceInfo = registrations.get(i);
+        
         if (deviceInfo.getDeviceRegistrationID().equals(deviceRegistrationID)) {
-          pm.deletePersistent(deviceInfo);
+        	
+        	//Original code
+        	//pm.deletePersistent(deviceInfo);
+        	
+	    	deviceInfo = pm.getObjectById(DeviceInfo.class, deviceInfo.getKey());
+	    	pm.deletePersistent(deviceInfo);
+        	
           // Keep looping in case of duplicates
         }
       }

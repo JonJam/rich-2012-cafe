@@ -13,6 +13,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineProduct;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSource;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceProduct;
+import com.googlecode.rich2012cafe.server.datastore.objects.LeaderboardScore;
 import com.googlecode.rich2012cafe.server.datastore.objects.OpeningTime;
 import com.googlecode.rich2012cafe.server.sparql.SPARQLQuerier;
 
@@ -86,6 +87,56 @@ public class DataStore {
 		
 	}
 	
+	/**
+	 * Method to get leaderboard score for requesting user.
+	 * 
+	 * @return LeaderboardScore object.
+	 */
+	public LeaderboardScore getLeaderboardScore(){
+		String userId;
+		
+		try{
+			userId = getUserId();
+		} catch(NullPointerException e){
+			//Failed to get user id so return null.	
+			
+			return null;
+		}
+	
+		return getLeaderboardScore(userId);
+	}
+	
+	/**
+	 * Method to update requesting user's score.
+	 * 
+	 * @param score (double value)
+	 */
+	public void updateScore(double score){
+		String userId = null;
+		
+		try{
+			userId = getUserId();
+		} catch(NullPointerException e){
+			//Failed to get user id so return.
+			
+			return;
+		}
+	
+		LeaderboardScore userScore = getLeaderboardScore(userId);
+		
+		if(userScore == null){
+			//Doesn't exist so make score object
+			
+			userScore = new LeaderboardScore(userId, score);
+		} else{
+			//Score object exists
+			
+			userScore.setScore(userScore.getScore() + score);
+		}
+		
+		updateLeaderboardScore(userScore);
+	}
+	
 	//Create Methods
 	
 	/**
@@ -142,6 +193,21 @@ public class DataStore {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			pm.makePersistent(time);
+	    } finally {
+	    	pm.close();
+	    }
+	}
+	
+	/**
+	 * Method to create/update LeaderboardScore objects.
+	 * 
+	 * @param score (LeaderboardScore object)
+	 */
+	private void updateLeaderboardScore(LeaderboardScore score){
+
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			pm.makePersistent(score);
 	    } finally {
 	    	pm.close();
 	    }
@@ -402,11 +468,37 @@ public class DataStore {
 	}
 	
 	/**
+	 * Method to get LeaderboardScore object for the user with userId.
+	 * 
+	 * @param userId (String object)
+	 * @return LeaderboardScore object
+	 */
+	@SuppressWarnings("unchecked")
+	private LeaderboardScore getLeaderboardScore(String userId){
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		try {
+			Query query = pm.newQuery("SELECT FROM " + LeaderboardScore.class.getName() 
+					+ " WHERE userId == '" + userId + "'");
+			
+			List<LeaderboardScore> list = (List<LeaderboardScore>) query.execute();
+			
+			return list.size() == 0 ? null : list.get(0);
+	  	} catch (RuntimeException e) {
+	  		System.out.println(e);
+	  		throw e;
+	  	} finally {
+	  		pm.close();
+	  	}
+	}
+	
+	/**
 	 * Method to get current user id.
 	 * 
 	 * @return String object.
 	 */
-	public String getUserId() {
+	private String getUserId() {
 	    UserService userService = UserServiceFactory.getUserService();
 	    User user = userService.getCurrentUser();
 	    return user.getUserId();
@@ -417,7 +509,7 @@ public class DataStore {
 	 * 
 	 * @return String object.
 	 */
-	public String getUserEmail() {
+	private String getUserEmail() {
 		UserService userService = UserServiceFactory.getUserService();
 	    User user = userService.getCurrentUser();
 	    return user.getEmail();

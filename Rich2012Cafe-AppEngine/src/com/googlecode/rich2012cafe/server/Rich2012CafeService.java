@@ -7,6 +7,7 @@ import com.googlecode.rich2012cafe.server.datastore.DataStore;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineProduct;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSource;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceProduct;
+import com.googlecode.rich2012cafe.server.datastore.objects.LeaderboardScore;
 import com.googlecode.rich2012cafe.server.datastore.objects.OpeningTime;
 
 /**
@@ -59,5 +60,25 @@ public class Rich2012CafeService {
 	@ServiceMethod
 	public List<CaffeineProduct> getAllCaffeineProducts(){
 		return db.getAllCaffeineProducts();
+	}
+	
+	/**
+	 * Method to get leaderboard score for user requesting.
+	 * 
+	 * @return LeaderboardScore object.
+	 */
+	@ServiceMethod
+	public LeaderboardScore getLeaderboardScore(){
+		return db.getLeaderboardScore();
+	}
+	
+	/**
+	 * Method to update score of user.
+	 * 
+	 * @param score (double value)
+	 */
+	@ServiceMethod
+	public void updateLeaderboardScore(double score){
+		db.updateScore(score);
 	}
 }

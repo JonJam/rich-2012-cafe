@@ -2,9 +2,7 @@ package com.googlecode.rich2012cafe.server.datastore.objects;
 
 import com.google.web.bindery.requestfactory.shared.Locator;
 
-/**
- * GENERATED CLASS
- */
+
 public class OpeningTimeLocator extends Locator<OpeningTime, Void> {
 
 	@Override

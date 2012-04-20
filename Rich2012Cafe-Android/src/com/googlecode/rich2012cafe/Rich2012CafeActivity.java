@@ -8,6 +8,7 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 import com.googlecode.rich2012cafe.activities.AccountsActivity;
 import com.googlecode.rich2012cafe.activities.GraphActivity;
+import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.activities.SettingsActivity;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
 import com.googlecode.rich2012cafe.calendar.CalendarReader;
@@ -193,7 +194,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 	public void onClick(View view) {
 		// TODO Auto-generated method stub
 		if (view.getId() == R.id.graphButton) {
-			Intent intent = new Intent(view.getContext(), GraphActivity.class);
+			Intent intent = new Intent(view.getContext(), LeaderboardActivity.class);
 			this.startActivity(intent);
 		}
 	}

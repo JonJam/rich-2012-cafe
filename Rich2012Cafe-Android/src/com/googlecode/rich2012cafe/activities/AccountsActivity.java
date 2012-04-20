@@ -48,6 +48,7 @@ import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -107,7 +108,6 @@ public class AccountsActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         SharedPreferences prefs = Util.getSharedPreferences(mContext);
         String deviceRegistrationID = prefs.getString(Util.DEVICE_REGISTRATION_ID, null);
         if (deviceRegistrationID == null) {

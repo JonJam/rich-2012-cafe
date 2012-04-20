@@ -6,6 +6,8 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 import com.googlecode.rich2012cafe.activities.AccountsActivity;
+import com.googlecode.rich2012cafe.activities.GraphActivity;
+import com.googlecode.rich2012cafe.activities.SettingsActivity;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
 import com.googlecode.rich2012cafe.calendar.CalendarReader;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
@@ -17,7 +19,9 @@ import com.googlecode.rich2012cafe.shared.OpeningTimeProxy;
 import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
 import com.googlecode.rich2012cafe.utils.Util;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +34,9 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 /**
@@ -56,7 +63,7 @@ import android.widget.TextView;
  * Main activity - requests "Hello, World" messages from the server and provides
  * a menu item to invoke the accounts activity.
  */
-public class Rich2012CafeActivity extends Activity {
+public class Rich2012CafeActivity extends Activity implements OnClickListener{
     
 	//Tag for logging.
     private static final String TAG = "Rich2012CafeActivity";
@@ -101,10 +108,11 @@ public class Rich2012CafeActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         // Register a receiver to provide register/unregister notifications
         registerReceiver(mUpdateUIReceiver, new IntentFilter(Util.UPDATE_UI_INTENT));
-        
+        findViewById(R.id.graphButton).setOnClickListener(this);
     }
     
     @Override
@@ -118,7 +126,7 @@ public class Rich2012CafeActivity extends Activity {
             startActivity(new Intent(this, AccountsActivity.class));
         }
         
-        setScreenContent(R.layout.hello_world);
+        setScreenContent(R.layout.home_screen);
 
     }
     
@@ -134,10 +142,9 @@ public class Rich2012CafeActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        
+        inflater.inflate(R.menu.actionmenu, menu);
         // Invoke the Register activity
-        menu.getItem(0).setIntent(new Intent(this, AccountsActivity.class));
+        menu.getItem(0).setIntent(new Intent(this, SettingsActivity.class));
         return true;
     }
 
@@ -153,8 +160,13 @@ public class Rich2012CafeActivity extends Activity {
     	
     	tv.setMovementMethod(new ScrollingMovementMethod());
     	tv.setText(text);
-    	
     }
+    
+	public AlertDialog createAlert(Activity activity, String msg){
+	     AlertDialog dialog= new AlertDialog.Builder(activity).create();
+	     dialog.setMessage(msg);
+	     return dialog;   
+	}
 
     /**
      * Sets the screen content based on the screen id.
@@ -162,9 +174,24 @@ public class Rich2012CafeActivity extends Activity {
     private void setScreenContent(int screenId) {
         setContentView(screenId);
         switch (screenId) {
-            case R.layout.hello_world:
+            case R.layout.home_screen:
                 setHelloWorldScreenContent();
                 break;
         }
     }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+          //return controller.optionsActions(item, this);
+    	return false;
+    }
+
+	@Override
+	public void onClick(View view) {
+		// TODO Auto-generated method stub
+		if (view.getId() == R.id.graphButton) {
+			Intent intent = new Intent(view.getContext(), GraphActivity.class);
+			this.startActivity(intent);
+		}
+	}
 }

@@ -1,5 +1,6 @@
 package com.googlecode.rich2012cafe;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.google.web.bindery.requestfactory.shared.Receiver;
@@ -112,7 +113,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         // Register a receiver to provide register/unregister notifications
         registerReceiver(mUpdateUIReceiver, new IntentFilter(Util.UPDATE_UI_INTENT));
-        findViewById(R.id.graphButton).setOnClickListener(this);
+        
     }
     
     @Override
@@ -155,8 +156,10 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     	
     	CalendarReader r = new CalendarReader();
     	for(CalendarEvent e : r.getTodaysEvents(this)){
-    		text += e + "\n\n";
+    		text += e.getDisplay()+ "\n\n";
     	}
+    	
+    	findViewById(R.id.graphButton).setOnClickListener(this);
     	
     	tv.setMovementMethod(new ScrollingMovementMethod());
     	tv.setText(text);

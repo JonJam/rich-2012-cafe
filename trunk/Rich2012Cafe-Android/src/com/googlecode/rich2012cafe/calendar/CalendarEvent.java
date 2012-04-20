@@ -1,17 +1,23 @@
 package com.googlecode.rich2012cafe.calendar;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Class to represent a calendar event.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  */
-public class CalendarEvent {
+public class CalendarEvent implements Comparable<CalendarEvent>{
 	
 	private String calenderId;
  	private String title;
  	private String description;
  	private String eventLocation;
 	private long startTime;
+	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+	private Date start, end;
+	
  	private long endTime;
  	
  	public CalendarEvent(String calendarId, String title, String description, 
@@ -22,6 +28,8 @@ public class CalendarEvent {
  		this.eventLocation = eventLocation;
  		this.startTime = startTime;
  		this.endTime = endTime;
+ 		start = new Date(startTime);
+ 		end = new Date(endTime);
  	}
  	
  	/**
@@ -123,6 +131,9 @@ public class CalendarEvent {
 		return endTime;
 	}
 
+	public Date getStartDate(){
+		return start;
+	}
 	/**
 	 * Method to set end time.
 	 * 
@@ -131,12 +142,25 @@ public class CalendarEvent {
 	public void setEndTime(long endTime) {
 		this.endTime = endTime;
 	}
+	
+	public String formatTime(Date date){
+		return sdf.format(date);
+	}
  	
+	public String getDisplay(){
+		return title+" @ "+formatTime(start)+" - "+formatTime(end);
+	}
  	@Override
 	public String toString() {
 		return "CalendarEvent [calenderId=" + calenderId + ", title=" + title
 				+ ", description=" + description + ", eventLocation="
 				+ eventLocation + ", startTime=" + startTime + ", endTime="
 				+ endTime + "]";
+	}
+
+	@Override
+	public int compareTo(CalendarEvent event) {
+		// TODO Auto-generated method stub
+		return this.getStartDate().compareTo(event.getStartDate());
 	}
 }

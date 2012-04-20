@@ -2,6 +2,7 @@ package com.googlecode.rich2012cafe.calendar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -70,9 +71,9 @@ public class CalendarReader {
          	
         	eventCursor.moveToNext();
         }
+        Collections.sort(events);
         
-        return events;
-
+        return events;       
 	}
 	
 	/**

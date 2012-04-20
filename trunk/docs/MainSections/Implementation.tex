@@ -1,33 +1,8 @@
 \section{Implementation}
 
-\subsection{Project Management}
-
-\subsubsection{Version Control}
-\label{sec:VersionControl}
-
-There were several version control mechanisms we could have used. Git and SVN were both considered, with potential to store the code on UGForge or Googlecode or Github etc. In the end the group chose to use SVN Googlecode. SVN was chosen primarily due to the fact that Eclipse was being used as the main development environment, and there is an SVN plugin for Eclipse that makes the subversioning process easier to integrate with the development process. Googlecode was chosen because the application that is being developed is for Android, and therefore it was felt that Android’s creators Google would be the most sensible place to store the application. 
-
-\subsubsection{Group Methodologies}
-The group decided to implement several agile-based technologies to aid with the application development process. The development areas have been broken down into individual tasks (stories) to simplify the process. An iterative development process was also adopted, with the base of the application built first, followed by a gradual development of its features. 
-
-Pair Programming was also an agile technique that the group used. The application development was split into three areas: Database development and SPARQL querying, the map interface and GPS positioning / directions, and the overall user interface. Each section had two group members assigned to it, and each pair worked together to share their skillset and therefore produce a superior result. 
-
 \subsection{Backend implementation}
 \subsection{UI implementation}
 \subsection{Maps implementation}
-
-\subsection{Tools \& Techniques}
-
-\subsubsection{Data Source}
-OptiCaff used the Open Data Service from the University of Southampton \cite{DataSouthampton} to retrieve the relevant information for the application. This service provides open linked data about some of the administrative information regarding the university. It also provides a SPARQL Endpoint \cite{SotonSparql} (a service which facilitates users querying a knowledge base using the SPARQL query language) \cite{SparqlEndpoint}. OptiCaff utilises this with a few specialist queries, and combined with user preferences can provide the user with a wide selection of caffeine choices around campus. 
-
-\subsubsection{Platform}
-OptiCaff ’s purpose lent itself heavily to being a mobile application, and as such that sparked the debate of what platform it should be developed for. It was decided that for the prototype application, Android \cite{Android} would be the simpler option for the following reasons:
-Android can be developed on any platform \cite{SDKAllOS}, which is useful as the group uses a combination of OSX, Linux and Windows. 
-Android uses Java, which all members of the group have had significant experience with, and given the timescale in which to complete the application, in addition to other commitments it seemed the most viable option. 
-
-\subsubsection{Development Tools}
-Given that OptiCaff was to be an Android application. The development tools needed to facilitate its production were the Android SDK tools \cite{AndroidSDK}. The recommended development environment suggested by Android was to use Eclipse \cite{Eclipse} with the ADT (Android Developer Tools) plugin \cite{SDKAllOS}. Given the groups overall familiarity with Eclipse and it’s additional useful plugins for version control (see section \ref{sec:VersionControl}) this was used as our IDE of choice.
 
 \subsection{Implementation Problems}
 

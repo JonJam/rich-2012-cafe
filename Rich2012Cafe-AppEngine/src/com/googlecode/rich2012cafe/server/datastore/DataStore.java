@@ -220,7 +220,7 @@ public class DataStore {
 			
 			return;
 		}
-	
+		
 		LeaderboardScore userScore = getLeaderboardScore(userId);
 		
 		if(userScore == null){
@@ -239,24 +239,8 @@ public class DataStore {
 	
 	//Get Methods
 	
-	/**
-	 * Method to get leaderboard score for requesting user.
-	 * 
-	 * @return LeaderboardScore object.
-	 */
-	public LeaderboardScore getLeaderboardScore(){
-		String userId;
-		
-		try{
-			userId = getUserId();
-		} catch(NullPointerException e){
-			//Failed to get user id so return null.	
-			
-			return null;
-		}
 	
-		return getLeaderboardScore(userId);
-	}
+	
 	
 	/**
 	 * Method to get all CaffeineSources.
@@ -466,6 +450,90 @@ public class DataStore {
 			List<OpeningTime> list = (List<OpeningTime>) query.execute(Calendar.getInstance().getTime());
     		
 			return list.size() == 0 ? null : list;
+	  	} catch (RuntimeException e) {
+	  		System.out.println(e);
+	  		throw e;
+	  	} finally {
+	  		pm.close();
+	  	}
+	}
+	
+	/**
+	 * Method to get LeaderboardScore object for requesting user.
+	 * 
+	 * @return LeaderboardScore object
+	 */
+	public LeaderboardScore getLeaderboardScore(){
+		String userId;
+		
+		try{
+			userId = getUserId();
+		} catch(NullPointerException e){
+			//Failed to get user id so return null.	
+			return null;
+		}
+	
+		LeaderboardScore score = getLeaderboardScore(userId);
+		score.setPosition(getPosition(userId));
+		
+		return score;
+	}
+	
+	/**
+	 * Method to get leaderboard position for requesting user.
+	 * 
+	 * @param userId (String id)
+	 * @return int value
+	 */
+	@SuppressWarnings("unchecked")
+	private int getPosition(String userId){
+		int position = 0;
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		try {
+			Query query = pm.newQuery("SELECT FROM " + LeaderboardScore.class.getName() 
+					+ " ORDER BY score DESC");
+			
+			List<LeaderboardScore> list = (List<LeaderboardScore>) query.execute();
+		
+			int counter = 1;
+			
+			for(LeaderboardScore s : list){
+				if(s.getUserId().equals(userId)){
+					position = counter;
+					break;
+				}
+				counter++;
+			}
+			
+			return position;
+			
+	  	} catch (RuntimeException e) {
+	  		System.out.println(e);
+	  		throw e;
+	  	} finally {
+	  		pm.close();
+	  	}
+	}
+	
+	/**
+	 * Method to get top five leaderboard scores.
+	 * 
+	 * @return List of LeaderboardScore objects.
+	 */
+	@SuppressWarnings("unchecked")
+	public List<LeaderboardScore> getTopFiveLeaderboardScores(){
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		try {
+			Query query = pm.newQuery("SELECT FROM " + LeaderboardScore.class.getName() 
+					+ " ORDER BY score DESC");
+			
+			List<LeaderboardScore> list = (List<LeaderboardScore>) query.execute();
+			
+			return list.size() == 0 ? null : list.subList(0, list.size() < 5 ? list.size() : 5);
+	
 	  	} catch (RuntimeException e) {
 	  		System.out.println(e);
 	  		throw e;

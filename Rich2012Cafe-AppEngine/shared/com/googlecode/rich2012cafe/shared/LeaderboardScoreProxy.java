@@ -14,4 +14,8 @@ public interface LeaderboardScoreProxy extends ValueProxy {
 
 	void setScore(double score);
 
+	int getPosition();
+
+	void setPosition(int position);
+
 }

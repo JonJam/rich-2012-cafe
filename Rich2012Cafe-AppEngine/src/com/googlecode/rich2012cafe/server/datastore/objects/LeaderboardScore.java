@@ -12,8 +12,9 @@ import javax.persistence.Id;
 public class LeaderboardScore {
 
 	@Id
-	public String userId;
-	public double score;
+	private String userId;
+	private double score;
+	private int position;
 	
 	public LeaderboardScore(String userId, double score){
 		this.userId = userId;
@@ -54,5 +55,34 @@ public class LeaderboardScore {
 	 */
 	public void setScore(double score) {
 		this.score = score;
+	}
+	
+	/**
+	 * Method to get position.
+	 * 
+	 * @return position (int value)
+	 */
+	public int getPosition() {
+		return position;
+	}
+
+	/**
+	 * Method to set position.
+	 * 
+	 * @param position (int value)
+	 */
+	public void setPosition(int position) {
+		this.position = position;
+	}
+	
+	/**
+	 * Method to get String representation of LeaderboardScore object.
+	 * 
+	 * @return String object
+	 */
+	@Override
+	public String toString() {
+		return "LeaderboardScore [userId=" + userId + ", score=" + score
+				+ ", position=" + position + "]";
 	}
 }

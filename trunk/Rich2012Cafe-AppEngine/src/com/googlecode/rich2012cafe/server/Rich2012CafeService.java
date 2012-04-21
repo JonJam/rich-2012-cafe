@@ -81,4 +81,14 @@ public class Rich2012CafeService {
 	public void updateLeaderboardScore(double score){
 		db.updateScore(score);
 	}
+	
+	/**
+	 * Method to get top five leaderboard scores.
+	 * 
+	 * @return List of LeaderboardScore objects
+	 */
+	@ServiceMethod
+	public List<LeaderboardScore> getTopFiveLeaderboardScores(){
+		return db.getTopFiveLeaderboardScores();
+	}
 }

@@ -28,6 +28,8 @@ public class CaffeineSource {
 	private String type;
 	//Whether off(1) or on(0) campus
 	private int offCampus;
+	//Boolean to set whether source has opening times.
+	private boolean hasOpeningTimes;
 
 	public CaffeineSource(String id, String name, String buildingNumber, String buildingName, 
 			double buildingLat, double buildingLong, String type, int offCampus){
@@ -186,13 +188,34 @@ public class CaffeineSource {
 	}
 	
 	/**
+	 * Method to get hasOpeningTimes.
+	 * 
+	 * @return hasOpeningTimes (boolean value)
+	 */
+	public boolean hasOpeningTimes() {
+		return hasOpeningTimes;
+	}
+
+	/**
+	 * Method to set hasOpeningTimes.
+	 * 
+	 * @param hasOpeningTimes (boolean value)
+	 */
+	public void setHasOpeningTimes(boolean hasOpeningTimes) {
+		this.hasOpeningTimes = hasOpeningTimes;
+	}
+	
+	/**
 	 * Method to get String representation of a CaffeineSource.
 	 * 
 	 * @return String value
 	 */
-	public String toString(){
-		return "id: " + id + " name: " + name + " buildingNumber: " + buildingNumber + " buildingName: " + buildingName
-				+ " buildingLat: " + buildingLat + " buildingLong: " + buildingLong + " type: " + type + " offCampus: "
-				+ offCampus;
+	public String toString() {
+		return "CaffeineSource [id=" + id + ", name=" + name
+				+ ", buildingNumber=" + buildingNumber + ", buildingName="
+				+ buildingName + ", buildingLat=" + buildingLat
+				+ ", buildingLong=" + buildingLong + ", type=" + type
+				+ ", offCampus=" + offCampus + ", hasOpeningTimes="
+				+ hasOpeningTimes + "]";
 	}
 }

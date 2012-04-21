@@ -62,10 +62,18 @@ public class Rich2012CafeUtil {
 	public static final String OPENING_TIMES_QUERY2 = "> gr:hasOpeningHoursSpecification ?" + TIME_ID + " ."
 		+ " ?" + TIME_ID + " gr:opens ?" + TIME_OPENS + " ; gr:closes ?" + TIME_CLOSES + " ; gr:validFrom ?" + TIME_FROM 
 		+ " ; gr:validThrough ?" + TIME_TO +" ; "
+		+ "gr:hasOpeningHoursDayOfWeek ?" + TIME_DAY + " . }";
+	
+	public static final String CURRENT_OPENING_TIMES_QUERY1 = "PREFIX gr: <http://purl.org/goodrelations/v1#>"
+		+ "PREFIX xs: <http://www.w3.org/2001/XMLSchema#>"
+		+ "SELECT DISTINCT * WHERE { <";
+	public static final String CURRENT_OPENING_TIMES_QUERY2 = "> gr:hasOpeningHoursSpecification ?" + TIME_ID + " ."
+		+ " ?" + TIME_ID + " gr:opens ?" + TIME_OPENS + " ; gr:closes ?" + TIME_CLOSES + " ; gr:validFrom ?" + TIME_FROM 
+		+ " ; gr:validThrough ?" + TIME_TO +" ; "
 		+ "gr:hasOpeningHoursDayOfWeek ?" + TIME_DAY + " . "
 		+ "FILTER('";
-	public static final String OPENING_TIMES_QUERY3 = "'^^xs:dateTime > ?" + TIME_FROM + " && '";
-	public static final String OPENING_TIMES_QUERY4 = "'^^xs:dateTime < ?" + TIME_TO + " )}";
+	public static final String CURRENT_OPENING_TIMES_QUERY3 = "'^^xs:dateTime > ?" + TIME_FROM + " && '";
+	public static final String CURRENT_OPENING_TIMES_QUERY4 = "'^^xs:dateTime < ?" + TIME_TO + " )}";
 		
 	public static final String CAFFEINE_PRODUCTS_QUERY1 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
 		+ "PREFIX purl: <http://purl.org/goodrelations/v1#>"

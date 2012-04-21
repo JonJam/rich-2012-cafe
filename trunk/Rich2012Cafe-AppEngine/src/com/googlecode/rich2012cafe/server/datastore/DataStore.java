@@ -24,12 +24,81 @@ import com.googlecode.rich2012cafe.server.sparql.SPARQLQuerier;
  */
 public class DataStore {
 
-	//Datastore methods
+	/**
+	 * Method to perform database check.
+	 */
+	public void performDatastoreCheck(){
+		
+		if(getAllCaffeineSources() == null){
+			//Empty datastore
+			
+			populateDatastore();
+			
+		}  else{
+			//Performing opening times check
+
+			boolean modificationsMade = false;
+			
+			SPARQLQuerier querier = new SPARQLQuerier();
+			//Set querier with existing caffeine products.
+			querier.setCaffeineProducts(getAllCaffeineProducts());
+			
+			
+			for(CaffeineSource source : getAllCaffeineSources()){
+				
+				String id = source.getId();
+				List<OpeningTime> times = getOpeningTimesForCaffeineSource(id);
+				
+				if(source.hasOpeningTimes() == true && 
+						(getExpiredOpeningTimesForSource(id) != null || times == null)){
+					//CaffeineSource has opening times and either has expired opening times or none so update.
+					
+					modificationsMade = true;
+					
+					//Delete all OpeningTimes objects for CaffeineSource if any.
+					if(times != null){
+						deleteOpeningTimes(times);
+					}
+					
+					//Delete all CaffeineSourceProduct objects for CaffeineSource if any.
+					List<CaffeineSourceProduct> products = getCaffeineSourceProductsForCaffeineSource(id);
+					if(products != null){
+						deleteCaffeineSourceProducts(products);
+					}
+					
+					//Get current opening times for source and add to database.
+					for(OpeningTime ot : querier.getCurrentOpeningTimes(id)){
+						createOpeningTime(ot);
+					}
+					
+					//Add source products to database.
+					for(CaffeineSourceProduct p : querier.getCaffeineSourceProducts(id)){
+						createCaffeineSourceProduct(p);
+					}
+				}
+			}
+			
+			if(modificationsMade){
+				//Modifications have been made to datastore so check CaffeineProducts.
+				
+				deleteAllCaffeineProducts();
+				List<CaffeineProduct> products = querier.getCaffeineProducts();
+				
+				for(CaffeineProduct p : products){
+					
+					if(getCaffeineSourceProductsForCaffeineProduct(p.getName()) != null){
+						//CaffeineProduct is in use so add
+						createCaffeineProduct(p);
+					}
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Method to populate datastore using SPARQL endpoint.
 	 */
-	public void populateDatastore(){
+	private void populateDatastore(){
 		SPARQLQuerier querier = new SPARQLQuerier();
 		
 		List<CaffeineSource> sources = querier.getCaffeineSources();
@@ -39,11 +108,14 @@ public class DataStore {
 			//Add source to database.
 			createCaffeineSource(source);
 			
-			//Add opening times to database.
-			for(OpeningTime ot : querier.getCurrentOpeningTimes(source.getId())){
-				createOpeningTime(ot);
+			if(source.hasOpeningTimes()){
+				//Has opening times so get current opening times and add to database.
+				
+				for(OpeningTime ot : querier.getCurrentOpeningTimes(source.getId())){
+					createOpeningTime(ot);
+				}
 			}
-			
+						
 			//Add source products to database.
 			for(CaffeineSourceProduct p : querier.getCaffeineSourceProducts(source.getId())){
 				createCaffeineSourceProduct(p);
@@ -55,88 +127,7 @@ public class DataStore {
 			createCaffeineProduct(p);
 		}
 	}
-
-	/**
-	 * Method to clear the datastore.
-	 */
-	public void clearDatastore(){
-		List<CaffeineSource> sources = getAllCaffeineSources();
-		List<CaffeineSourceProduct> sourceProducts = getAllCaffeineSourceProducts();
-		List<CaffeineProduct> products = getAllCaffeineProducts();
-		List<OpeningTime> times = getAllOpeningTimes();
 		
-		//Delete all CaffeineSource objects
-		for(CaffeineSource source : sources){
-			deleteCaffeineSource(source.getId());
-		}
-		
-		//Delete all CaffeineSourceProduct objects.
-		for(CaffeineSourceProduct product : sourceProducts){
-			deleteCaffeineSourceProduct(product.getId());
-		}
-		
-		//Delete all CaffeineProduct objects.
-		for(CaffeineProduct product : products){
-			deleteCaffeineProduct(product.getName());
-		}
-		
-		//Delete all OpeningTime objects.
-		for(OpeningTime time : times){
-			deleteOpeningTime(time.getId());
-		}
-		
-	}
-	
-	/**
-	 * Method to get leaderboard score for requesting user.
-	 * 
-	 * @return LeaderboardScore object.
-	 */
-	public LeaderboardScore getLeaderboardScore(){
-		String userId;
-		
-		try{
-			userId = getUserId();
-		} catch(NullPointerException e){
-			//Failed to get user id so return null.	
-			
-			return null;
-		}
-	
-		return getLeaderboardScore(userId);
-	}
-	
-	/**
-	 * Method to update requesting user's score.
-	 * 
-	 * @param score (double value)
-	 */
-	public void updateScore(double score){
-		String userId = null;
-		
-		try{
-			userId = getUserId();
-		} catch(NullPointerException e){
-			//Failed to get user id so return.
-			
-			return;
-		}
-	
-		LeaderboardScore userScore = getLeaderboardScore(userId);
-		
-		if(userScore == null){
-			//Doesn't exist so make score object
-			
-			userScore = new LeaderboardScore(userId, score);
-		} else{
-			//Score object exists
-			
-			userScore.setScore(userScore.getScore() + score);
-		}
-		
-		updateLeaderboardScore(userScore);
-	}
-	
 	//Create Methods
 	
 	/**
@@ -212,74 +203,60 @@ public class DataStore {
 	    	pm.close();
 	    }
 	}
-	
-	//Delete Methods
-	
-	/**
-	 * Method to remove a CaffeineSource object.
-	 * 
-	 * @param id (String id)
-	 */
-	private void deleteCaffeineSource(String id){
-		
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		try {
-			CaffeineSource source = pm.getObjectById(CaffeineSource.class, id);
-			pm.deletePersistent(source);
-	    } finally {
-	    	pm.close();
-	    }
-	}
+
 	
 	/**
-	 * Method to remove a CaffeineSourceProduct object.
+	 * Method to update requesting user's score.
 	 * 
-	 * @param id (String id)
+	 * @param score (double value)
 	 */
-	private void deleteCaffeineSourceProduct(String id){
+	public void updateScore(double score){
+		String userId = null;
 		
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		try {
-			CaffeineSourceProduct product = pm.getObjectById(CaffeineSourceProduct.class, id);
-			pm.deletePersistent(product);
-	    } finally {
-	    	pm.close();
-	    }
+		try{
+			userId = getUserId();
+		} catch(NullPointerException e){
+			//Failed to get user id so return.
+			
+			return;
+		}
+	
+		LeaderboardScore userScore = getLeaderboardScore(userId);
+		
+		if(userScore == null){
+			//Doesn't exist so make score object
+			
+			userScore = new LeaderboardScore(userId, score);
+		} else{
+			//Score object exists
+			
+			userScore.setScore(userScore.getScore() + score);
+		}
+		
+		updateLeaderboardScore(userScore);
 	}
 	
-	/**
-	 * Method to remove a CaffeineProduct object.
-	 * 
-	 * @param id (String id)
-	 */
-	private void deleteCaffeineProduct(String id){
-		
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		try {
-			CaffeineProduct product = pm.getObjectById(CaffeineProduct.class, id);
-			pm.deletePersistent(product);
-	    } finally {
-	    	pm.close();
-	    }
-	}
-	
-	/**
-	 * Method to remove an OpeningTime object.
-	 * 
-	 * @param id (String id)
-	 */
-	private void deleteOpeningTime(String id){
-		
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		try {
-			OpeningTime time = pm.getObjectById(OpeningTime.class, id);
-			pm.deletePersistent(time);
-	    } finally {
-	    	pm.close();
-	    }
-	}
 	
 	//Get Methods
+	
+	/**
+	 * Method to get leaderboard score for requesting user.
+	 * 
+	 * @return LeaderboardScore object.
+	 */
+	public LeaderboardScore getLeaderboardScore(){
+		String userId;
+		
+		try{
+			userId = getUserId();
+		} catch(NullPointerException e){
+			//Failed to get user id so return null.	
+			
+			return null;
+		}
+	
+		return getLeaderboardScore(userId);
+	}
 	
 	/**
 	 * Method to get all CaffeineSources.
@@ -287,7 +264,7 @@ public class DataStore {
 	 * @return List of CaffeineSource objects.
 	 */
 	@SuppressWarnings("unchecked")
-	public List<CaffeineSource> getAllCaffeineSources(){
+	private List<CaffeineSource> getAllCaffeineSources(){
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -303,52 +280,8 @@ public class DataStore {
 	  		pm.close();
 	  	}
 	}
-	
-	/**
-	 * Method to get all OpeningTimes.
-	 * 
-	 * @return List of OpeningTime objects.
-	 */
-	@SuppressWarnings("unchecked")
-	private List<OpeningTime> getAllOpeningTimes(){
 
-		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
-		try {
-			Query query = pm.newQuery("SELECT FROM " + OpeningTime.class.getName());
-			List<OpeningTime> list = (List<OpeningTime>) query.execute();
-		
-			return list.size() == 0 ? null : list;
-	  	} catch (RuntimeException e) {
-	  		System.out.println(e);
-	  		throw e;
-	  	} finally {
-	  		pm.close();
-	  	}
-	}
-	
-	/**
-	 * Method to get all CaffeineSourceProducts.
-	 * 
-	 * @return List of CaffeineSourceProducts.
-	 */
-	@SuppressWarnings("unchecked")
-	public List<CaffeineSourceProduct> getAllCaffeineSourceProducts(){
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		try {
-			Query query = pm.newQuery("SELECT FROM " + CaffeineSourceProduct.class.getName());
-			List<CaffeineSourceProduct> list = (List<CaffeineSourceProduct>) query.execute();
-		
-			return list.size() == 0 ? null : list;
-	  	} catch (RuntimeException e) {
-	  		System.out.println(e);
-	  		throw e;
-	  	} finally {
-	  		pm.close();
-	  	}
-	}
-	
 	/**
 	 * Method to get all CaffeineProducts.
 	 * 
@@ -362,31 +295,6 @@ public class DataStore {
 			Query query = pm.newQuery("SELECT FROM " + CaffeineProduct.class.getName());
 			List<CaffeineProduct> list = (List<CaffeineProduct>) query.execute();
 		
-			return list.size() == 0 ? null : list;
-	  	} catch (RuntimeException e) {
-	  		System.out.println(e);
-	  		throw e;
-	  	} finally {
-	  		pm.close();
-	  	}
-	}
-	
-	/**
-	 * Method to get all expired OpeningTime objects.
-	 * 
-	 * @return List of OpeningTime objects.
-	 */
-	@SuppressWarnings("unchecked")
-	public List<OpeningTime> getExpiredOpeningTimes(){
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-				
-		try {
-			Query query = pm.newQuery("SELECT FROM " + OpeningTime.class.getName());
-			query.setFilter("validTo < dateParam");
-			query.declareParameters("java.util.Date dateParam");			
-
-			List<OpeningTime> list = (List<OpeningTime>) query.execute(Calendar.getInstance().getTime());
-    		
 			return list.size() == 0 ? null : list;
 	  	} catch (RuntimeException e) {
 	  		System.out.println(e);
@@ -513,5 +421,106 @@ public class DataStore {
 		UserService userService = UserServiceFactory.getUserService();
 	    User user = userService.getCurrentUser();
 	    return user.getEmail();
+	}
+	
+	/**
+	 * Method to get CaffeineSourceProducts for CaffeineProduct name
+	 * 
+	 * @param name (String object)
+	 * @return List of CaffeineSourceProduct objects
+	 */
+	@SuppressWarnings("unchecked")
+	public List<CaffeineSourceProduct> getCaffeineSourceProductsForCaffeineProduct(String name){
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		try {
+			Query query = pm.newQuery("SELECT FROM " + CaffeineSourceProduct.class.getName()
+					+ " WHERE name == '" + name + "'");
+			List<CaffeineSourceProduct> list = (List<CaffeineSourceProduct>) query.execute();
+		
+			return list.size() == 0 ? null : list;
+	  	} catch (RuntimeException e) {
+	  		System.out.println(e);
+	  		throw e;
+	  	} finally {
+	  		pm.close();
+	  	}
+	}
+	
+	/**
+	 * Method to get expired OpeningTime objects for CaffeineSource.
+	 * 
+	 * @param id (String object)
+	 * @return List of OpeningTime objects.
+	 */
+	@SuppressWarnings("unchecked")
+	private List<OpeningTime> getExpiredOpeningTimesForSource(String id){
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+				
+		try {
+			Query query = pm.newQuery("SELECT FROM " + OpeningTime.class.getName() 
+				+ " WHERE caffeineSourceId == '" + id +"'");
+			query.setFilter("validTo < dateParam");
+			query.declareParameters("java.util.Date dateParam");			
+
+			List<OpeningTime> list = (List<OpeningTime>) query.execute(Calendar.getInstance().getTime());
+    		
+			return list.size() == 0 ? null : list;
+	  	} catch (RuntimeException e) {
+	  		System.out.println(e);
+	  		throw e;
+	  	} finally {
+	  		pm.close();
+	  	}
+	}
+	
+	//Delete Methods
+	/**
+	 * Method to delete OpeningTimes objects passed.
+	 * 
+	 * @param times (List of OpeningTime objects)
+	 */
+	private void deleteOpeningTimes(List<OpeningTime> times){
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			for(OpeningTime time : times){
+				pm.deletePersistent(pm.getObjectById(OpeningTime.class, time.getId()));
+			}
+	    } finally {
+	    	pm.close();
+	    }
+	}
+	
+	/**
+	 * Method to delete all CaffeineProduct objects.
+	 */
+	private void deleteAllCaffeineProducts(){
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			for(CaffeineProduct product : getAllCaffeineProducts()){
+				pm.deletePersistent(pm.getObjectById(CaffeineProduct.class, product.getName()));
+			}
+	    } finally {
+	    	pm.close();
+	    }
+	}
+	
+	/**
+	 * Method to delete CaffeineSourceProducts selected.
+	 *
+	 * @param products (List of CaffeineSourceProduct objects)
+	 */
+	private void deleteCaffeineSourceProducts(List<CaffeineSourceProduct> products){
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			for(CaffeineSourceProduct product : products){
+				pm.deletePersistent(pm.getObjectById(CaffeineSourceProduct.class, product.getId()));
+			}
+	    } finally {
+	    	pm.close();
+	    }
 	}
 }

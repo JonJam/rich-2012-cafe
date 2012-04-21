@@ -25,16 +25,6 @@ public class CronServlet extends HttpServlet{
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
 
-		if(db.getAllCaffeineSources() == null){
-			//Empty datastore
-			
-			db.populateDatastore();
-
-		}  else if(db.getExpiredOpeningTimes() != null){
-			//Expired Opening Times
-
-			db.clearDatastore();
-			db.populateDatastore();
-		}
+		db.performDatastoreCheck();
     }
 }

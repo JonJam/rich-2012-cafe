@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineProduct;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceProduct;
@@ -26,7 +27,7 @@ import com.hp.hpl.jena.query.Syntax;
  */
 public class SPARQLQuerier {
 	
-	private ArrayList<CaffeineProduct> products;
+	private List<CaffeineProduct> products;
 	
 	public SPARQLQuerier(){
 		products = new ArrayList<CaffeineProduct>();
@@ -41,7 +42,7 @@ public class SPARQLQuerier {
 
 		ArrayList<CaffeineSource> sources = new ArrayList<CaffeineSource>();
 		
-		//Execute query
+		//Execute caffeine source query
 		Query query = QueryFactory.create(Rich2012CafeUtil.CAFFEINE_SOURCES_QUERY, Syntax.syntaxARQ);
         QueryExecution qe = QueryExecutionFactory.sparqlService(Rich2012CafeUtil.DATA_SOUTHAMPTON_ENDPOINT, query);
         ResultSet caffeineSourcesResults = qe.execSelect();
@@ -90,6 +91,25 @@ public class SPARQLQuerier {
         
         qe.close();
         
+        //Loop to set hasOpeningTimes boolean for each CaffeineSource object. 
+        for(CaffeineSource source : sources){
+        	
+        	//Execute query
+    		Query openingTimeQuery = QueryFactory.create(Rich2012CafeUtil.OPENING_TIMES_QUERY1 + source.getId() 
+    				+ Rich2012CafeUtil.OPENING_TIMES_QUERY2, Syntax.syntaxARQ);
+        	
+        	QueryExecution openingTimeQueryExec = QueryExecutionFactory.sparqlService(Rich2012CafeUtil.DATA_SOUTHAMPTON_ENDPOINT, openingTimeQuery);
+            ResultSet openingTimeResults = openingTimeQueryExec.execSelect();
+            
+            if(openingTimeResults.hasNext()){
+            	//Has opening times so set to true.
+            	source.setHasOpeningTimes(true);
+            } else{
+            	//Doesn't have opening times so false.
+            	source.setHasOpeningTimes(false);
+            }
+        }       
+        
         return sources;
 	}
 	
@@ -107,10 +127,10 @@ public class SPARQLQuerier {
 		String todayString = new SimpleDateFormat(Rich2012CafeUtil.DATE_FORMAT).format(Calendar.getInstance().getTime());
 		
 		//Execute query
-		Query query = QueryFactory.create(Rich2012CafeUtil.OPENING_TIMES_QUERY1 + caffeineSourceId 
-				+ Rich2012CafeUtil.OPENING_TIMES_QUERY2 + todayString 
-				+ Rich2012CafeUtil.OPENING_TIMES_QUERY3 + todayString 
-				+ Rich2012CafeUtil.OPENING_TIMES_QUERY4, Syntax.syntaxARQ);
+		Query query = QueryFactory.create(Rich2012CafeUtil.CURRENT_OPENING_TIMES_QUERY1 + caffeineSourceId 
+				+ Rich2012CafeUtil.CURRENT_OPENING_TIMES_QUERY2 + todayString 
+				+ Rich2012CafeUtil.CURRENT_OPENING_TIMES_QUERY3 + todayString 
+				+ Rich2012CafeUtil.CURRENT_OPENING_TIMES_QUERY4, Syntax.syntaxARQ);
         QueryExecution qe = QueryExecutionFactory.sparqlService(Rich2012CafeUtil.DATA_SOUTHAMPTON_ENDPOINT, query);
         ResultSet  openingTimesResults = qe.execSelect();
 
@@ -298,7 +318,11 @@ public class SPARQLQuerier {
 	 * N.B. SHOULD ONLY BE CALLED AFTER CALLING getCaffeineSourceProducts.
 	 * @return
 	 */
-	public ArrayList<CaffeineProduct> getCaffeineProducts(){
+	public List<CaffeineProduct> getCaffeineProducts(){
 		return products;
+	}
+	
+	public void setCaffeineProducts(List<CaffeineProduct> products){
+		this.products = products;
 	}
 }

@@ -36,4 +36,8 @@ public interface CaffeineSourceProxy extends ValueProxy {
 
 	void setOffCampus(int offCampus);
 
+	boolean hasOpeningTimes();
+
+	void setHasOpeningTimes(boolean hasOpeningTimes);
+
 }

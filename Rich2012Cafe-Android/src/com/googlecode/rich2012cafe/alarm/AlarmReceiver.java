@@ -1,8 +1,6 @@
 package com.googlecode.rich2012cafe.alarm;
 
-import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
-import com.googlecode.rich2012cafe.utils.Util;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

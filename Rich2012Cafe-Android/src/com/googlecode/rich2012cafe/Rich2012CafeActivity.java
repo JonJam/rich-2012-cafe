@@ -1,23 +1,11 @@
 package com.googlecode.rich2012cafe;
 
-import java.util.Collections;
-import java.util.List;
-
-import com.google.web.bindery.requestfactory.shared.Receiver;
-import com.google.web.bindery.requestfactory.shared.ServerFailure;
-
 import com.googlecode.rich2012cafe.activities.AccountsActivity;
 import com.googlecode.rich2012cafe.activities.GraphActivity;
 import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.activities.SettingsActivity;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
 import com.googlecode.rich2012cafe.calendar.CalendarReader;
-import com.googlecode.rich2012cafe.client.MyRequestFactory;
-import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
-import com.googlecode.rich2012cafe.shared.CaffeineSourceProductProxy;
-import com.googlecode.rich2012cafe.shared.CaffeineSourceProxy;
-import com.googlecode.rich2012cafe.shared.LeaderboardScoreProxy;
-import com.googlecode.rich2012cafe.shared.OpeningTimeProxy;
 import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
 import com.googlecode.rich2012cafe.utils.Util;
 
@@ -112,6 +100,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setHomeButtonEnabled(true);
         // Register a receiver to provide register/unregister notifications
         registerReceiver(mUpdateUIReceiver, new IntentFilter(Util.UPDATE_UI_INTENT));
         
@@ -145,8 +134,11 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionmenu, menu);
-        // Invoke the Register activity
-        menu.getItem(0).setIntent(new Intent(this, SettingsActivity.class));
+        // Invoke the Register activity       
+        menu.getItem(1).setIntent(new Intent(this, GraphActivity.class));
+        menu.getItem(2).setIntent(new Intent(this, LeaderboardActivity.class));
+        menu.getItem(3).setIntent(new Intent(this, SettingsActivity.class));
+        
         return true;
     }
 
@@ -187,6 +179,15 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
           //return controller.optionsActions(item, this);
+    	switch(item.getItemId()){
+    	case android.R.id.home:{
+            Intent intent = new Intent(this, Rich2012CafeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+
+    	}
+    	}
     	return false;
     }
 

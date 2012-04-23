@@ -1,6 +1,7 @@
 package com.googlecode.rich2012cafe;
 
 import com.googlecode.rich2012cafe.activities.AccountsActivity;
+import com.googlecode.rich2012cafe.activities.GMapActivity;
 import com.googlecode.rich2012cafe.activities.GraphActivity;
 import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.activities.SettingsActivity;
@@ -133,6 +134,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionmenu, menu);
         // Invoke the Register activity       
+        menu.getItem(0).setIntent(new Intent(this, GMapActivity.class));
         menu.getItem(1).setIntent(new Intent(this, GraphActivity.class));
         menu.getItem(2).setIntent(new Intent(this, LeaderboardActivity.class));
         menu.getItem(3).setIntent(new Intent(this, SettingsActivity.class));
@@ -145,9 +147,8 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     	
     	String text = "";
     	
-	   // AlarmSetter.setAlarm(this, Calendar.getInstance(), Rich2012CafeUtil.CAFFEINE_WARNING);
 //    	
-	    text = "ALARM SET";
+//	    text = "ALARM SET";
 //    	
     	
     	findViewById(R.id.graphButton).setOnClickListener(this);

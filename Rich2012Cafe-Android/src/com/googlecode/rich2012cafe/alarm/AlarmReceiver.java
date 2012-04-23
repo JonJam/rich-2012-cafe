@@ -38,7 +38,7 @@ public class AlarmReceiver extends BroadcastReceiver{
 				
 //				 Intent newIntent = new Intent(context, LeaderboardActivity.class);
 //				 newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//				 
+////				 
 //				 Util.generateNotification(context, message, newIntent);
 			}
 		

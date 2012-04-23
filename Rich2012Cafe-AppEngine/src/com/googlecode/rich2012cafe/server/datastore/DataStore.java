@@ -233,13 +233,11 @@ public class DataStore {
 			userScore.setScore(userScore.getScore() + score);
 		}
 		
-		updateLeaderboardScore(userScore);
+		updateLeaderboardScore(userScore);		
 	}
 	
 	
 	//Get Methods
-	
-	
 	
 	
 	/**
@@ -487,8 +485,7 @@ public class DataStore {
 	 */
 	@SuppressWarnings("unchecked")
 	private int getPosition(String userId){
-		int position = 0;
-		
+
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		try {
@@ -496,19 +493,15 @@ public class DataStore {
 					+ " ORDER BY score DESC");
 			
 			List<LeaderboardScore> list = (List<LeaderboardScore>) query.execute();
-		
-			int counter = 1;
 			
-			for(LeaderboardScore s : list){
-				if(s.getUserId().equals(userId)){
-					position = counter;
-					break;
+			for(int i = 0; i < list.size(); i++){
+				if(list.get(i).getUserId().equals(userId)){
+					return i + 1;
 				}
-				counter++;
 			}
 			
-			return position;
-			
+			return 0;
+					
 	  	} catch (RuntimeException e) {
 	  		System.out.println(e);
 	  		throw e;
@@ -527,13 +520,14 @@ public class DataStore {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		try {
-			Query query = pm.newQuery("SELECT FROM " + LeaderboardScore.class.getName() 
-					+ " ORDER BY score DESC");
+			Query query = pm.newQuery("SELECT FROM " + LeaderboardScore.class.getName());
+			query.setOrdering("score desc");
+			query.setRange(0, 5);
 			
 			List<LeaderboardScore> list = (List<LeaderboardScore>) query.execute();
 			
-			return list.size() == 0 ? null : list.subList(0, list.size() < 5 ? list.size() : 5);
-	
+			return list.size() == 0 ? null : list;
+			
 	  	} catch (RuntimeException e) {
 	  		System.out.println(e);
 	  		throw e;

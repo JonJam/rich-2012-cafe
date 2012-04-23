@@ -152,9 +152,9 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     	
     	String text = "";
     	
-//	    AlarmSetter.setAlarm(this, Calendar.getInstance(), Rich2012CafeUtil.CAFFEINE_WARNING);
+	   // AlarmSetter.setAlarm(this, Calendar.getInstance(), Rich2012CafeUtil.CAFFEINE_WARNING);
 //    	
-//	    text = "ALARM SET";
+	    text = "ALARM SET";
 //    	
     	
     	findViewById(R.id.graphButton).setOnClickListener(this);

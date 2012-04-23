@@ -110,6 +110,7 @@ public class AccountsActivity extends Activity {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = Util.getSharedPreferences(mContext);
         String deviceRegistrationID = prefs.getString(Util.DEVICE_REGISTRATION_ID, null);
+        this.getActionBar().hide();
         if (deviceRegistrationID == null) {
             // Show the 'connect' screen if we are not connected
             setScreenContent(R.layout.connect);

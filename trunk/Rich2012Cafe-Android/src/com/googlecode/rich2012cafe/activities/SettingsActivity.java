@@ -20,6 +20,8 @@ public class SettingsActivity extends Activity implements OnClickListener{
         prefs.setArguments(getIntent().getExtras());
         getFragmentManager().beginTransaction().replace(R.id.pref_frag_content, prefs).commit();
         this.getActionBar().setHomeButtonEnabled(true);
+        this.getActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getActionBar().setTitle("Settings");
 		findViewById(R.id.accountButton).setOnClickListener(this);
 	}
 

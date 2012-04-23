@@ -100,6 +100,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        this.getActionBar().setDisplayShowTitleEnabled(false);
         actionBar.setHomeButtonEnabled(true);
         // Register a receiver to provide register/unregister notifications
         registerReceiver(mUpdateUIReceiver, new IntentFilter(Util.UPDATE_UI_INTENT));
@@ -195,7 +196,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 	public void onClick(View view) {
 		// TODO Auto-generated method stub
 		if (view.getId() == R.id.graphButton) {
-			Intent intent = new Intent(view.getContext(), LeaderboardActivity.class);
+			Intent intent = new Intent(view.getContext(), GraphActivity.class);
 			this.startActivity(intent);
 		}
 	}

@@ -45,7 +45,7 @@ public class GraphActivity extends Activity{
 	          this  
 	          , "EstimatedCaffeine Status Graph"  
 	    );  
-	    // add data  
+	    // add data 
 	    graphView.addSeries(seriesSin);  
 	    // optional - set view port, start=2, size=10  
 	    graphView.setViewPort(2, 10);  

@@ -1,12 +1,16 @@
 package com.googlecode.rich2012cafe;
 
+import java.util.Calendar;
+
 import com.googlecode.rich2012cafe.activities.AccountsActivity;
 import com.googlecode.rich2012cafe.activities.GraphActivity;
 import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.activities.SettingsActivity;
+import com.googlecode.rich2012cafe.alarm.AlarmSetter;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
 import com.googlecode.rich2012cafe.calendar.CalendarReader;
 import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
+import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 import com.googlecode.rich2012cafe.utils.Util;
 
 import android.app.ActionBar;
@@ -88,7 +92,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
             prefs.edit().putString(Util.CONNECTION_STATUS, connectionStatus).commit();
             
             // Display a notification
-            Util.generateNotification(mContext, String.format(message, accountName));
+            Util.generateNotification(mContext, String.format(message, accountName), new Intent());
         }
     };
 
@@ -148,10 +152,10 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     	
     	String text = "";
     	
-    	CalendarReader r = new CalendarReader();
-    	for(CalendarEvent e : r.getTodaysEvents(this)){
-    		text += e.getDisplay()+ "\n\n";
-    	}
+//	    AlarmSetter.setAlarm(this, Calendar.getInstance(), Rich2012CafeUtil.CAFFEINE_WARNING);
+//    	
+//	    text = "ALARM SET";
+//    	
     	
     	findViewById(R.id.graphButton).setOnClickListener(this);
     	

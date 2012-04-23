@@ -43,7 +43,7 @@ public class MessageDisplay {
         if (extras != null) {
             String sender = (String) extras.get("sender");
             String message = (String) extras.get("message");
-            Util.generateNotification(context, "Message from " + sender + ": " + message);
+            Util.generateNotification(context, "Message from " + sender + ": " + message, new Intent());
             playNotificationSound(context);
         }
     }

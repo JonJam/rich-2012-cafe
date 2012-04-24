@@ -14,13 +14,16 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class ScheduledTasks extends Activity{
+public class ScheduledTasks {
 
-	private Context mContext = this;
-	private ApplicationState as = (ApplicationState) mContext.getApplicationContext();
+	private ApplicationState as;
 
-	public void updateLeaderboard(){
-		final ProgressDialog pd = ProgressDialog.show(this, "Leaderboard", "Getting scores...");
+	public void updateLeaderboard(final Context c, final boolean visible){
+		 as = (ApplicationState) c.getApplicationContext();
+		 final ProgressDialog pd = new ProgressDialog(c);
+		 if(visible){
+			 pd.show(c, "Leaderboard", "Getting scores...");
+		 }
 		new AsyncTask<Void, Void, List<LeaderboardScoreProxy>>(){
 
 			private List<LeaderboardScoreProxy> scores;
@@ -28,7 +31,7 @@ public class ScheduledTasks extends Activity{
 			@Override
 			protected List<LeaderboardScoreProxy> doInBackground(Void...params) {			
 
-				MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
+				MyRequestFactory requestFactory = Util.getRequestFactory(c, MyRequestFactory.class);
 				requestFactory.rich2012CafeRequest().getTopFiveLeaderboardScores().fire(new Receiver<List<LeaderboardScoreProxy>>(){
 
 					@Override
@@ -53,12 +56,14 @@ public class ScheduledTasks extends Activity{
 				}else{
 					Log.e("T-msg", "Null Leaderboard Scores");
 				}
-				pd.dismiss();
+				if(visible){
+					pd.dismiss();
+				}
 			}
 		}.execute();
 	}
 
-	public void uploadCurrentScore(){
+	public void uploadCurrentScore(final Context mContext){
 		new AsyncTask<Void, Void, Void>(){
 
 			@Override
@@ -86,7 +91,7 @@ public class ScheduledTasks extends Activity{
 		}.execute();
 	}
 
-	public void getDBScore(){
+	public void getDBScore(final Context mContext){
 
 		new AsyncTask<Void, Void, LeaderboardScoreProxy>(){
 

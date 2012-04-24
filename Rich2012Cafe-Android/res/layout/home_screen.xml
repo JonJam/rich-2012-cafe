@@ -13,6 +13,15 @@
         android:layout_gravity="center_horizontal"
         android:layout_row="1"
         android:text="Caffeine Status" />
+                        <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/intakeButton"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_horizontal"
+        android:layout_row="1"
+        android:text="Enter Drink" />
     <TextView
             android:id="@+id/hello_world_info"
             android:layout_width="fill_parent"

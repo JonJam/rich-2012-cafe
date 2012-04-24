@@ -20,7 +20,6 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.OverlayItem;
 import com.googlecode.rich2012cafe.R;
 import com.googlecode.rich2012cafe.Rich2012CafeActivity;
-import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSource;
 import com.googlecode.rich2012cafe.utils.CustomLocationListener;
 import com.googlecode.rich2012cafe.utils.CurrentLocationOverlay;
 import com.googlecode.rich2012cafe.utils.LocationUtils;
@@ -116,10 +115,6 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
          currentBestLocation = location;
          showCurrentLocationOnMap(location);
      }
- }
-
- private void showCaffeineSourceOnMap(CaffeineSource caffeineSource) {
-
  }
 
  private void showCurrentLocationOnMap(Location location) {

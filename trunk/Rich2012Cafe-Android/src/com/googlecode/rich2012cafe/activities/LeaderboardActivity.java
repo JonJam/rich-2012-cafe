@@ -6,6 +6,7 @@ import com.googlecode.rich2012cafe.ApplicationState;
 import com.googlecode.rich2012cafe.R;
 import com.googlecode.rich2012cafe.Rich2012CafeActivity;
 import com.googlecode.rich2012cafe.shared.LeaderboardScoreProxy;
+import com.googlecode.rich2012cafe.utils.ScheduledTasks;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -32,6 +33,8 @@ public class LeaderboardActivity extends Activity{
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         this.getActionBar().setDisplayShowTitleEnabled(false);
         actionBar.setHomeButtonEnabled(true); 
+        ScheduledTasks st = new ScheduledTasks();
+        st.updateLeaderboard(this, true);
 		generateTable();
 	}
 	
@@ -40,8 +43,10 @@ public class LeaderboardActivity extends Activity{
 				
 		ApplicationState as = (ApplicationState) this.getApplicationContext();
 		List<LeaderboardScoreProxy> scores = as.getLeaderboard();
-		for(int i=0; i<scores.size();i++){
-			tbl.addView(addRank(i+1, scores.get(i).getScore()));
+		if(scores != null){
+			for(int i=0; i<scores.size();i++){
+				tbl.addView(addRank(i+1, scores.get(i).getScore()));
+			}
 		}
 	}
 	

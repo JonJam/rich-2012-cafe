@@ -2,16 +2,17 @@ package com.googlecode.rich2012cafe.activities;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import android.util.Log;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -53,6 +54,8 @@ public class CaffeineTracker extends Activity {
 		TreeMap<Date, Integer> caffeineLevels = reader.getCaffeineLevels(HISTORIC_VALUES_SETTING_NAME);
 		projectedLevels = reader.getCaffeineLevels(PROJECTED_VALUES_SETTING_NAME);
 		
+
+		
 		new AsyncTask<Void, Void, List<CaffeineProductProxy>>(){
 			
 			private List<CaffeineProductProxy> caffeineProducts;
@@ -80,15 +83,15 @@ public class CaffeineTracker extends Activity {
 		    @Override
 		    protected void onPostExecute(List<CaffeineProductProxy> result) {
 		    	storeCaffeineProducts(result);
-		    	getProductsTree().notify();
 		    }
 		    
 		}.execute();
-		
+	
+		Log.e("t-msg", "finished async");
 		Entry<Date, Integer> lastLevelReading;
 				
 		if (caffeineLevels.isEmpty()) {
-			
+			Log.e("T-msg", "empty caffeine level");
 			//Should never happen? -- Need to work out how we hand-over from the previous day
 			
 		} else {
@@ -113,6 +116,7 @@ public class CaffeineTracker extends Activity {
 		
 		productsTree = new TreeMap<Integer, CaffeineProductProxy>();
 		
+		
 		for (CaffeineProductProxy c: list) { //loop through the products and insert them to the tree
  			productsTree.put((int) Math.round(c.getCaffeineContent()), c);
 		}
@@ -127,10 +131,12 @@ public class CaffeineTracker extends Activity {
 		
 		ArrayList<CalendarEvent> mergedEvents = mergeBackToBackEvents(todaysEvents);
 		
-		Entry<Date, Integer> tempPreviousLevel = lastLevel; 		
+		Entry<Date, Integer> tempPreviousLevel = lastLevel; 	
+
 	
-		for (CalendarEvent e: todaysEvents) {
-			
+		for (CalendarEvent e: mergedEvents) {
+		
+			Log.e("T-msg", "within event");
 			long startTime = e.getStartTime();
 			long endTime = e.getEndTime();	
 			

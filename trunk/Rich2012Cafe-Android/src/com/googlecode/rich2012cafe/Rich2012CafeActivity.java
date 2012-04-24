@@ -1,10 +1,13 @@
 package com.googlecode.rich2012cafe;
 
 import com.googlecode.rich2012cafe.activities.AccountsActivity;
+import com.googlecode.rich2012cafe.activities.CaffeineTracker;
 import com.googlecode.rich2012cafe.activities.GMapActivity;
 import com.googlecode.rich2012cafe.activities.GraphActivity;
 import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.activities.SettingsActivity;
+import com.googlecode.rich2012cafe.calendar.CalendarEvent;
+import com.googlecode.rich2012cafe.calendar.CalendarReader;
 import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
 import com.googlecode.rich2012cafe.utils.Util;
 
@@ -149,8 +152,11 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     	
 //    	
 //	    text = "ALARM SET";
-//    	
-    	
+   CalendarReader r = new CalendarReader();
+        for(CalendarEvent e : r.getTodaysEvents(this)){
+            text += e.getDisplay()+ "\n\n";
+    }
+    
     	findViewById(R.id.graphButton).setOnClickListener(this);
     	
     	tv.setMovementMethod(new ScrollingMovementMethod());
@@ -194,7 +200,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 	public void onClick(View view) {
 		// TODO Auto-generated method stub
 		if (view.getId() == R.id.graphButton) {
-			Intent intent = new Intent(view.getContext(), GraphActivity.class);
+			Intent intent = new Intent(view.getContext(), CaffeineTracker.class);
 			this.startActivity(intent);
 		}
 	}

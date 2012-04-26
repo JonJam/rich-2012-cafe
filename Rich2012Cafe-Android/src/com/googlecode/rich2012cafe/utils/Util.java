@@ -38,6 +38,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 /**
@@ -120,18 +122,20 @@ public class Util {
      * Display a notification containing the given string.
      */
     public static void generateNotification(Context context, String message, Intent intent) {
-        int icon = R.drawable.status_icon;
-        long when = System.currentTimeMillis();
+        
+        Notification.Builder builder = new Notification.Builder(context);
 
-        Notification notification = new Notification(icon, message, when);
-          
-        notification.setLatestEventInfo(context, "Rich2012Cafe", message,
-        		
-        		//Original Generated code
-                //PendingIntent.getActivity(context, 0, null, PendingIntent.FLAG_CANCEL_CURRENT));
-        		
-        		PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT));
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        Resources res = context.getResources();
+        builder.setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT))
+                    .setSmallIcon(R.drawable.app_icon)
+                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.status_icon))
+                    .setTicker(message)
+                    .setWhen(System.currentTimeMillis())
+                    .setAutoCancel(true)
+                    .setContentTitle(res.getString(R.string.notifTitle))
+                    .setContentText(message);
+        Notification notification = builder.getNotification();
+
         
         SharedPreferences settings = Util.getSharedPreferences(context);
         int notificatonID = settings.getInt("notificationID", 0);

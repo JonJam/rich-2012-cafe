@@ -116,4 +116,7 @@ public class Rich2012CafeUtil {
 	
 	//Earth Radius (In KM)
 	public static final double EARTH_RADIUS = 6371;
+	
+	//Limit for number of sources to return in getCaffeineSourcesGiven query
+	public static final int CAFFEINE_LOCATION_LIMIT = 5;
 }

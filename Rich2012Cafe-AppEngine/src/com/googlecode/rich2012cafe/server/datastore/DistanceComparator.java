@@ -5,6 +5,12 @@ import java.util.Comparator;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSource;
 import com.googlecode.rich2012cafe.server.utils.Rich2012CafeUtil;
 
+/**
+ * Class to sort CaffeineSource objects in ascending order of 
+ * distance away from current latitude and longitude point.
+ * 
+ * @author Jonathan Harrison (jonjam1990@googlemail.com)
+ */
 public class DistanceComparator implements Comparator<CaffeineSource>{
 	
 	private double currentLatitude;
@@ -15,6 +21,15 @@ public class DistanceComparator implements Comparator<CaffeineSource>{
 		this.currentLongitude = currentLongitude;
 	}
 
+	/**
+	 * Method to calculate the distance between two lat/long points.
+	 * 
+	 * @param latitude1 (double value)
+	 * @param longitude1 (double value)
+	 * @param latitude2 (double value)
+	 * @param longitude2 (double value)
+	 * @return double value
+	 */
 	private double getDistanceBetweenPoints(double latitude1, double longitude1, double latitude2, double longitude2){
 		double dLat = Math.toRadians(latitude2 - latitude1);
 		double dLong = Math.toRadians(longitude2 - longitude1);
@@ -29,6 +44,13 @@ public class DistanceComparator implements Comparator<CaffeineSource>{
 		return d;
 	}
 	
+	/**
+	 * Method to compare two CaffeineSource objects.
+	 * 
+	 * @param o1 (CaffeineSource object)
+	 * @param o2 (CaffeineSource object)
+	 * @return int value
+	 */
 	@Override
 	public int compare(CaffeineSource o1, CaffeineSource o2) {
 		

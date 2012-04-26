@@ -20,7 +20,7 @@ public class Rich2012CafeService {
 	private static DataStore db = new DataStore();
 		
 	/**
-	 * Method to get CaffeineSources given params:
+	 * Method to get CaffeineSources given latitude and longitude position.
 	 * 
 	 * 
 	 * @return List of CaffeineSource objects.

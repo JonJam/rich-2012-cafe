@@ -26,30 +26,6 @@ import com.googlecode.rich2012cafe.server.utils.Rich2012CafeUtil;
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  */
 public class DataStore {
-
-	@SuppressWarnings("unchecked")
-	public List<CaffeineSource> getCaffeineSourcesGiven(double latitude, double longitude){
-		
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		try {
-			Query query = pm.newQuery("SELECT FROM " + CaffeineSource.class.getName());
-			List<CaffeineSource> list = (List<CaffeineSource>) query.execute();
-			
-			if(list.size() == 0){
-				return null; 
-			} else{
-				
-				Collections.sort(list, new DistanceComparator(latitude, longitude));
-				return list.subList(0, 5);
-			}
-	  	} catch (RuntimeException e) {
-	  		System.out.println(e);
-	  		throw e;
-	  	} finally {
-	  		pm.close();
-	  	}
-	}
 	
 	/**
 	 * Method to perform database check.
@@ -532,6 +508,36 @@ public class DataStore {
 			
 			return list.size() == 0 ? null : list;
 			
+	  	} catch (RuntimeException e) {
+	  		System.out.println(e);
+	  		throw e;
+	  	} finally {
+	  		pm.close();
+	  	}
+	}
+	
+	/**
+	 * Method to get caffeine sources given latitude and longitude position.
+	 * 
+	 * @param latitude (double value)
+	 * @param longitude (double value)
+	 * @return List of CaffeineSource objects
+	 */
+	@SuppressWarnings("unchecked")
+	public List<CaffeineSource> getCaffeineSourcesGiven(double latitude, double longitude){
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		try {
+			Query query = pm.newQuery("SELECT FROM " + CaffeineSource.class.getName());
+			List<CaffeineSource> list = (List<CaffeineSource>) query.execute();
+			
+			if(list.size() == 0){
+				return null; 
+			} else{
+				Collections.sort(list, new DistanceComparator(latitude, longitude));
+				return list.subList(0, Rich2012CafeUtil.CAFFEINE_LOCATION_LIMIT);
+			}
 	  	} catch (RuntimeException e) {
 	  		System.out.println(e);
 	  		throw e;

@@ -1,5 +1,15 @@
 package com.googlecode.rich2012cafe;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.googlecode.rich2012cafe.activities.AccountsActivity;
 import com.googlecode.rich2012cafe.activities.CaffeineTracker;
 import com.googlecode.rich2012cafe.activities.GMapActivity;
@@ -8,24 +18,32 @@ import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.activities.SettingsActivity;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
 import com.googlecode.rich2012cafe.calendar.CalendarReader;
+import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
 import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
+import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
+import com.googlecode.rich2012cafe.utils.ScheduledTasks;
 import com.googlecode.rich2012cafe.utils.Util;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -99,6 +117,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
         super.onCreate(savedInstanceState);
         ApplicationState as = (ApplicationState) this.getApplicationContext();
         as.setScore(-1);
+        ScheduledTasks.getCaffeineProducts(this, false);
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         this.getActionBar().setDisplayShowTitleEnabled(false);
@@ -158,6 +177,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     }
     
     	findViewById(R.id.graphButton).setOnClickListener(this);
+    	this.findViewById(R.id.intakeButton).setOnClickListener(this);
     	
     	tv.setMovementMethod(new ScrollingMovementMethod());
     	tv.setText(text);
@@ -203,5 +223,57 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 			Intent intent = new Intent(view.getContext(), CaffeineTracker.class);
 			this.startActivity(intent);
 		}
+		if(view.getId() == R.id.intakeButton){
+			Log.i("t-msg", "at button");
+			ApplicationState as = (ApplicationState) this.getApplicationContext();
+			Log.i("t-msg", "at button");
+			if(as.getCaffeineProducts() != null){
+				loadChoiceDialog(as.getCaffeineProducts());
+			}else{
+				ScheduledTasks.getCaffeineProducts(this, true);
+				loadChoiceDialog(as.getCaffeineProducts());
+			}
+		}
+	}
+	
+	private void loadChoiceDialog(final List<CaffeineProductProxy> products){
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.choicedialog);
+		dialog.setTitle("Select Drink");
+		LinearLayout layout = (LinearLayout) dialog.findViewById(R.id.choiceDialoglayout);
+		
+		for(final CaffeineProductProxy p: products){
+			Button temp = new Button(this);
+			temp.setText(p.getName());
+			temp.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View view) {
+					// TODO Auto-generated method stub
+					closeDialog(dialog, p);
+				}
+				
+			});
+			layout.addView(temp);
+		}
+		dialog.show();
+	}
+	
+	private void closeDialog(Dialog d, CaffeineProductProxy p){
+		d.dismiss();
+		SharedPreferences prefs = Util.getSharedPreferences(this);
+		String currentValue = prefs.getString(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME, "");
+		JSONObject level = new JSONObject();
+		try{
+			level.put("level", (int) p.getCaffeineContent());
+			level.put("date", System.currentTimeMillis());
+
+		}catch(JSONException e){
+			Log.e("json error", e.getMessage());
+		}
+		Editor editor = prefs.edit();
+		editor.putString(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME, currentValue+level.toString());
+		editor.commit();
+		Log.i("json commit", prefs.getString(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME, "empty"));
 	}
 }

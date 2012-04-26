@@ -18,6 +18,7 @@ import com.googlecode.rich2012cafe.utils.Util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class CaffeineLevelReader {
 	
@@ -50,31 +51,31 @@ public class CaffeineLevelReader {
 		
 		String json = prefs.getString(settingName, "");
 		TreeMap<Date, Integer> levels = new TreeMap<Date, Integer>();
-		
+		Log.i("caffeinereader", json);
 		if(!json.equals("")){
 			try {
 				
 				JSONArray jsonArray = new JSONArray(json);
-				
+				Log.i("json", "created object");
 				for(int i = 0; i < jsonArray.length(); i++){
 					JSONObject o = jsonArray.getJSONObject(i);
 					
 					int level = o.getInt("level");
-					String dateString = o.getString("date");
+					Long currentTime = o.getLong("date");
 					SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 					Date date = null;
 					
 					try {
-						date = (Date)formatter.parse(dateString);
-					} catch (ParseException e) {
-						e.printStackTrace();
+						date = new Date(currentTime);
+					} catch (Exception e) {
+						Log.i("t-msg", e.getMessage());
 					}
 					
 					levels.put(date, level);
 				}
 				
 			} catch (JSONException e) {
-				e.printStackTrace();
+				Log.e("josn error", e.getMessage());
 			}
 		}
 		

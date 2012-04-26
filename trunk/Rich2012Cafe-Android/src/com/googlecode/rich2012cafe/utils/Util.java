@@ -127,8 +127,8 @@ public class Util {
 
         Resources res = context.getResources();
         builder.setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT))
-                    .setSmallIcon(R.drawable.app_icon)
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.status_icon))
+                    .setSmallIcon(R.drawable.ic_launcher_bean)
+                 //   .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.status_icon))
                     .setTicker(message)
                     .setWhen(System.currentTimeMillis())
                     .setAutoCancel(true)

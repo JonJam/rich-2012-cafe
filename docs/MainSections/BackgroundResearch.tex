@@ -16,79 +16,114 @@ Lastly, there is evidence that the economic climate has played a part in coffee�
 Also known as the ‘lipstick effect’, Britons have been unable to afford expensive treats for themselves so they have been spending on cheaper treats, a good example of which is coffee \cite{costa}.
 This research is important to OptiCaff because it shows that the coffee industry is on the rise, and it would not make business sense for us to invest in a declining industry.
 
+\begin{figure}[ht]
 \begin{center}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.38]{images/CaffeineGraph.png}
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.6]{images/CaffeineGraph.png}
+\caption{Coffee Statistics 2010 \cite{CoffeeStats}} 
 \end{center}
+\end{figure}
 
 \subsubsection{Mobile Platform Research}
 OptiCaff ’s purpose lent itself heavily to being a mobile application, and as such that sparked the debate of what platform it should be developed for. 
-There are various mobile operating systems that Opticaff could be deployed on:
+There are various mobile operating systems that Opticaff could be deployed on \cite{differentOS}:
 
 \begin{itemize}
 	\item{Google's Android}
 	\item{Apple's iOS}
 	\item{Blackberry's RIM}
-	\item{Windows 7}
+	\item{Windows Mobile}
 \end{itemize}
 
-Based on the Smartphone Operating System statistics from June 2011 Android and Apple are dominating the market at present:
+Based on the Smartphone Operating System statistics from June 2011 Android and Apple are dominating the market at present. 
+Therefore these were the two platforms that were considered.
 
-\include{figure}
+\begin{figure}[ht]
 \begin{center}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.38]{images/smartphone.png}
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.65]{images/smartphone.png}
 \caption{Manafacture Operating system share-smartphones June 2011 \cite{smartphone}}
 \end{center}
 \end{figure}
 
+The following elements were considered in regards to which platform to use: language, development requirements and popularity of the apps for that operating system.
 
-It was decided that for the prototype application, Android \cite{Android} would be the simpler option for the following reasons:
-Android can be developed on any platform \cite{SDKAllOS}, which is useful as the group uses a combination of OSX, Linux and Windows.
-Android uses Java, which all members of the group have had significant experience with, and given the timescale in which to complete the application, in addition to other commitments it seemed the most viable option. 
+\underline{Programming Language}
+\begin{itemize}
+	\item{iOS requires applications to be written in Objective C \cite{objectivec}.}
+	\item{The Android Operating System requires applications to be written in Java \cite{AndroidSDK}.}
+\end{itemize}
 
-There are various mobile operating systems that OptiCaff could be deployed upon. The Android operating system created by Google requires applications to be written in Java which is a positive for the OptiCaff team, all members have Java development experience with one member having Android development experience. Using Android also means no special hardware is required to develop an application, the Android SDK is freely available and IDE’s are also free, Eclipse being an example of this \cite{Eclipse}. The app store for Android phones, Google Play, is a large marketplace that would give OptiCaff a great enough set of potential users.
+\underline{Development Requirements}
+\begin{itemize}
+	\item{The only IDE available for developing iPhone applications is Xcode and there is a requirement to have Apple's iOS SDK installed \cite{iOS}. Both of these are only available to OS X users and therefore Apple Computers.}
+	\item{Android doesn't require any special hardware to develop an application. The Android SDK is freely available and it's recommended development enviroment Eclipse \cite{Eclipse} is also free.}
+\end{itemize}
 
-``Google’s 10 Billion Android App Downloads: By the Numbers" \newline
-A negative of Android is the result of it being open-source, manufacturers are able to create a separate version of Android just for their hardware, this means there are now lots of iterations of Android. Developing an application for all these different versions is difficult and OptiCaff would not be compatible with all phones at first.
+\underline{Application Popularity}
+\begin{itemize}
+	\item{Apple's App Store is currently the more popular at 25 billion downloads \cite{AppleDownload}}
+	\item{Google Play (Android's market place) was reported to have reached 10 billion downloads in December 2011 \cite{AndroidDownload}}
+\end{itemize}
 
-iOS is the Apple iPhone’s operating system, it requires applications to be written in Objective C, no members in the OptiCaff team have any experience with Objective C. The only IDE available for developing iPhone applications is Xcode which is only available to OS X users, in other words, development is only possible on Apple computers, this is a requirement that is particularly limiting for a small development team. The Apple app store is currently the largest marketplace for mobile applications, although it is slightly ahead of Google Play. Finally, there is only one iteration of iOS, it is not licensed to other companies, the only complication is that there are a few versions running concurrently. This means that an app developed for the iPhone would likely work on all iPhones.
-
-OptiCaff will be developed in Android, the reasons for this are that the members of the team are more comfortable with Java development and not all members of the team have an Apple computer and therefore would not be able to aid in development.
+It was decided that for the prototype application, Android would be the simpler option for the following reasons:
+\begin{itemize}
+	\item{Android uses Java. All members of the team are experienced in Java development one member has experience in Android Development.}
+	\item{Android can be developed on any platform which is useful as the group uses a combination of OSX, Linux and Windows.}
+	\item{Google Play may be less popular than Apple's app store, however it still holds a large user base and it was decided that ease of development was a higher priority for a prototype application.}
+\end{itemize}
 
 \subsubsection{Gamification Research \& Analysis}
-A common issue for new apps is user retention, a method of increasing user retention is Gamification \cite{gamification1}. Gamification is the practise of adding game-like elements to something that is not already a game, e.g. a to-do list \cite{gamification2}. There are ways in which gamification can be applied to OptiCaff.
+A common issue for new apps is user retention; a method of increasing this is Gamification \cite{gamification1}. Gamification is the practise of adding game-like elements to something that is not already a game, e.g. a to-do list \cite{gamification2}. There are ways in which gamification can be applied to OptiCaff.
 
 \begin{enumerate}
 	\item{Use of achievements or awards. Achievements are used to recognise when a player has fulfilled certain conditions when playing a game. An example of how this could be used with OptiCaff would be giving an achievement to a user that has stayed in the optimum caffeine range for 3 hours.}
 	\item{Use of leaderboards. A leaderboard would show the users that are the best at using OptiCaff in a specified way, an example of this would be show the users that stay in the optimum range for the longest time.}
 \end{enumerate}
 
+Based on this research, it was decided that OptiCaff would use leaderboards as a method of gamification, provided that it is done in a safe way. 
+This is because leaderboards can link all of the users of OptiCaff turning it into a multiplayer game. 
+Obviously as with any game there would be the potential to cheat by pressing the button without actually consuming the caffeine, but this still doesn't detract from the fun element. 
 One of the dangers of gamification is extreme behaviour, OptiCaff will not reward behaviour that is potentially dangerous, e.g. rewarding the user that has the highest caffeine intake.
 
-OptiCaff would use leaderboards as a method of gamification, provided that it is done in a safe way. This is because leaderboards can link all of the users of OptiCaff turning it into a multiplayer game.
-
 \subsubsection{Monetisation Research \& Analysis}
-Making money from applications is essential for a company that plans to develop more products and to keep its workforce. It is not imperative for the team to make money from OptiCaff but it is prudent to research how making money would be possible.
-
-Android applications are particularly difficult to make money from according to a report from Distimo, an app store analysis company \cite{monetisiation}. The report suggests several methods to maximise the money earned, these assume that the app is high enough quality to be sold.
+It is more challenging to make money from Android Applications as opposed to Apple iOS Applications according to a report from Distimo, an app store analysis company \cite{monetisiation}. 
+The report suggests several methods to maximise the money earned, these assume that the app is high enough quality to be sold.
 
 \begin{enumerate}
-	\item{80\% of paid applications have been bought less than 100 times. This shows that making OptiCaff a free application would be sensible decision to get the largest amount of downloads possible.}
-	\item{In-app advertising can either make a lot of money or very little, it depends on the amount of users an app has. By making the app free the team hope that OptiCaff will have a high number of downloads and therefore have a large income through advertising.}
+	\item{80\% of paid applications have been bought less than 100 times.}
+	\item{In-app advertising can either make a lot of money or very little, it depends on the amount of users an app has.}
 	\item{Finally, it is common on app stores/marketplaces to have a paid version of an app that is also free. There is no difference in the function of the app, though a paid version would not display advertisements. This would give the user the choice to use the OptiCaff free or paid version though there would be income for the team either way.}
 \end{enumerate}
 
-Based upon these three points it has been decided that OptiCaff would be developed as a free and paid version that contains advertising in the free version. OptiCaff is unlikely to be released onto the Google Play store but this research helps show what would happen in the event it was released.
+Based upon these three points it has been decided that OptiCaff would be developed as a free and paid version that contains advertising in the free version.
+The next logical step after gaining a significant user base would be to pitch the application to the owners of the caffeine vendors for funding in exchange for favouring their points of service within the application.  
 
 \subsubsection{Competitors Research \& Analysis}
 \label{sec:competitors}
-There are direct and indirect competitors to OptiCaff.
+This section details both the direct and indirect competitors to Opticaff and ascertains if any of them pose a substantial threat. 
 
-Caffeine Finder is a BlackBerry application that offers a lot of the same functionality that OptiCaff will provide, this make Caffeine Finder a direct competitor of OptiCaff. Caffeine Finder will direct a user to the nearest restaurant or café, give the address and even display reviews of the destination. There are several negative points about this application to make however, firstly the chosen platform was the BlackBerry which has a small screen compared to Android phones and iPhones. Secondly, the application doesn’t inform the user when the optimum time to have a coffee or other caffeinated drink is, a user may already be tired before they think to check Caffeine Finder which is something OptiCaff will try and prevent. Finally, the application was released in 2005 and has not been updated regularly since that time, this is shown by reports that it is not fully compatible with newer operating systems.
+Caffeine Finder is a BlackBerry application that offers some of the same functionality that OptiCaff will provide; this makes Caffeine Finder a direct competitor of OptiCaff. 
+Caffeine Finder directs a user to the nearest restaurant or café, give the address and even display reviews of the destination if available. 
+There are however several negative points regarding this application:
+\begin{itemize}
+	\item{The chosen platform was the BlackBerry which has a small screen compared to Android phones and iPhones.} 
+	\item{The application doesn’t inform the user when the optimum time to have a coffee or other caffeinated drink is.}
+	\item{A user may already be tired before they think to check Caffeine Finder which is something OptiCaff will try and prevent.} 
+	\item{The application was released in 2005 and has not been updated regularly since that time, this is shown by reports that it is not fully compatible with newer operating systems.}
+\end{itemize}
 
-Caffeine Zone 2 Lite is a free iPhone application that tracks the amount of caffeine in the body, OptiCaff will also have caffeine tracking ability and alerts. This makes Caffeine Zone 2 Lite a direct competitor, although OptiCaff will be better for the following reasons. Firstly, OptiCaff offers a complete solution, Caffeine Zone 2 Lite only tells the user when they should have caffeine, it makes no effort to tell the user where they can get a caffeinated drink. Secondly, the alerts generated do not consider the user’s schedule, OptiCaff will look at the user’s calendar to see if they require an earlier warning. Finally, Caffeine Zone 2 Lite is focussed on being an educational tool about caffeine use this is in contrast to OptiCaff which will prioritise providing a service.
+Caffeine Zone 2 Lite is a free iPhone application that tracks the amount of caffeine in the body, OptiCaff will also have caffeine tracking ability and alerts. 
+This makes Caffeine Zone 2 Lite a direct competitor, although OptiCaff offers a superior service for the following reasons:  
+\begin{itemize}
+	\item{OptiCaff offers a complete solution, Caffeine Zone 2 Lite only tells the user when they should have caffeine, it makes no effort to tell the user where they can get a caffeinated drink.} 
+	\item{The alerts generated do not consider the user’s schedule, OptiCaff will look at the user’s calendar to see if they require an earlier warning for caffeine so as to accomodate their schedule.}
+	\item{Caffeine Zone 2 Lite is focussed on being an educational tool about caffeine use this is in contrast to OptiCaff which will prioritise providing a service.}
+\end{itemize}
 
 One of the issues of using open data is that the data itself can be considered an indirect competitor of OptiCaff. It could be possible for another product to be created that uses the same data set, this means that OptiCaff could have more potential competitors than it would if it used closed data. OptiCaff could not be replicated by a competitor only using the same open data however, this is because there will be caffeine level prediction and notification features implemented.
 
+The table below summarises the competative edge of Opticaff, illustrating how it combines the key features of its competitors into a superior all encompassing service:
+
+\begin{table}
 \begin{tabular}{|p{208pt}| p{50pt} | p{46pt} | p{46pt} | p{46pt} |}
     \hline
      	& 
@@ -122,6 +157,8 @@ One of the issues of using open data is that the data itself can be considered a
  	\huge{\textcolor{green}{\Pisymbol {pzd} {52}}}
 \\ \hline
 \end{tabular}
+\caption{Table of Opticaff's Competitors}
+\end{table}
 
 \subsection{Application Research \& Analysis}
 This section details the research and analysis for the data within our application. The calendar data we will use for the application is detailed, as is the caffeine calculations that will be used in the prototype. 

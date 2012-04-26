@@ -113,4 +113,7 @@ public class Rich2012CafeUtil {
 	public static final double COFFEE_CAFFEINE_CONTENT = 54;
 	public static final double TEA_CAFFEINE_CONTENT = 40;
 	public static final double ENERGY_DRINK_CAFFEINE_CONTENT = 80;
+	
+	//Earth Radius (In KM)
+	public static final double EARTH_RADIUS = 6371;
 }

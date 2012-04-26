@@ -1,6 +1,7 @@
 package com.googlecode.rich2012cafe.server.datastore;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -10,12 +11,14 @@ import com.google.android.c2dm.server.PMF;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.googlecode.rich2012cafe.client.Rich2012Cafe;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineProduct;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSource;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceProduct;
 import com.googlecode.rich2012cafe.server.datastore.objects.LeaderboardScore;
 import com.googlecode.rich2012cafe.server.datastore.objects.OpeningTime;
 import com.googlecode.rich2012cafe.server.sparql.SPARQLQuerier;
+import com.googlecode.rich2012cafe.server.utils.Rich2012CafeUtil;
 
 /**
  * Class to contain all methods that affect the database.
@@ -24,6 +27,30 @@ import com.googlecode.rich2012cafe.server.sparql.SPARQLQuerier;
  */
 public class DataStore {
 
+	@SuppressWarnings("unchecked")
+	public List<CaffeineSource> getCaffeineSourcesGiven(double latitude, double longitude){
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		try {
+			Query query = pm.newQuery("SELECT FROM " + CaffeineSource.class.getName());
+			List<CaffeineSource> list = (List<CaffeineSource>) query.execute();
+			
+			if(list.size() == 0){
+				return null; 
+			} else{
+				
+				Collections.sort(list, new DistanceComparator(latitude, longitude));
+				return list.subList(0, 5);
+			}
+	  	} catch (RuntimeException e) {
+	  		System.out.println(e);
+	  		throw e;
+	  	} finally {
+	  		pm.close();
+	  	}
+	}
+	
 	/**
 	 * Method to perform database check.
 	 */
@@ -286,29 +313,6 @@ public class DataStore {
 	  	}
 	}
 	
-	/**
-	 * Method to get CaffeineSources given params:
-	 * 
-	 * @return List of CaffeineSource objects.
-	 */
-	@SuppressWarnings("unchecked")
-	public List<CaffeineSource> getCaffeineSourcesGiven(){
-		
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		try {
-			Query query = pm.newQuery("SELECT FROM " + CaffeineSource.class.getName());
-			List<CaffeineSource> list = (List<CaffeineSource>) query.execute();
-		
-			return list.size() == 0 ? null : list.subList(0, 5);
-	  	} catch (RuntimeException e) {
-	  		System.out.println(e);
-	  		throw e;
-	  	} finally {
-	  		pm.close();
-	  	}
-	}
-
 	/**
 	 * Method to get CaffeineSourceProducts for a CaffeineSource.
 	 * 

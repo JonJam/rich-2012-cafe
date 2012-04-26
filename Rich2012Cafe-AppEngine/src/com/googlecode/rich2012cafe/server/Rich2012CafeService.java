@@ -26,8 +26,8 @@ public class Rich2012CafeService {
 	 * @return List of CaffeineSource objects.
 	 */
 	@ServiceMethod
-	public List<CaffeineSource> getCaffeineSourcesGiven(){
-		return db.getCaffeineSourcesGiven();
+	public List<CaffeineSource> getCaffeineSourcesGiven(double latitude, double longitude){
+		return db.getCaffeineSourcesGiven(latitude, longitude);
 	}
 	
 	/**

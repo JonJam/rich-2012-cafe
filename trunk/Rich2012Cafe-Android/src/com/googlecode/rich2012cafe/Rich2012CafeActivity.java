@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.googlecode.rich2012cafe.activities.AccountsActivity;
 import com.googlecode.rich2012cafe.activities.CaffeineTracker;
 import com.googlecode.rich2012cafe.activities.GMapActivity;
@@ -18,7 +20,9 @@ import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.activities.SettingsActivity;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
 import com.googlecode.rich2012cafe.calendar.CalendarReader;
+import com.googlecode.rich2012cafe.client.MyRequestFactory;
 import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
+import com.googlecode.rich2012cafe.shared.CaffeineSourceProxy;
 import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
 import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 import com.googlecode.rich2012cafe.utils.ScheduledTasks;
@@ -34,6 +38,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -167,20 +172,47 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     private void setHelloWorldScreenContent() {
     	tv = (TextView) findViewById(R.id.hello_world_info);
     	
+
+    	findViewById(R.id.graphButton).setOnClickListener(this);
+    	this.findViewById(R.id.intakeButton).setOnClickListener(this);
+    	
     	String text = "";
     	
 //    	
 //	    text = "ALARM SET";
-   CalendarReader r = new CalendarReader();
-        for(CalendarEvent e : r.getTodaysEvents(this)){
-            text += e.getDisplay()+ "\n\n";
-    }
-    
-    	findViewById(R.id.graphButton).setOnClickListener(this);
-    	this.findViewById(R.id.intakeButton).setOnClickListener(this);
-    	
-    	tv.setMovementMethod(new ScrollingMovementMethod());
-    	tv.setText(text);
+    	new AsyncTask<Void, Void, List<CaffeineSourceProxy>>(){
+    		private String message;
+    		
+    		@Override
+    		protected List<CaffeineSourceProxy> doInBackground(Void... params) {
+    			
+    			MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
+    			
+    			//Get caffeine sources given
+    			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.937358,-1.397763).fire(new Receiver<List<CaffeineSourceProxy>>(){
+
+    				@Override
+    				public void onSuccess(List<CaffeineSourceProxy> sources) {
+    					for(CaffeineSourceProxy p : sources){
+    						message += p.toString();
+    					}
+    				}
+    	        	
+    				@Override
+    	            public void onFailure(ServerFailure error) {
+    	                message = "FAILED";
+    	            }
+    			});
+
+    			return null;
+    		}
+    		
+    	    @Override
+    	    protected void onPostExecute(List<CaffeineSourceProxy> result) {
+    	    	tv.setMovementMethod(new ScrollingMovementMethod());
+    	    	tv.setText(message);
+    	    }
+	    }.execute();
     }
     
 	public AlertDialog createAlert(Activity activity, String msg){

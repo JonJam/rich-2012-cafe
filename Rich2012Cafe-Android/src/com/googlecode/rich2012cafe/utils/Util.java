@@ -226,7 +226,7 @@ public class Util {
                 //String s = reader.readLine();
             	
             	//HACK FOR LINUX TO GET DEBUGGER TO WORK
-            	String s = "url=http://192.168.2.12:8888";
+            	String s = "url=http://192.168.1.81:8888";
                 if (s == null) {
                     break;
                 }

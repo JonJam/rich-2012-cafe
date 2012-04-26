@@ -176,43 +176,39 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     	findViewById(R.id.graphButton).setOnClickListener(this);
     	this.findViewById(R.id.intakeButton).setOnClickListener(this);
     	
-    	String text = "";
-    	
-//    	
-//	    text = "ALARM SET";
-    	new AsyncTask<Void, Void, List<CaffeineSourceProxy>>(){
-    		private String message;
-    		
-    		@Override
-    		protected List<CaffeineSourceProxy> doInBackground(Void... params) {
-    			
-    			MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
-    			
-    			//Get caffeine sources given
-    			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.937358,-1.397763).fire(new Receiver<List<CaffeineSourceProxy>>(){
-
-    				@Override
-    				public void onSuccess(List<CaffeineSourceProxy> sources) {
-    					for(CaffeineSourceProxy p : sources){
-    						message += p.toString();
-    					}
-    				}
-    	        	
-    				@Override
-    	            public void onFailure(ServerFailure error) {
-    	                message = "FAILED";
-    	            }
-    			});
-
-    			return null;
-    		}
-    		
-    	    @Override
-    	    protected void onPostExecute(List<CaffeineSourceProxy> result) {
-    	    	tv.setMovementMethod(new ScrollingMovementMethod());
-    	    	tv.setText(message);
-    	    }
-	    }.execute();
+//    	new AsyncTask<Void, Void, List<CaffeineSourceProxy>>(){
+//    		private String message = "";
+//    		
+//    		@Override
+//    		protected List<CaffeineSourceProxy> doInBackground(Void... params) {
+//    			
+//    			MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
+//    			
+//    			//Get caffeine sources given
+//    			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.937358,-1.397763).fire(new Receiver<List<CaffeineSourceProxy>>(){
+//
+//    				@Override
+//    				public void onSuccess(List<CaffeineSourceProxy> sources) {
+//    					for(CaffeineSourceProxy p : sources){
+//    						message += p.getId() + "\n\n";
+//    					}
+//    				}
+//    	        	
+//    				@Override
+//    	            public void onFailure(ServerFailure error) {
+//    	                message = error.getMessage() + "\n\n" + error.getStackTraceString();
+//    	            }
+//    			});
+//
+//    			return null;
+//    		}
+//    		
+//    	    @Override
+//    	    protected void onPostExecute(List<CaffeineSourceProxy> result) {
+//    	    	tv.setMovementMethod(new ScrollingMovementMethod());
+//    	    	tv.setText(message);
+//    	    }
+//	    }.execute();
     }
     
 	public AlertDialog createAlert(Activity activity, String msg){

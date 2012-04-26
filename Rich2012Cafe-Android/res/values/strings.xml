@@ -65,8 +65,8 @@
     <string name="skip">Skip</string>
 
     <!-- Notification message [CHAR LIMIT=NONE] -->
-    <string name="unregistration_succeeded">Unegistered %1$s for C2DM messaging.</string>
+    <string name="unregistration_succeeded">Unregistered %1$s for C2DM messaging.</string>
     
     <!--  Default title for notifications -->
-	<string name="notifTitle">OptiCaff Notification</string>
+	<string name="notifTitle">OptiCaff Alert</string>
 </resources>

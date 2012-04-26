@@ -23,7 +23,9 @@ import com.googlecode.rich2012cafe.calendar.CalendarReader;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
 import com.googlecode.rich2012cafe.model.CaffeineLevel;
 import com.googlecode.rich2012cafe.model.CaffeineLevelReader;
+import com.googlecode.rich2012cafe.model.CaffeineLevelWriter;
 import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
+import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 import com.googlecode.rich2012cafe.utils.Util;
 
 public class CaffeineTracker extends Activity {
@@ -32,9 +34,6 @@ public class CaffeineTracker extends Activity {
 	private final static int OPTIMAL_CAFFEINE_UPPER_LIMIT = 250;
 	private final static int OPTIMAL_CAFFEINE_LOWER_LIMIT = 175;
 	private final static int CAFFEINE_BUFFER = 10;
-
-	private final static String HISTORIC_VALUES_SETTING_NAME = "historicCaffeineValues";
-	private final static String PROJECTED_VALUES_SETTING_NAME = "projectedCaffeineValues";
 	
 	private TreeMap<Integer, CaffeineProductProxy> productsTree = null;
 	private TreeMap<Date, Integer> projectedLevels;
@@ -51,9 +50,8 @@ public class CaffeineTracker extends Activity {
 		ArrayList<CalendarEvent> todaysEvents = cReader.getTodaysEvents(this);
 		
 		CaffeineLevelReader reader = new CaffeineLevelReader(this);
-		TreeMap<Date, Integer> caffeineLevels = reader.getCaffeineLevels(HISTORIC_VALUES_SETTING_NAME);
-		projectedLevels = reader.getCaffeineLevels(PROJECTED_VALUES_SETTING_NAME);
-		
+		TreeMap<Date, Integer> caffeineLevels = reader.getCaffeineLevels(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME);
+		projectedLevels = reader.getCaffeineLevels(Rich2012CafeUtil.PROJECTED_VALUES_SETTING_NAME);
 
 		
 		new AsyncTask<Void, Void, List<CaffeineProductProxy>>(){
@@ -91,31 +89,31 @@ public class CaffeineTracker extends Activity {
 		Entry<Date, Integer> lastLevelReading;
 				
 		if (caffeineLevels.isEmpty()) {
+			
+			Calendar timeNow = Calendar.getInstance();
+			Calendar timeRoundedToCurrentHour = timeRoundedToCurrentHour(timeNow);
+			timeRoundedToCurrentHour.set(Calendar.HOUR_OF_DAY, 0);
+			
+			caffeineLevels.put(timeRoundedToCurrentHour.getTime(), 0);
+			
+			CaffeineLevelWriter caffeineLevelWriter = new CaffeineLevelWriter(this);
+			caffeineLevelWriter.writeNewCaffeineLevels(caffeineLevels, Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME);
+			
 			Log.e("T-msg", "empty caffeine level");
-			//Should never happen? -- Need to work out how we hand-over from the previous day
 			
 		} else {
 			Log.i("t-mas", "not empty wooo");
-			lastLevelReading = caffeineLevels.lastEntry();
-			parseEvents(todaysEvents, lastLevelReading);
 			
 		}
-			
-//		if (caffeineValues.isEmpty()) {
-//			
-//			CalendarEvent calendarEvent = todaysEvents.get(0);
-//			
-//		} else {
-//			
-//			//interpret the JSON string
-//			
-//		}	
+		
+		lastLevelReading = caffeineLevels.lastEntry();
+		parseEvents(todaysEvents, lastLevelReading);
+
     }
 	
 	private void storeCaffeineProducts(List<CaffeineProductProxy> list) {
 		
 		productsTree = new TreeMap<Integer, CaffeineProductProxy>();
-		
 		
 		for (CaffeineProductProxy c: list) { //loop through the products and insert them to the tree
  			productsTree.put((int) Math.round(c.getCaffeineContent()), c);
@@ -133,7 +131,6 @@ public class CaffeineTracker extends Activity {
 		
 		Entry<Date, Integer> tempPreviousLevel = lastLevel; 	
 
-	
 		for (CalendarEvent e: mergedEvents) {
 		
 			Log.e("T-msg", "within event");

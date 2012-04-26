@@ -95,7 +95,7 @@ public class CaffeineTracker extends Activity {
 			//Should never happen? -- Need to work out how we hand-over from the previous day
 			
 		} else {
-			
+			Log.i("t-mas", "not empty wooo");
 			lastLevelReading = caffeineLevels.lastEntry();
 			parseEvents(todaysEvents, lastLevelReading);
 			

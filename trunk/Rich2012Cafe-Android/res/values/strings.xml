@@ -66,5 +66,7 @@
 
     <!-- Notification message [CHAR LIMIT=NONE] -->
     <string name="unregistration_succeeded">Unegistered %1$s for C2DM messaging.</string>
-
+    
+    <!--  Default title for notifications -->
+	<string name="notifTitle">OptiCaff Notification</string>
 </resources>

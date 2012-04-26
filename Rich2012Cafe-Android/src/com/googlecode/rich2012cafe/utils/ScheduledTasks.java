@@ -6,6 +6,7 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.googlecode.rich2012cafe.ApplicationState;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
+import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
 import com.googlecode.rich2012cafe.shared.LeaderboardScoreProxy;
 
 import android.app.Activity;
@@ -16,10 +17,9 @@ import android.util.Log;
 
 public class ScheduledTasks {
 
-	private ApplicationState as;
 
 	public void updateLeaderboard(final Context c, final boolean visible){
-		 as = (ApplicationState) c.getApplicationContext();
+		final ApplicationState as = (ApplicationState) c.getApplicationContext();
 		 final ProgressDialog pd = new ProgressDialog(c);
 		 if(visible){
 			 pd.show(c, "Leaderboard", "Getting scores...");
@@ -51,7 +51,7 @@ public class ScheduledTasks {
 			@Override
 			protected void onPostExecute(List<LeaderboardScoreProxy> results) {
 				if(results != null){
-
+					Log.e("t-msg", "found some results");
 					as.setLeaderboard(results);
 				}else{
 					Log.e("T-msg", "Null Leaderboard Scores");
@@ -62,8 +62,51 @@ public class ScheduledTasks {
 			}
 		}.execute();
 	}
+	
+	public static void getCaffeineProducts(final Context mContext, final boolean visible){
+		final ApplicationState as = (ApplicationState) mContext.getApplicationContext();
+		 final ProgressDialog pd = new ProgressDialog(mContext);
+		 if(visible){
+			 pd.show(mContext, "Products", "Getting Products...");
+		 }
+		new AsyncTask<Void, Void, List<CaffeineProductProxy>>(){
+
+			private List<CaffeineProductProxy> product;
+			@Override
+			protected List<CaffeineProductProxy> doInBackground(Void... params) {
+
+				
+				MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
+				requestFactory.rich2012CafeRequest().getAllCaffeineProducts().fire(new Receiver<List<CaffeineProductProxy>>(){
+					
+					@Override
+					public void onSuccess(List<CaffeineProductProxy> products) {
+						product = products;
+						Log.i("TERROR", "productsset");
+					}
+		        	
+					@Override
+		            public void onFailure(ServerFailure error) {
+		                Log.e("TERROR", error.getMessage());
+		            }
+
+		        });
+				
+				return product;
+			}
+			
+		    @Override
+		    protected void onPostExecute(List<CaffeineProductProxy> result) {
+		    	
+		       as.setCaffeineProducts(result);
+		       pd.dismiss();
+		       Log.i("T", "I IS HERE");
+		    }
+		}.execute();
+	}
 
 	public void uploadCurrentScore(final Context mContext){
+		final ApplicationState as = (ApplicationState) mContext.getApplicationContext();
 		new AsyncTask<Void, Void, Void>(){
 
 			@Override

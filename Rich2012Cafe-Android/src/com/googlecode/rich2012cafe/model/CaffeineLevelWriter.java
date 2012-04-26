@@ -28,6 +28,8 @@ public class CaffeineLevelWriter {
 	private final static String JSON_LEVEL_FIELD = "level";
 	private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 	
+	private Context mContext;
+	
 	private SharedPreferences prefs;
 	/*
 	 * 
@@ -45,11 +47,24 @@ public class CaffeineLevelWriter {
 	
 	public CaffeineLevelWriter(Context context){
 		prefs = Util.getSharedPreferences(context);
+		mContext = context;
 	}
 	
 	public boolean appendToCaffeineLevels(CaffeineLevel level, String settingName) {
 		
-		return true;
+		CaffeineLevelReader reader = new CaffeineLevelReader(mContext);
+		
+		TreeMap<Date, Integer> caffeineLevels = reader.getCaffeineLevels(settingName);
+		
+		caffeineLevels.put(level.getTime(), level.getLevel());
+		
+		if (writeNewCaffeineLevels(caffeineLevels, settingName)) {
+			return true;
+		}
+		
+		
+		return false;
+				
 	}
 	
 	public boolean writeNewCaffeineLevels(TreeMap<Date,Integer> levels, String settingName) {

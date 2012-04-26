@@ -11,4 +11,6 @@ public class Rich2012CafeUtil {
 	public static final String MESSAGE_NAME = "targetActivity";
 	public static final String CAFFEINE_TRACKER = "caffeineTracker";
 	public static final String CAFFEINE_WARNING = "caffeineWarning";
+	public final static String HISTORIC_VALUES_SETTING_NAME = "historicCaffeineValues";
+	public final static String PROJECTED_VALUES_SETTING_NAME = "projectedCaffeineValues";
 }

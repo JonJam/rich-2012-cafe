@@ -3,27 +3,30 @@ package com.googlecode.rich2012cafe.server.datastore.objects;
 import com.google.web.bindery.requestfactory.shared.Locator;
 
 
-public class OpeningTimeLocator extends Locator<OpeningTime, Void> {
+public class CaffeineSourceWrapperLocator extends
+		Locator<CaffeineSourceWrapper, Void> {
 
 	@Override
-	public OpeningTime create(Class<? extends OpeningTime> clazz) {
+	public CaffeineSourceWrapper create(
+			Class<? extends CaffeineSourceWrapper> clazz) {
 		// TODO no default constructor, creation code cannot be generated
 		throw new RuntimeException(String.format("Cannot instantiate %s",
 				clazz.getCanonicalName()));
 	}
 
 	@Override
-	public OpeningTime find(Class<? extends OpeningTime> clazz, Void id) {
+	public CaffeineSourceWrapper find(
+			Class<? extends CaffeineSourceWrapper> clazz, Void id) {
 		return create(clazz);
 	}
 
 	@Override
-	public Class<OpeningTime> getDomainType() {
-		return OpeningTime.class;
+	public Class<CaffeineSourceWrapper> getDomainType() {
+		return CaffeineSourceWrapper.class;
 	}
 
 	@Override
-	public Void getId(OpeningTime domainObject) {
+	public Void getId(CaffeineSourceWrapper domainObject) {
 		return null;
 	}
 
@@ -33,7 +36,7 @@ public class OpeningTimeLocator extends Locator<OpeningTime, Void> {
 	}
 
 	@Override
-	public Object getVersion(OpeningTime domainObject) {
+	public Object getVersion(CaffeineSourceWrapper domainObject) {
 		return null;
 	}
 

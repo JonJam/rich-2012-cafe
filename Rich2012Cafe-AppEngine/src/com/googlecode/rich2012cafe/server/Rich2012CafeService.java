@@ -5,8 +5,8 @@ import java.util.List;
 import com.googlecode.rich2012cafe.annotation.ServiceMethod;
 import com.googlecode.rich2012cafe.server.datastore.DataStore;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineProduct;
-import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSource;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceProduct;
+import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceWrapper;
 import com.googlecode.rich2012cafe.server.datastore.objects.LeaderboardScore;
 import com.googlecode.rich2012cafe.server.datastore.objects.OpeningTime;
 
@@ -20,13 +20,14 @@ public class Rich2012CafeService {
 	private static DataStore db = new DataStore();
 		
 	/**
-	 * Method to get CaffeineSources given latitude and longitude position.
+	 * Method get caffeine sources and their information given latitude and longitude position.
 	 * 
-	 * 
-	 * @return List of CaffeineSource objects.
+	 * @param latitude (double value)
+	 * @param longitude (double value)
+	 * @return List of CaffeineSourceWrapper object
 	 */
 	@ServiceMethod
-	public List<CaffeineSource> getCaffeineSourcesGiven(double latitude, double longitude){
+	public List<CaffeineSourceWrapper> getCaffeineSourcesGiven(double latitude, double longitude){
 		return db.getCaffeineSourcesGiven(latitude, longitude);
 	}
 	

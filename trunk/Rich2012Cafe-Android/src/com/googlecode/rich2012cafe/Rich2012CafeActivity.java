@@ -264,6 +264,8 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 		CaffeineLevelWriter clw = new CaffeineLevelWriter(this);
 		clw.appendToCaffeineLevels(new CaffeineLevel(new Date(System.currentTimeMillis()), (int) p.getCaffeineContent()), Rich2012CafeUtil.ADHOC_DRINKS_SETTING_NAME);
 		this.startActivity(new Intent(this, CaffeineTracker.class));
+		
+		Log.i("Craig", "Returned");
 //		JSONObject level = new JSONObject();
 //		try{
 //			level.put("level", (int) p.getCaffeineContent());

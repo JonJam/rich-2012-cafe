@@ -142,7 +142,7 @@ public class CaffeineTracker extends Activity {
 	
 			for (CalendarEvent e: mergedEvents) {
 			
-				Log.e("T-msg", "within event");
+				Log.e("Craig", "within event");
 				long startTime = e.getStartTime();
 				long endTime = e.getEndTime();	
 				

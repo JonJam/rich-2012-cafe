@@ -8,6 +8,7 @@ import com.googlecode.rich2012cafe.ApplicationState;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
 import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
 import com.googlecode.rich2012cafe.shared.CaffeineSourceProxy;
+import com.googlecode.rich2012cafe.shared.CaffeineSourceWrapperProxy;
 import com.googlecode.rich2012cafe.shared.LeaderboardScoreProxy;
 
 import android.app.Activity;
@@ -22,29 +23,29 @@ public class ScheduledTasks {
 	public static void getSourcesFromLatLong(final Context mContext, final boolean visible){
 		final ApplicationState as = (ApplicationState) mContext.getApplicationContext();
 		 ProgressDialog pd = null;
-	    	new AsyncTask<Void, Void, List<CaffeineSourceProxy>>(){
+		 
+	    	new AsyncTask<Void, Void, List<CaffeineSourceWrapperProxy>>(){
 	    		ProgressDialog pd = null;
 	    		private String message = "";
-	    		
-				@Override
+	    		List<CaffeineSourceWrapperProxy> results;
+				
+	    		@Override
 				protected void onPreExecute() {
 					if(visible){ pd = ProgressDialog.show(mContext, "Leaderboard", "Getting scores...");
 					}
 	            }
 	    		
 	    		@Override
-	    		protected List<CaffeineSourceProxy> doInBackground(Void... params) {
+	    		protected List<CaffeineSourceWrapperProxy> doInBackground(Void... params) {
 	    			
 	    			MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
 	    			
 	    			//Get caffeine sources given
-	    			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.937358,-1.397763).fire(new Receiver<List<CaffeineSourceProxy>>(){
+	    			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.937358,-1.397763).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
 
 	    				@Override
-	    				public void onSuccess(List<CaffeineSourceProxy> sources) {
-	    					for(CaffeineSourceProxy p : sources){
-	    						
-	    					}
+	    				public void onSuccess(List<CaffeineSourceWrapperProxy> sources) {
+	    					results = sources;
 	    				}
 	    	        	
 	    				@Override
@@ -53,11 +54,11 @@ public class ScheduledTasks {
 	    	            }
 	    			});
 
-	    			return null;
+	    			return results;
 	    		}
 	    		
 	    	    @Override
-	    	    protected void onPostExecute(List<CaffeineSourceProxy> result) {
+	    	    protected void onPostExecute(List<CaffeineSourceWrapperProxy> result) {
 					if(visible){
 						pd.dismiss();
 					}

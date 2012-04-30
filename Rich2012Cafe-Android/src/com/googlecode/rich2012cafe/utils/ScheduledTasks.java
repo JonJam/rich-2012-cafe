@@ -7,27 +7,79 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.googlecode.rich2012cafe.ApplicationState;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
 import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
+import com.googlecode.rich2012cafe.shared.CaffeineSourceProxy;
 import com.googlecode.rich2012cafe.shared.LeaderboardScoreProxy;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 
 public class ScheduledTasks {
 
+	public static void getSourcesFromLatLong(final Context mContext, final boolean visible){
+		final ApplicationState as = (ApplicationState) mContext.getApplicationContext();
+		 ProgressDialog pd = null;
+	    	new AsyncTask<Void, Void, List<CaffeineSourceProxy>>(){
+	    		ProgressDialog pd = null;
+	    		private String message = "";
+	    		
+				@Override
+				protected void onPreExecute() {
+					if(visible){ pd = ProgressDialog.show(mContext, "Leaderboard", "Getting scores...");
+					}
+	            }
+	    		
+	    		@Override
+	    		protected List<CaffeineSourceProxy> doInBackground(Void... params) {
+	    			
+	    			MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
+	    			
+	    			//Get caffeine sources given
+	    			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.937358,-1.397763).fire(new Receiver<List<CaffeineSourceProxy>>(){
 
-	public void updateLeaderboard(final Context c, final boolean visible){
+	    				@Override
+	    				public void onSuccess(List<CaffeineSourceProxy> sources) {
+	    					for(CaffeineSourceProxy p : sources){
+	    						
+	    					}
+	    				}
+	    	        	
+	    				@Override
+	    	            public void onFailure(ServerFailure error) {
+	    	              
+	    	            }
+	    			});
+
+	    			return null;
+	    		}
+	    		
+	    	    @Override
+	    	    protected void onPostExecute(List<CaffeineSourceProxy> result) {
+					if(visible){
+						pd.dismiss();
+					}
+	    	    }
+		    }.execute();
+	}
+
+	public static void updateLeaderboard(final Context c, final boolean visible){
 		final ApplicationState as = (ApplicationState) c.getApplicationContext();
-		 final ProgressDialog pd = new ProgressDialog(c);
-		 if(visible){
-			 pd.show(c, "Leaderboard", "Getting scores...");
-		 }
+		 ProgressDialog pd = null;
 		new AsyncTask<Void, Void, List<LeaderboardScoreProxy>>(){
 
 			private List<LeaderboardScoreProxy> scores;
+			private ProgressDialog pd;
 
+			@Override
+			protected void onPreExecute() {
+				if(visible){ pd = ProgressDialog.show(c, "Leaderboard", "Getting scores...");
+				}
+            }
+
+			
 			@Override
 			protected List<LeaderboardScoreProxy> doInBackground(Void...params) {			
 
@@ -59,19 +111,25 @@ public class ScheduledTasks {
 				if(visible){
 					pd.dismiss();
 				}
+
 			}
 		}.execute();
 	}
 	
 	public static void getCaffeineProducts(final Context mContext, final boolean visible){
 		final ApplicationState as = (ApplicationState) mContext.getApplicationContext();
-		 final ProgressDialog pd = new ProgressDialog(mContext);
-		 if(visible){
-			 pd.show(mContext, "Products", "Getting Products...");
-		 }
+		
 		new AsyncTask<Void, Void, List<CaffeineProductProxy>>(){
 
 			private List<CaffeineProductProxy> product;
+			private ProgressDialog pd;
+			
+			@Override
+			protected void onPreExecute() {
+				if(visible){ pd = ProgressDialog.show(mContext, "Drinks", "Getting Drinks...");
+				}
+            }
+			
 			@Override
 			protected List<CaffeineProductProxy> doInBackground(Void... params) {
 
@@ -96,11 +154,11 @@ public class ScheduledTasks {
 			}
 			
 		    @Override
-		    protected void onPostExecute(List<CaffeineProductProxy> result) {
-		    	
+		    protected void onPostExecute(List<CaffeineProductProxy> result) {	
 		       as.setCaffeineProducts(result);
-		       pd.dismiss();
-		       Log.i("T", "I IS HERE");
+				if(visible){
+					pd.dismiss();
+				}
 		    }
 		}.execute();
 	}

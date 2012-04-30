@@ -15,11 +15,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class LeaderboardActivity extends Activity{
+public class LeaderboardActivity extends Activity implements OnClickListener{
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,13 +30,11 @@ public class LeaderboardActivity extends Activity{
 		final TextView scoreLabel = (TextView) this.findViewById(R.id.scoreLabel);
 		ApplicationState as = (ApplicationState) this.getApplicationContext();
 		scoreLabel.setText("Your Current Score: "+as.getScore());
-		
-        ActionBar actionBar = getActionBar();
+		this.findViewById(R.id.leaderUpdateButton).setOnClickListener(this);
+		ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         this.getActionBar().setDisplayShowTitleEnabled(false);
         actionBar.setHomeButtonEnabled(true); 
-        ScheduledTasks st = new ScheduledTasks();
-        st.updateLeaderboard(this, true);
 		generateTable();
 	}
 	
@@ -42,10 +42,20 @@ public class LeaderboardActivity extends Activity{
 		final TableLayout tbl = (TableLayout) this.findViewById(R.id.leader_table);
 				
 		ApplicationState as = (ApplicationState) this.getApplicationContext();
-		List<LeaderboardScoreProxy> scores = as.getLeaderboard();
+		final List<LeaderboardScoreProxy> scores = as.getLeaderboard();
 		if(scores != null){
 			for(int i=0; i<scores.size();i++){
-				tbl.addView(addRank(i+1, scores.get(i).getScore()));
+				final int pos = i;
+				tbl.post(new Runnable(){
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						tbl.addView(addRank(pos+1, scores.get(pos).getScore()));
+					}
+					
+				});
+				
 			}
 		}
 	}
@@ -69,6 +79,7 @@ public class LeaderboardActivity extends Activity{
         // Invoke the Register activity
         menu.getItem(0).setIntent(new Intent(this, GMapActivity.class));
         menu.getItem(1).setIntent(new Intent(this, GraphActivity.class));
+        menu.getItem(2).setIntent(new Intent(this, LeaderboardActivity.class));
         menu.getItem(3).setIntent(new Intent(this, SettingsActivity.class));
         return true;
     }
@@ -86,4 +97,16 @@ public class LeaderboardActivity extends Activity{
     	}
     	return false;
     }
+
+	@Override
+	public void onClick(View view) {
+		// TODO Auto-generated method stub
+		if(view.getId() == R.id.leaderUpdateButton){
+			//ScheduledTasks st = new ScheduledTasks();
+			ScheduledTasks.updateLeaderboard(this, true);
+			generateTable();
+		}
+	}
+
+
 }

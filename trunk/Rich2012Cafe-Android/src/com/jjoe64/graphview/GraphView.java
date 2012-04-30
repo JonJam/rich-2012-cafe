@@ -3,6 +3,7 @@ package com.jjoe64.graphview;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -445,17 +446,23 @@ abstract public class GraphView extends LinearLayout {
 		} else {
 			// otherwise use the max x value
 			// values must be sorted by x, so the last value has the largest X value
-			long highest = 0;
-			if (graphSeries.size() > 0)
-			{
-				GraphViewData[] values = graphSeries.get(0).values;
-				highest = values[values.length-1].date.getTime();
-				for (int i=1; i<graphSeries.size(); i++) {
-					values = graphSeries.get(i).values;
-					highest = Math.max(highest, values[values.length-1].date.getTime());
-				}
-			}
-			return highest;
+//			long highest = 0;
+//			if (graphSeries.size() > 0)
+//			{
+//				GraphViewData[] values = graphSeries.get(0).values;
+//				highest = values[values.length-1].date.getTime();
+//				for (int i=1; i<graphSeries.size(); i++) {
+//					values = graphSeries.get(i).values;
+//					highest = Math.max(highest, values[values.length-1].date.getTime());
+//				}
+//			}
+//			return highest;
+			Date temp = Calendar.getInstance().getTime();
+			temp.setHours(23);
+			temp.setMinutes(59);
+			temp.setSeconds(59);
+			return temp.getTime();
+			
 		}
 	}
 
@@ -482,17 +489,23 @@ abstract public class GraphView extends LinearLayout {
 		} else {
 			// otherwise use the min x value
 			// values must be sorted by x, so the first value has the smallest X value
-			long lowest = 0;
-			if (graphSeries.size() > 0)
-			{
-				GraphViewData[] values = graphSeries.get(0).values;
-				lowest = values[0].date.getTime();
-				for (int i=1; i<graphSeries.size(); i++) {
-					values = graphSeries.get(i).values;
-					lowest = Math.min(lowest, values[0].date.getTime());
-				}
-			}
-			return lowest;
+//			long lowest = 0;
+//			if (graphSeries.size() > 0)
+//			{
+//				GraphViewData[] values = graphSeries.get(0).values;
+//				lowest = values[0].date.getTime();
+//				for (int i=1; i<graphSeries.size(); i++) {
+//					values = graphSeries.get(i).values;
+//					lowest = Math.min(lowest, values[0].date.getTime());
+//				}
+//			}
+//			return lowest;
+			
+			Date temp = Calendar.getInstance().getTime();
+			temp.setHours(0);
+			temp.setMinutes(0);
+			temp.setSeconds(0);
+			return temp.getTime();
 		}
 	}
 

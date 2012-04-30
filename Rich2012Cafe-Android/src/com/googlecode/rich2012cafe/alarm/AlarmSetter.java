@@ -1,6 +1,7 @@
 package com.googlecode.rich2012cafe.alarm;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 
@@ -35,4 +36,5 @@ public class AlarmSetter {
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		am.set(AlarmManager.RTC_WAKEUP, timeToSet.getTimeInMillis(), sender);
 	}
+	
 }

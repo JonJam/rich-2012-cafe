@@ -21,11 +21,6 @@ import com.googlecode.rich2012cafe.R;
 import com.googlecode.rich2012cafe.Rich2012CafeActivity;
 import com.googlecode.rich2012cafe.model.CaffeineLevelReader;
 import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GraphView.GraphViewData;
-import com.jjoe64.graphview.GraphView.GraphViewSeries;
-import com.jjoe64.graphview.LineGraphView;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;

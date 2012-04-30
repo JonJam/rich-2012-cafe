@@ -13,4 +13,7 @@ public class Rich2012CafeUtil {
 	public static final String CAFFEINE_WARNING = "caffeineWarning";
 	public final static String HISTORIC_VALUES_SETTING_NAME = "historicCaffeineValues";
 	public final static String PROJECTED_VALUES_SETTING_NAME = "projectedCaffeineValues";
+	public final static String ADHOC_DRINKS_SETTING_NAME = "adhocDrinkCaffeineValues";
+	public final static int OPTIMAL_CAFFEINE_UPPER_LIMIT = 250;
+	public final static int OPTIMAL_CAFFEINE_LOWER_LIMIT = 175;
 }

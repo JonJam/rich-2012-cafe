@@ -105,7 +105,7 @@ public class CaffeineLevelWriter {
 		
 		Editor editor = prefs.edit();
 		editor.putString(settingName, levelsArray.toString());
-			
+		editor.commit();
 		return true;
 				
 	}

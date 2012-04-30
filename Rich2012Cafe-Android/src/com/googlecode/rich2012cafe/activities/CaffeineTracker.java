@@ -31,8 +31,6 @@ import com.googlecode.rich2012cafe.utils.Util;
 public class CaffeineTracker extends Activity {
 
 	private final static int HALF_LIFE = 240;
-	private final static int OPTIMAL_CAFFEINE_UPPER_LIMIT = 250;
-	private final static int OPTIMAL_CAFFEINE_LOWER_LIMIT = 175;
 	private final static int CAFFEINE_BUFFER = 10;
 	
 	private TreeMap<Integer, CaffeineProductProxy> productsTree = null;
@@ -362,11 +360,11 @@ public class CaffeineTracker extends Activity {
 	}
 	
 	public static int getOptimalCaffeineUpperLimit() {
-		return OPTIMAL_CAFFEINE_UPPER_LIMIT;
+		return Rich2012CafeUtil.OPTIMAL_CAFFEINE_UPPER_LIMIT;
 	}
 
 	public static int getOptimalCaffeineLowerLimit() {
-		return OPTIMAL_CAFFEINE_LOWER_LIMIT;
+		return Rich2012CafeUtil.OPTIMAL_CAFFEINE_LOWER_LIMIT;
 	}
 
 	public static int getCaffeineBuffer() {

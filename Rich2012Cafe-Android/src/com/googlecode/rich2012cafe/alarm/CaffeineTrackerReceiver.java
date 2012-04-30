@@ -1,0 +1,30 @@
+package com.googlecode.rich2012cafe.alarm;
+
+import com.googlecode.rich2012cafe.utils.Util;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
+/**
+ * Class to receive caffeine tracker alarms and perform appropiate action.
+ * 
+ * @author Jonathan Harrison (jonjam1990@googlemail.com)
+ */
+public class CaffeineTrackerReceiver extends BroadcastReceiver{
+	
+	/**
+	 * Method called on receive an alarm message.
+	 */
+	@Override
+	public void onReceive(Context context, Intent intent){
+		
+		//SET BELOW FOR CAFFEINETRACKER ACTIVITY in BACKGROUND
+		/*
+		 * Intent newIntent = new Intent(context, .class);
+		 * newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		 * context.startActivity(newIntent);
+		 */
+		Util.generateNotification(context, "TRACK", new Intent());
+	}
+}

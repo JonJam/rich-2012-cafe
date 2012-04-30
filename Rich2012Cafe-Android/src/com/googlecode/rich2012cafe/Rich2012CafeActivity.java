@@ -20,7 +20,6 @@ import com.googlecode.rich2012cafe.activities.GMapActivity;
 import com.googlecode.rich2012cafe.activities.GraphActivity;
 import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.activities.SettingsActivity;
-import com.googlecode.rich2012cafe.alarm.AlarmReceiver;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
 import com.googlecode.rich2012cafe.calendar.CalendarReader;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
@@ -132,7 +131,14 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setHomeButtonEnabled(true);
-        setAlarm();
+        
+        
+        
+        //setAlarm();
+        
+        
+        
+        
         ApplicationState as = (ApplicationState) this.getApplicationContext();
         as.setScore(-1);
         ScheduledTasks.getCaffeineProducts(this, false);
@@ -180,8 +186,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 
     private void setHelloWorldScreenContent() {
     	tv = (TextView) findViewById(R.id.hello_world_info);
-    	
-
+    	    	
     	findViewById(R.id.graphButton).setOnClickListener(this);
     	this.findViewById(R.id.intakeButton).setOnClickListener(this);
     }
@@ -262,18 +267,18 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 		dialog.show();
 	}
 	
-	private void setAlarm(){
-	    Calendar updateTime = Calendar.getInstance();
-	    Log.i("time", updateTime.getTime().toString());
-	    //updateTime.setTimeZone(TimeZone.getTimeZone("GMT"));
-	    updateTime.set(Calendar.HOUR_OF_DAY, 16);
-	    updateTime.set(Calendar.MINUTE, 15);
-	    
-	    Intent servicer = new Intent(this, AlarmReceiver.class);
-	    PendingIntent recurringUpdate = PendingIntent.getBroadcast(this, 0, servicer, PendingIntent.FLAG_CANCEL_CURRENT);
-	    AlarmManager alarms = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-	    alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, recurringUpdate);
-	}
+//	private void setAlarm(){
+//	    Calendar updateTime = Calendar.getInstance();
+//	    Log.i("time", updateTime.getTime().toString());
+//	    //updateTime.setTimeZone(TimeZone.getTimeZone("GMT"));
+//	    updateTime.set(Calendar.HOUR_OF_DAY, 16);
+//	    updateTime.set(Calendar.MINUTE, 15);
+//	    
+//	    Intent servicer = new Intent(this, AlarmReceiver.class);
+//	    PendingIntent recurringUpdate = PendingIntent.getBroadcast(this, 0, servicer, PendingIntent.FLAG_CANCEL_CURRENT);
+//	    AlarmManager alarms = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+//	    alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, recurringUpdate);
+//	}
 	
 	private void closeDialog(Dialog d, CaffeineProductProxy p){
 		d.dismiss();

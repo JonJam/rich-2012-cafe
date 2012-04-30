@@ -1,5 +1,6 @@
 package com.googlecode.rich2012cafe.server.datastore;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.googlecode.rich2012cafe.client.Rich2012Cafe;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineProduct;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSource;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceProduct;
+import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceWrapper;
 import com.googlecode.rich2012cafe.server.datastore.objects.LeaderboardScore;
 import com.googlecode.rich2012cafe.server.datastore.objects.OpeningTime;
 import com.googlecode.rich2012cafe.server.sparql.SPARQLQuerier;
@@ -26,6 +28,51 @@ import com.googlecode.rich2012cafe.server.utils.Rich2012CafeUtil;
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  */
 public class DataStore {
+	
+	/**
+	 * Method get caffeine sources and their information given latitude and longitude position.
+	 * 
+	 * @param latitude (double value)
+	 * @param longitude (double value)
+	 * @return List of CaffeineSourceWrapper object
+	 */
+	@SuppressWarnings("unchecked")
+	public List<CaffeineSourceWrapper> getCaffeineSourcesGiven(double latitude, double longitude){
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		try {
+			Query query = pm.newQuery("SELECT FROM " + CaffeineSource.class.getName());
+			List<CaffeineSource> list = (List<CaffeineSource>) query.execute();
+			
+			if(list.size() == 0){
+				return null; 
+			} else{
+				
+				//Sort CaffeineSources according to distance away from current position
+				Collections.sort(list, new DistanceComparator(latitude, longitude));
+				List<CaffeineSource> sourcesSubset = list.subList(0, Rich2012CafeUtil.CAFFEINE_LOCATION_LIMIT);
+				
+				//Create CaffeineSourceWrapper objects for CaffeineSource objects above.
+				List<CaffeineSourceWrapper> wrapperSources = new ArrayList<CaffeineSourceWrapper>();
+				for(CaffeineSource source : sourcesSubset){
+					String id = source.getId();
+					wrapperSources.add(new CaffeineSourceWrapper(
+							source,
+							getOpeningTimesForCaffeineSource(id),
+							getCaffeineSourceProductsForCaffeineSource(id)));				
+				}
+				
+				return wrapperSources;
+			}
+	  	} catch (RuntimeException e) {
+	  		System.out.println(e);
+	  		throw e;
+	  	} finally {
+	  		pm.close();
+	  	}
+	}
+	//
 	
 	/**
 	 * Method to perform database check.
@@ -515,37 +562,7 @@ public class DataStore {
 	  		pm.close();
 	  	}
 	}
-	
-	/**
-	 * Method to get caffeine sources given latitude and longitude position.
-	 * 
-	 * @param latitude (double value)
-	 * @param longitude (double value)
-	 * @return List of CaffeineSource objects
-	 */
-	@SuppressWarnings("unchecked")
-	public List<CaffeineSource> getCaffeineSourcesGiven(double latitude, double longitude){
 		
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		try {
-			Query query = pm.newQuery("SELECT FROM " + CaffeineSource.class.getName());
-			List<CaffeineSource> list = (List<CaffeineSource>) query.execute();
-			
-			if(list.size() == 0){
-				return null; 
-			} else{
-				Collections.sort(list, new DistanceComparator(latitude, longitude));
-				return list.subList(0, Rich2012CafeUtil.CAFFEINE_LOCATION_LIMIT);
-			}
-	  	} catch (RuntimeException e) {
-	  		System.out.println(e);
-	  		throw e;
-	  	} finally {
-	  		pm.close();
-	  	}
-	}
-	
 	//Delete Methods
 	/**
 	 * Method to delete OpeningTimes objects passed.

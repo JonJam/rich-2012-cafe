@@ -14,7 +14,7 @@ import com.google.web.bindery.requestfactory.shared.ServiceName;
 @ServiceName(value = "com.googlecode.rich2012cafe.server.Rich2012CafeService", locator = "com.googlecode.rich2012cafe.server.Rich2012CafeServiceLocator")
 public interface Rich2012CafeRequest extends RequestContext {
 
-	Request<List<CaffeineSourceProxy>> getCaffeineSourcesGiven(double latitude, double longitude);
+	Request<List<CaffeineSourceWrapperProxy>> getCaffeineSourcesGiven(double latitude, double longitude);
 	Request<List<CaffeineSourceProductProxy>> getCaffeineSourceProductsForCaffeineSource(String id);
 	Request<List<OpeningTimeProxy>> getOpeningTimesForCaffeineSource(String id);
 	Request<List<CaffeineProductProxy>> getAllCaffeineProducts();

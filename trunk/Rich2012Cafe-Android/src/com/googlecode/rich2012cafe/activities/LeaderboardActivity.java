@@ -40,35 +40,30 @@ public class LeaderboardActivity extends Activity implements OnClickListener{
 	
 	private void generateTable(){
 		final TableLayout tbl = (TableLayout) this.findViewById(R.id.leader_table);
-				
+		tbl.removeAllViewsInLayout();
+		TableRow headers = new TableRow(this);
+		headers.addView(addTextView("Rank"));
+		headers.addView(addTextView("Score"));
+		tbl.addView(headers);
 		ApplicationState as = (ApplicationState) this.getApplicationContext();
 		final List<LeaderboardScoreProxy> scores = as.getLeaderboard();
 		if(scores != null){
 			for(int i=0; i<scores.size();i++){
-				final int pos = i;
-				tbl.post(new Runnable(){
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						tbl.addView(addRank(pos+1, scores.get(pos).getScore()));
-					}
-					
-				});
-				
+				tbl.addView(addRank(i+1, scores.get(i).getScore()));
 			}
 		}
 	}
 	
 	private TableRow addRank(int rank, double score){
 		TableRow temp = new TableRow(this);
-		TextView r = new TextView(this);
-		r.setText(rank+"");
-		TextView s = new TextView(this);
-		s.setText(score+"");
-		
-		temp.addView(r);
-		temp.addView(s);
+		temp.addView(addTextView(rank+""));
+		temp.addView(addTextView(score+""));
+		return temp;
+	}
+	
+	private TextView addTextView(String text){
+		TextView temp = new TextView(this);
+		temp.setText(text);
 		return temp;
 	}
 

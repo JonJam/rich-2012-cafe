@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-<style name="Theme.MyApp" parent="android:style/Theme.Holo">
+<style name="CustomTheme" parent="android:style/Theme.Holo">
     <item name="android:actionBarStyle">@style/ActionBar</item>
 </style>
    <color name="black_color">#fffcbf</color>

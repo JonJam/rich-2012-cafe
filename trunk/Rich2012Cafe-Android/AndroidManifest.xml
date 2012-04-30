@@ -33,7 +33,7 @@
         <!--  Main activity -->
         <activity android:name=".Rich2012CafeActivity" android:label="@string/app_name"
             android:launchMode="singleTop"
-                  android:theme="@style/Theme.MyApp">
+                  android:theme="@android:style/Theme.Holo.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -42,25 +42,25 @@
 
         <!-- Account selection activity -->
         <activity android:name=".activities.AccountsActivity" android:label="@string/app_name"
-                   android:theme="@style/Theme.MyApp">
+                   android:theme="@style/CustomTheme">
         </activity>
                 <activity android:name=".activities.GraphActivity" android:label="@string/app_name"
-                      android:theme="@style/Theme.MyApp">
+                      android:theme="@style/CustomTheme">
             </activity>
                 <activity android:name=".activities.SettingsActivity" android:label="@string/app_name"
-                        android:theme="@style/Theme.MyApp">
+                        android:theme="@style/CustomTheme">
         </activity>
            <activity android:name=".activities.LeaderboardActivity" android:label="@string/app_name"
-            android:theme="@style/Theme.MyApp">
+            android:theme="@style/CustomTheme">
         </activity>
                    <activity android:name=".activities.CaffeineTracker" android:label="@string/app_name"
-            android:theme="@style/Theme.MyApp">
+            android:theme="@style/CustomTheme">
         </activity>
          <activity android:name=".activities.GMapActivity" android:label="@string/app_name"
-            android:theme="@style/Theme.MyApp">
+            android:theme="@style/CustomTheme">
         </activity>
          <activity android:name=".activities.CaffeineTracker" android:label="@string/app_name"
-            android:theme="@style/Theme.MyApp">
+            android:theme="@style/CustomTheme">
         </activity>
 
         <!-- In order to use the C2DM library, an application must declare a class 

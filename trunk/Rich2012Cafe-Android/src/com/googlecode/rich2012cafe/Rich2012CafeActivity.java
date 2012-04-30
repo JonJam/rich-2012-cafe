@@ -120,13 +120,14 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.CustomTheme); 
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setHomeButtonEnabled(true);
         ApplicationState as = (ApplicationState) this.getApplicationContext();
         as.setScore(-1);
         ScheduledTasks.getCaffeineProducts(this, false);
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        this.getActionBar().setDisplayShowTitleEnabled(false);
-        actionBar.setHomeButtonEnabled(true);
         // Register a receiver to provide register/unregister notifications
         registerReceiver(mUpdateUIReceiver, new IntentFilter(Util.UPDATE_UI_INTENT));
         

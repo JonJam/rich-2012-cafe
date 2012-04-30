@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:id="@+id/leader_table"
-    android:background="@drawable/background"
-    android:stretchColumns="1">
+    android:id="@+id/leader_linear">
 <TextView
 	android:text="Your Current Score: "
 	android:id="@+id/scoreLabel"
@@ -14,6 +12,11 @@
         android:padding="5dip"
         android:layout_gravity="center_horizontal"
         android:text="Update Leaderboard" />
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/leader_table"
+    android:stretchColumns="1">
     <TableRow>
     <TextView
        android:text="Rank"
@@ -24,3 +27,4 @@
     
 </TableRow>
 </TableLayout>
+</LinearLayout>

@@ -92,6 +92,8 @@ public class CaffeineTracker extends Activity {
 			Calendar timeRoundedToCurrentHour = timeRoundedToCurrentHour(timeNow);
 			timeRoundedToCurrentHour.set(Calendar.HOUR_OF_DAY, 0);
 			
+			Log.e("Craig", timeRoundedToCurrentHour.toString() + " < time");
+			
 			caffeineLevels.put(timeRoundedToCurrentHour.getTime(), 0);
 			
 			CaffeineLevelWriter caffeineLevelWriter = new CaffeineLevelWriter(this);
@@ -105,7 +107,10 @@ public class CaffeineTracker extends Activity {
 		}
 		
 		lastLevelReading = caffeineLevels.lastEntry();
+		Log.e("Craig", lastLevelReading.getKey() +","+lastLevelReading.getValue()+"");
 		parseEvents(todaysEvents, lastLevelReading);
+		
+		this.finish();
 
     }
 	
@@ -122,130 +127,147 @@ public class CaffeineTracker extends Activity {
 	
 	private void parseEvents(ArrayList<CalendarEvent> todaysEvents, Entry<Date, Integer> lastLevel) {
 		
+		Log.i("Craig", "Got to parsing method");
+		
 		TreeMap<Date, Integer> newProjectedLevels = new TreeMap<Date, Integer>();
 		TreeMap<Date, Integer> suggestedIntakes = new TreeMap<Date, Integer>();
 		
-		ArrayList<CalendarEvent> mergedEvents = mergeBackToBackEvents(todaysEvents);
+		if (!todaysEvents.isEmpty()) {
+			
+			Log.i("Craig", "Have events");
 		
-		Entry<Date, Integer> tempPreviousLevel = lastLevel; 	
-
-		for (CalendarEvent e: mergedEvents) {
-		
-			Log.e("T-msg", "within event");
-			long startTime = e.getStartTime();
-			long endTime = e.getEndTime();	
+			ArrayList<CalendarEvent> mergedEvents = mergeBackToBackEvents(todaysEvents);
 			
-			Calendar eventStartTime = Calendar.getInstance();
-			eventStartTime.setTimeInMillis(startTime);
+			Entry<Date, Integer> tempPreviousLevel = lastLevel; 	
+	
+			for (CalendarEvent e: mergedEvents) {
 			
-			Calendar eventEndTime = Calendar.getInstance();
-			eventEndTime.setTimeInMillis(endTime);
-			
-			Calendar previousTime = Calendar.getInstance();
-			previousTime.setTime(tempPreviousLevel.getKey());
-			
-			if (eventStartTime.before(previousTime)) { //Does this event start before the time we have recorded up to 
-				continue;
-			} else {
+				Log.e("T-msg", "within event");
+				long startTime = e.getStartTime();
+				long endTime = e.getEndTime();	
 				
-				int minutesDifference = calculateMinutesDifference(eventStartTime, previousTime);
-				int projectedCaffeineLevel = calculateCaffeineLevel(tempPreviousLevel.getValue(), minutesDifference);
-				CaffeineLevel requiredIntake;
+				Calendar eventStartTime = Calendar.getInstance();
+				eventStartTime.setTimeInMillis(startTime);
 				
-				if (projectedCaffeineLevel < getOptimalCaffeineLowerLimit()) { //caffeine level below optimal for start of event
-					
-					try {
-						
-						requiredIntake = calculateCaffeineIntake(eventStartTime, eventEndTime, previousTime, tempPreviousLevel.getValue());
-						suggestedIntakes.put(requiredIntake.getTime(), requiredIntake.getLevel());
-						
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
+				Calendar eventEndTime = Calendar.getInstance();
+				eventEndTime.setTimeInMillis(endTime);
+				
+				Calendar previousTime = Calendar.getInstance();
+				previousTime.setTime(tempPreviousLevel.getKey());
+				
+				if (eventStartTime.before(previousTime)) { //Does this event start before the time we have recorded up to 
+					continue;
 				} else {
 					
-					int minutesDifferenceToEndOfEvent = calculateMinutesDifference(eventEndTime, previousTime);
-					int projectedLevelEndOfEvent = calculateCaffeineLevel(tempPreviousLevel.getValue(), minutesDifferenceToEndOfEvent);
+					int minutesDifference = calculateMinutesDifference(eventStartTime, previousTime);
+					int projectedCaffeineLevel = calculateCaffeineLevel(tempPreviousLevel.getValue(), minutesDifference);
+					CaffeineLevel requiredIntake;
 					
-					if (projectedLevelEndOfEvent > getOptimalCaffeineLowerLimit()) {
-						
-						continue;
-						
-					} else { //caffeine level drops below optimal during the event
+					if (projectedCaffeineLevel < getOptimalCaffeineLowerLimit()) { //caffeine level below optimal for start of event
 						
 						try {
 							
 							requiredIntake = calculateCaffeineIntake(eventStartTime, eventEndTime, previousTime, tempPreviousLevel.getValue());
-							suggestedIntakes.put(requiredIntake.getTime(), requiredIntake.getLevel()); 
-							//put the time and the amount of caffeine to be consumed
+							suggestedIntakes.put(requiredIntake.getTime(), requiredIntake.getLevel());
 							
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						
-					}			
-				}
-			}
-		}
-		
-		Date projectedCurrentDate = lastLevel.getKey();
-		Integer projectedCurrentLevel = lastLevel.getValue();
-		
-		Calendar projectedCurrentCalendar = Calendar.getInstance();
-		projectedCurrentCalendar.setTime(projectedCurrentDate);
-		
-		Calendar firstSuggestedIntakeCalendar = Calendar.getInstance();
-		firstSuggestedIntakeCalendar.setTime(suggestedIntakes.firstKey());
-		
-		while (projectedCurrentCalendar.before(firstSuggestedIntakeCalendar)) {
-			newProjectedLevels.put(projectedCurrentCalendar.getTime(), projectedCurrentLevel);
-			projectedCurrentCalendar.add(Calendar.MINUTE, 15);
-			projectedCurrentLevel = calculateCaffeineLevel(projectedCurrentLevel, 15);
-		}
-		
-		newProjectedLevels.put(projectedCurrentCalendar.getTime(), projectedCurrentLevel);
-		
-		Iterator<Date> iterator = suggestedIntakes.keySet().iterator();
-		
-		Integer caffeineBoost; 
-		
-		while (iterator.hasNext()) {
-			
-			Date next = iterator.next();
-			Calendar tempCal = Calendar.getInstance();
-			tempCal.setTime(next);
-
-			int minsDiff = calculateMinutesDifference(tempCal, projectedCurrentCalendar);
-			projectedCurrentLevel = calculateCaffeineLevel(projectedCurrentLevel, minsDiff);
-			newProjectedLevels.put(next, projectedCurrentLevel);
-			
-			caffeineBoost = suggestedIntakes.get(next);
-			projectedCurrentCalendar.setTime(next);
+					} else {
 						
-			int increment = Math.round(caffeineBoost / 4);
-			
-			for (int i = 1; i <= 3; i++) {
-				projectedCurrentCalendar.add(Calendar.MINUTE, 15);
-				newProjectedLevels.put(projectedCurrentCalendar.getTime(), projectedCurrentLevel + (i * increment));
-			}
-			
-			projectedCurrentCalendar.add(Calendar.MINUTE, 15);
-			newProjectedLevels.put(projectedCurrentCalendar.getTime(), projectedCurrentLevel + caffeineBoost);
-			
-			projectedCurrentCalendar.add(Calendar.MINUTE, 15);
-			
-			if (suggestedIntakes.higherKey(projectedCurrentCalendar.getTime()) != null) {
-			
-				while (projectedCurrentCalendar.before(suggestedIntakes.higherKey(projectedCurrentCalendar.getTime()))) {
-					
-					projectedCurrentLevel = calculateCaffeineLevel(projectedCurrentLevel, 15);
-					newProjectedLevels.put(projectedCurrentCalendar.getTime(), projectedCurrentLevel);					
+						int minutesDifferenceToEndOfEvent = calculateMinutesDifference(eventEndTime, previousTime);
+						int projectedLevelEndOfEvent = calculateCaffeineLevel(tempPreviousLevel.getValue(), minutesDifferenceToEndOfEvent);
+						
+						if (projectedLevelEndOfEvent > getOptimalCaffeineLowerLimit()) {
+							
+							continue;
+							
+						} else { //caffeine level drops below optimal during the event
+							
+							try {
+								
+								requiredIntake = calculateCaffeineIntake(eventStartTime, eventEndTime, previousTime, tempPreviousLevel.getValue());
+								suggestedIntakes.put(requiredIntake.getTime(), requiredIntake.getLevel()); 
+								//put the time and the amount of caffeine to be consumed
+								
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							
+						}			
+					}
 				}
 			}
+		
+			
+		} else {
+			Log.i("Craig", "Calendar empty");
 		}
+			
+			
+		
+		if (!suggestedIntakes.isEmpty()) {
+	
+			Date projectedCurrentDate = lastLevel.getKey();
+			Integer projectedCurrentLevel = lastLevel.getValue();
+			
+			Calendar projectedCurrentCalendar = Calendar.getInstance();
+			projectedCurrentCalendar.setTime(projectedCurrentDate);
+			
+			Calendar firstSuggestedIntakeCalendar = Calendar.getInstance();
+			firstSuggestedIntakeCalendar.setTime(suggestedIntakes.firstKey());
+			
+			while (projectedCurrentCalendar.before(firstSuggestedIntakeCalendar)) {
+				newProjectedLevels.put(projectedCurrentCalendar.getTime(), projectedCurrentLevel);
+				projectedCurrentCalendar.add(Calendar.MINUTE, 15);
+				projectedCurrentLevel = calculateCaffeineLevel(projectedCurrentLevel, 15);
+			}
+			
+			newProjectedLevels.put(projectedCurrentCalendar.getTime(), projectedCurrentLevel);
+			
+			Iterator<Date> iterator = suggestedIntakes.keySet().iterator();
+			
+			Integer caffeineBoost; 
+			
+			while (iterator.hasNext()) {
+				
+				Date next = iterator.next();
+				Calendar tempCal = Calendar.getInstance();
+				tempCal.setTime(next);
+	
+				int minsDiff = calculateMinutesDifference(tempCal, projectedCurrentCalendar);
+				projectedCurrentLevel = calculateCaffeineLevel(projectedCurrentLevel, minsDiff);
+				newProjectedLevels.put(next, projectedCurrentLevel);
+				
+				caffeineBoost = suggestedIntakes.get(next);
+				projectedCurrentCalendar.setTime(next);
+							
+				int increment = Math.round(caffeineBoost / 4);
+				
+				for (int i = 1; i <= 3; i++) {
+					projectedCurrentCalendar.add(Calendar.MINUTE, 15);
+					newProjectedLevels.put(projectedCurrentCalendar.getTime(), projectedCurrentLevel + (i * increment));
+				}
+				
+				projectedCurrentCalendar.add(Calendar.MINUTE, 15);
+				newProjectedLevels.put(projectedCurrentCalendar.getTime(), projectedCurrentLevel + caffeineBoost);
+				
+				projectedCurrentCalendar.add(Calendar.MINUTE, 15);
+				
+				if (suggestedIntakes.higherKey(projectedCurrentCalendar.getTime()) != null) {
+				
+					while (projectedCurrentCalendar.before(suggestedIntakes.higherKey(projectedCurrentCalendar.getTime()))) {
+						
+						projectedCurrentLevel = calculateCaffeineLevel(projectedCurrentLevel, 15);
+						newProjectedLevels.put(projectedCurrentCalendar.getTime(), projectedCurrentLevel);					
+					}
+				}
+			}
+			
+		}	
 		
 		projectedLevels = newProjectedLevels;
 		

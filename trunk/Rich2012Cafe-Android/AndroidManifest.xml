@@ -86,7 +86,9 @@
             </intent-filter>
         </receiver>
         
-        <receiver android:process=":remote" android:name=".alarm.AlarmReceiver" />
+        <receiver android:process=":remote" android:name=".alarm.CaffeineTrackerReceiver" />
+        <receiver android:process=":remote" android:name=".alarm.CaffeineWarningReceiver" />
+        <receiver android:process=":remote" android:name=".alarm.ApplicationStateUpdateReceiver" />
         
         <uses-library android:name="com.google.android.maps" />
     </application>

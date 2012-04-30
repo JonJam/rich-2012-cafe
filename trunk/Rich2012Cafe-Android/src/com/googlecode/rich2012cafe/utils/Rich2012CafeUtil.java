@@ -8,12 +8,10 @@ package com.googlecode.rich2012cafe.utils;
 public class Rich2012CafeUtil {
 
 	//Strings used for Alarms.
-	public static final String MESSAGE_NAME = "targetActivity";
-	public static final String CAFFEINE_TRACKER = "caffeineTracker";
-	public static final String CAFFEINE_WARNING = "caffeineWarning";
 	public final static String HISTORIC_VALUES_SETTING_NAME = "historicCaffeineValues";
 	public final static String PROJECTED_VALUES_SETTING_NAME = "projectedCaffeineValues";
 	public final static String ADHOC_DRINKS_SETTING_NAME = "adhocDrinkCaffeineValues";
 	public final static int OPTIMAL_CAFFEINE_UPPER_LIMIT = 250;
 	public final static int OPTIMAL_CAFFEINE_LOWER_LIMIT = 175;
+	public final static int APPLICATION_STATE_UPDATE_ALARM_ID = 19568;
 }

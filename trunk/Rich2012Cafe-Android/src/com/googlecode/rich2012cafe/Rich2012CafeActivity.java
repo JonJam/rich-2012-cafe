@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +22,8 @@ import com.googlecode.rich2012cafe.activities.SettingsActivity;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
 import com.googlecode.rich2012cafe.calendar.CalendarReader;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
+import com.googlecode.rich2012cafe.model.CaffeineLevel;
+import com.googlecode.rich2012cafe.model.CaffeineLevelWriter;
 import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
 import com.googlecode.rich2012cafe.shared.CaffeineSourceProxy;
 import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
@@ -176,40 +179,6 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 
     	findViewById(R.id.graphButton).setOnClickListener(this);
     	this.findViewById(R.id.intakeButton).setOnClickListener(this);
-    	
-//    	new AsyncTask<Void, Void, List<CaffeineSourceProxy>>(){
-//    		private String message = "";
-//    		
-//    		@Override
-//    		protected List<CaffeineSourceProxy> doInBackground(Void... params) {
-//    			
-//    			MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
-//    			
-//    			//Get caffeine sources given
-//    			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.937358,-1.397763).fire(new Receiver<List<CaffeineSourceProxy>>(){
-//
-//    				@Override
-//    				public void onSuccess(List<CaffeineSourceProxy> sources) {
-//    					for(CaffeineSourceProxy p : sources){
-//    						message += p.getId() + "\n\n";
-//    					}
-//    				}
-//    	        	
-//    				@Override
-//    	            public void onFailure(ServerFailure error) {
-//    	                message = error.getMessage() + "\n\n" + error.getStackTraceString();
-//    	            }
-//    			});
-//
-//    			return null;
-//    		}
-//    		
-//    	    @Override
-//    	    protected void onPostExecute(List<CaffeineSourceProxy> result) {
-//    	    	tv.setMovementMethod(new ScrollingMovementMethod());
-//    	    	tv.setText(message);
-//    	    }
-//	    }.execute();
     }
     
 	public AlertDialog createAlert(Activity activity, String msg){
@@ -292,17 +261,20 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 		d.dismiss();
 		SharedPreferences prefs = Util.getSharedPreferences(this);
 		String currentValue = prefs.getString(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME, "");
-		JSONObject level = new JSONObject();
-		try{
-			level.put("level", (int) p.getCaffeineContent());
-			level.put("date", System.currentTimeMillis());
-
-		}catch(JSONException e){
-			Log.e("json error", e.getMessage());
-		}
-		Editor editor = prefs.edit();
-		editor.putString(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME, currentValue+level.toString());
-		editor.commit();
-		Log.i("json commit", prefs.getString(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME, "empty"));
+		CaffeineLevelWriter clw = new CaffeineLevelWriter(this);
+		clw.appendToCaffeineLevels(new CaffeineLevel(new Date(System.currentTimeMillis()), (int) p.getCaffeineContent()), Rich2012CafeUtil.ADHOC_DRINKS_SETTING_NAME);
+		this.startActivity(new Intent(this, CaffeineTracker.class));
+//		JSONObject level = new JSONObject();
+//		try{
+//			level.put("level", (int) p.getCaffeineContent());
+//			level.put("date", System.currentTimeMillis());
+//
+//		}catch(JSONException e){
+//			Log.e("json error", e.getMessage());
+//		}
+//		Editor editor = prefs.edit();
+//		editor.putString(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME, currentValue+level.toString());
+//		editor.commit();
+//		Log.i("json commit", prefs.getString(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME, "empty"));
 	}
 }

@@ -76,6 +76,7 @@ public class CaffeineLevelReader {
 				
 			} catch (JSONException e) {
 				Log.e("josn error", e.getMessage());
+				Log.e("Json error", e.getStackTrace().toString());
 			}
 		}
 		

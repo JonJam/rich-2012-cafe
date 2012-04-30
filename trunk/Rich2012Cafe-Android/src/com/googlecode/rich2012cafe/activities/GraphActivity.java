@@ -36,7 +36,7 @@ public class GraphActivity extends Activity{
 	       v += 0.2;  
 	       data[i] = new GraphViewData(i, Math.sin(v));  
 	    }  
-	    GraphViewSeries seriesSin = new GraphViewSeries(data);
+	    GraphViewSeries seriesSin = new GraphViewSeries("data",Color.rgb(255, 255, 216),data);
 	     	    
 	    /* 
 	     * create graph 
@@ -81,4 +81,12 @@ public class GraphActivity extends Activity{
     	}
     	return false;
     }
+    
+//    public GraphViewData[] getDummyActualData(){
+//    	
+//    }
+//    
+//    public GraphViewData[] getDummyEstimatedData(){
+//    	
+//    }
 }

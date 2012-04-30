@@ -8,6 +8,11 @@
 	android:text="Your Current Score: "
 	android:id="@+id/scoreLabel"
 	android:padding="3dip"/>
+        <Button
+        android:id="@+id/leaderUpdateButton"
+        android:padding="5dip"
+        android:layout_gravity="center_horizontal"
+        android:text="Update Leaderboard" />
     <TableRow>
     <TextView
        android:text="Rank"

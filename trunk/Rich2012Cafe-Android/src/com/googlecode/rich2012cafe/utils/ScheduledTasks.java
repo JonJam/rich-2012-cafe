@@ -14,6 +14,8 @@ import com.googlecode.rich2012cafe.shared.LeaderboardScoreProxy;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -163,8 +165,17 @@ public class ScheduledTasks {
 		    }
 		}.execute();
 	}
+	
+	public static void clearCaffeineLevels(final Context mContet){
+		SharedPreferences prefs = Util.getSharedPreferences(mContet);
+		Editor editor = prefs.edit();
+		editor.putString(Rich2012CafeUtil.ADHOC_DRINKS_SETTING_NAME, "");
+		editor.putString(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME, "");
+		editor.putString(Rich2012CafeUtil.PROJECTED_VALUES_SETTING_NAME, "");
+		editor.commit();
+	}
 
-	public void uploadCurrentScore(final Context mContext){
+	public static void uploadCurrentScore(final Context mContext){
 		final ApplicationState as = (ApplicationState) mContext.getApplicationContext();
 		new AsyncTask<Void, Void, Void>(){
 

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 import org.json.JSONArray;
@@ -19,6 +20,7 @@ import com.googlecode.rich2012cafe.activities.GMapActivity;
 import com.googlecode.rich2012cafe.activities.GraphActivity;
 import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.activities.SettingsActivity;
+import com.googlecode.rich2012cafe.alarm.AlarmReceiver;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
 import com.googlecode.rich2012cafe.calendar.CalendarReader;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
@@ -33,8 +35,10 @@ import com.googlecode.rich2012cafe.utils.Util;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -128,6 +132,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setHomeButtonEnabled(true);
+        setAlarm();
         ApplicationState as = (ApplicationState) this.getApplicationContext();
         as.setScore(-1);
         ScheduledTasks.getCaffeineProducts(this, false);
@@ -257,6 +262,19 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 		dialog.show();
 	}
 	
+	private void setAlarm(){
+	    Calendar updateTime = Calendar.getInstance();
+	    Log.i("time", updateTime.getTime().toString());
+	    //updateTime.setTimeZone(TimeZone.getTimeZone("GMT"));
+	    updateTime.set(Calendar.HOUR_OF_DAY, 16);
+	    updateTime.set(Calendar.MINUTE, 15);
+	    
+	    Intent servicer = new Intent(this, AlarmReceiver.class);
+	    PendingIntent recurringUpdate = PendingIntent.getBroadcast(this, 0, servicer, PendingIntent.FLAG_CANCEL_CURRENT);
+	    AlarmManager alarms = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+	    alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, recurringUpdate);
+	}
+	
 	private void closeDialog(Dialog d, CaffeineProductProxy p){
 		d.dismiss();
 		SharedPreferences prefs = Util.getSharedPreferences(this);
@@ -266,17 +284,5 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 		//this.startActivity(new Intent(this, CaffeineTracker.class));
 		
 		Log.i("Craig", "Returned");
-//		JSONObject level = new JSONObject();
-//		try{
-//			level.put("level", (int) p.getCaffeineContent());
-//			level.put("date", System.currentTimeMillis());
-//
-//		}catch(JSONException e){
-//			Log.e("json error", e.getMessage());
-//		}
-//		Editor editor = prefs.edit();
-//		editor.putString(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME, currentValue+level.toString());
-//		editor.commit();
-//		Log.i("json commit", prefs.getString(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME, "empty"));
 	}
 }

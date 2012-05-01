@@ -17,7 +17,6 @@ import android.util.Log;
  */
 public class AlarmController {
 	
-	private static int caffeineTrackerAlarmId = 0;
 	private static int caffeineWarningAlarmId = 0;
 
 	/**
@@ -29,8 +28,7 @@ public class AlarmController {
 	public static void setCaffeineTrackerAlarm(Context context, Calendar timeToSet){
 		
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		am.set(AlarmManager.RTC_WAKEUP, timeToSet.getTimeInMillis(), createCaffeineTrackerPendingIntent(context, caffeineTrackerAlarmId));
-		caffeineTrackerAlarmId++;
+		am.setRepeating(AlarmManager.RTC_WAKEUP, timeToSet.getTimeInMillis(), Rich2012CafeUtil.CAFFEINE_TRACKER_ALARM_REPEAT, createCaffeineTrackerPendingIntent(context));
 	}
 	
 	/**
@@ -78,17 +76,14 @@ public class AlarmController {
 		
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			
-		//Cancelling Caffeine Tracker alarms
-		for(int i = 0; i < caffeineTrackerAlarmId; i++){
-			am.cancel(createCaffeineTrackerPendingIntent(context, i));
-		}
+		//Cancelling Caffeine Tracker alarm
+		am.cancel(createCaffeineTrackerPendingIntent(context));
 		
 		//Cancelling Caffeine Warning alarms
 		for(int i = 0; i < caffeineWarningAlarmId; i++){
 			am.cancel(createCaffeineWarningPendingIntent(context, i));
 		}
 				
-		caffeineTrackerAlarmId = 0;
 		caffeineWarningAlarmId = 0;
 	}
 	
@@ -96,15 +91,14 @@ public class AlarmController {
 	 * Method to create a caffeine tracker pending intent.
 	 * 
 	 * @param context (Context object)
-	 * @param id (int value)
 	 * @return PendingIntent object
 	 */
-	private static PendingIntent createCaffeineTrackerPendingIntent(Context context, int id){
+	private static PendingIntent createCaffeineTrackerPendingIntent(Context context){
 		
 		Intent intent = new Intent(context, CaffeineTrackerReceiver.class);
 		
 		PendingIntent sender = PendingIntent.getBroadcast(context, 
-				id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+				Rich2012CafeUtil.CAFFEINE_TRACKER_ALARM_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 			
 		return sender;
 	}

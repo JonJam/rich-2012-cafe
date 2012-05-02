@@ -39,7 +39,7 @@ public class GraphActivity extends Activity{
 	  private XYMultipleSeriesDataset mDataset;
 	    private XYMultipleSeriesRenderer mRenderer;
 	    private GraphicalView mChartView;
-	    private TimeSeries time_series, min_series, max_series;
+	    private XYSeries time_series, min_series, max_series;
 	    private LinearLayout layout;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,42 +64,54 @@ public class GraphActivity extends Activity{
         mRenderer.setPointSize(3f);
 
         XYSeriesRenderer r = new XYSeriesRenderer();
-        r.setColor(Color.BLUE);
-        r.setPointStyle(PointStyle.CIRCLE);
-        r.setFillPoints(true);
+        r.setColor(Color.WHITE);
+        r.setLineWidth(2);
+        r.setPointStyle(PointStyle.POINT);
+        r.setFillPoints(false);
         
         XYSeriesRenderer min = new XYSeriesRenderer();
         min.setColor(Color.GREEN);
-        min.setPointStyle(PointStyle.CIRCLE);
-        min.setFillPoints(true);
+        min.setLineWidth(5);
+        min.setPointStyle(PointStyle.POINT);
+        min.setFillPoints(false);
         
         XYSeriesRenderer max = new XYSeriesRenderer();
         max.setColor(Color.RED);
-        max.setPointStyle(PointStyle.CIRCLE);
-        max.setFillPoints(true);
-        
+        max.setLineWidth(5);
+        max.setPointStyle(PointStyle.POINT);
+        max.setFillPoints(false);
+       
         mRenderer.addSeriesRenderer(r);
         mRenderer.addSeriesRenderer(min);
         mRenderer.addSeriesRenderer(max);
+        mRenderer.setYTitle("Caffeine (mg)");
+        mRenderer.setXAxisMin(0);
+        mRenderer.setXAxisMax(24);
+        mRenderer.setYAxisMax(250);
+        mRenderer.setYAxisMin(0);
+        mRenderer.setXTitle("Hours");
         mRenderer.setClickEnabled(true);
-        mRenderer.setSelectableBuffer(20);
+        mRenderer.setZoomButtonsVisible(true);
+        mRenderer.setInScroll(true);
+        mRenderer.setSelectableBuffer(2);
         mRenderer.setPanEnabled(true);
         mRenderer.setAntialiasing(true);
+        
         mRenderer.setOrientation(Orientation.HORIZONTAL);
         mRenderer.setZoomEnabled(true);
+        mRenderer.setPanLimits(new double[] { -10, 20, -10, 40 });
+        mRenderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
 
-        time_series = new TimeSeries("Caffeine Level");
-        min_series = new TimeSeries("Min-Optimum");
-        max_series = new TimeSeries("Max-Optimum");
+        time_series = new XYSeries("Caffeine Level");
+        min_series = new XYSeries("Min-Optimum");
+        max_series = new XYSeries("Max-Optimum");
         mDataset.addSeries(time_series);
         mDataset.addSeries(min_series);
         mDataset.addSeries(max_series);
 
         fillData();
 
-        mChartView = ChartFactory.getTimeChartView(this, mDataset, mRenderer,
-                "H:mm");
-
+        mChartView = ChartFactory.getCubeLineChartView(this, mDataset, mRenderer, 0.1f);
         layout.addView(mChartView);
 
 	}
@@ -112,18 +124,15 @@ public class GraphActivity extends Activity{
 //            min_series.add(entry.getKey(), 100);
 //            max_series.add(entry.getKey(), 200);
 //        }
-        
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2012, Calendar.MAY, Calendar.WEDNESDAY, 0, 01);
         int[] data = {12, 10, 10, 10, 10, 10,
         			10, 110, 110, 100, 75, 50, 
         			150, 150, 150, 150, 100, 100,
         			50, 50, 25, 25, 12, 12};
-        for(int i=0; i<24; i++){
-        	calendar.add(Calendar.HOUR, i);
-        	time_series.add(calendar.getTime(), data[i]);
-        	min_series.add(calendar.getTime(), 100);
-        	max_series.add(calendar.getTime(), 200);
+        int[] data5 = {50, 110, 110, 110, 75, 25};
+        for(int i=0; i<data.length; i++){
+        	time_series.add(i, data[i]);
+        	min_series.add(i, 100);
+        	max_series.add(i, 200);
         }
     }
 

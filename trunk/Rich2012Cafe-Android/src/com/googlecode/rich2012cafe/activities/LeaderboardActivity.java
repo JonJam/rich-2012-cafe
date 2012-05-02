@@ -30,7 +30,7 @@ public class LeaderboardActivity extends Activity implements OnClickListener{
 		final TextView scoreLabel = (TextView) this.findViewById(R.id.scoreLabel);
 		ApplicationState as = (ApplicationState) this.getApplicationContext();
 		scoreLabel.setText("Your Current Score: "+as.getScore());
-		this.findViewById(R.id.leaderUpdateButton).setOnClickListener(this);
+		this.findViewById(R.id.refreshLeaderboard).setOnClickListener(this);
 		ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         this.getActionBar().setDisplayShowTitleEnabled(false);
@@ -63,6 +63,7 @@ public class LeaderboardActivity extends Activity implements OnClickListener{
 	
 	private TextView addTextView(String text){
 		TextView temp = new TextView(this);
+		temp.setPadding(5, 5, 5, 5);
 		temp.setText(text);
 		return temp;
 	}
@@ -96,7 +97,7 @@ public class LeaderboardActivity extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View view) {
 		// TODO Auto-generated method stub
-		if(view.getId() == R.id.leaderUpdateButton){
+		if(view.getId() == R.id.refreshLeaderboard){
 			//ScheduledTasks st = new ScheduledTasks();
 			ScheduledTasks.updateLeaderboard(this, true);
 			generateTable();

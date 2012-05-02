@@ -7,14 +7,16 @@ package com.googlecode.rich2012cafe.utils;
  */
 public class Rich2012CafeUtil {
 
-	//Strings used for Alarms.
 	public final static String HISTORIC_VALUES_SETTING_NAME = "historicCaffeineValues";
 	public final static String PROJECTED_VALUES_SETTING_NAME = "projectedCaffeineValues";
 	public final static String ADHOC_DRINKS_SETTING_NAME = "adhocDrinkCaffeineValues";
+
+	//Variables used for Alarms.
 	public final static int OPTIMAL_CAFFEINE_UPPER_LIMIT = 250;
 	public final static int OPTIMAL_CAFFEINE_LOWER_LIMIT = 175;
 	public final static int APPLICATION_STATE_UPDATE_ALARM_ID = 19568;
 	public final static int CAFFEINE_TRACKER_ALARM_ID = 32767;
 	public final static int CAFFEINE_TRACKER_ALARM_REPEAT = 3600000; //Every hour
+	public final static String CAFFEINE_WARNING_MESSAGE = "Caffeine consumption required...";
 
 }

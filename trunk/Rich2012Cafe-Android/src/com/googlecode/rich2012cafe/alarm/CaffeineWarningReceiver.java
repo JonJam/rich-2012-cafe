@@ -1,5 +1,7 @@
 package com.googlecode.rich2012cafe.alarm;
 
+import com.googlecode.rich2012cafe.activities.GMapActivity;
+import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 import com.googlecode.rich2012cafe.utils.Util;
 
 import android.content.BroadcastReceiver;
@@ -19,13 +21,9 @@ public class CaffeineWarningReceiver extends BroadcastReceiver{
 	@Override
 	public void onReceive(Context context, Intent intent){
 	
-		//SET BELOW TO MAP ACTIVITY
+		Intent newIntent = new Intent(context, GMapActivity.class);
+		newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);				 
 		
-//				 Intent newIntent = new Intent(context, LeaderboardActivity.class);
-//				 newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-////				 
-//				 Util.generateNotification(context, message, newIntent);
-		Util.generateNotification(context, "WARN", new Intent());
-			
+		Util.generateNotification(context, Rich2012CafeUtil.CAFFEINE_WARNING_MESSAGE, newIntent);	
 	}
 }

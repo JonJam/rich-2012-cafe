@@ -1,7 +1,5 @@
 package com.googlecode.rich2012cafe.alarm;
 
-import com.googlecode.rich2012cafe.utils.Util;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,9 +16,7 @@ public class ApplicationStateUpdateReceiver extends BroadcastReceiver{
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent){
-	
-		//CHANGE TO WHAT REQUIRED.
-		
-		Util.generateNotification(context, "STATE UPDATE", new Intent());
+
+		context.startService(new Intent(context, ScheduledService.class));
 	}
 }

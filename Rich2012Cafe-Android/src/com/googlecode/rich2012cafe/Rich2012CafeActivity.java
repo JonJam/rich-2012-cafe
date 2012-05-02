@@ -20,6 +20,7 @@ import com.googlecode.rich2012cafe.activities.GMapActivity;
 import com.googlecode.rich2012cafe.activities.GraphActivity;
 import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.activities.SettingsActivity;
+import com.googlecode.rich2012cafe.alarm.AlarmController;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
 import com.googlecode.rich2012cafe.calendar.CalendarReader;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
@@ -186,7 +187,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 
     private void setHelloWorldScreenContent() {
     	tv = (TextView) findViewById(R.id.hello_world_info);
-    	    	
+    	
     	findViewById(R.id.graphButton).setOnClickListener(this);
     	this.findViewById(R.id.intakeButton).setOnClickListener(this);
     }

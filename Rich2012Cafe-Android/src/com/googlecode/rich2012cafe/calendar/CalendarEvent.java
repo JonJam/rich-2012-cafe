@@ -1,6 +1,7 @@
 package com.googlecode.rich2012cafe.calendar;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -15,10 +16,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
  	private String description;
  	private String eventLocation;
 	private long startTime;
-	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-	private Date start, end;
-	
- 	private long endTime;
+	private long endTime;
  	
  	public CalendarEvent(String calendarId, String title, String description, 
  			String eventLocation, long startTime, long endTime){
@@ -28,8 +26,6 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
  		this.eventLocation = eventLocation;
  		this.startTime = startTime;
  		this.endTime = endTime;
- 		start = new Date(startTime);
- 		end = new Date(endTime);
  	}
  	
  	/**
@@ -130,10 +126,7 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	public long getEndTime() {
 		return endTime;
 	}
-
-	public Date getStartDate(){
-		return start;
-	}
+	
 	/**
 	 * Method to set end time.
 	 * 
@@ -142,14 +135,31 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 	public void setEndTime(long endTime) {
 		this.endTime = endTime;
 	}
-	
-	public String formatTime(Date date){
-		return sdf.format(date);
+
+	/**
+	 * Method to get start time as a Calendar object.
+	 * 
+	 * @return Calendar object.
+	 */
+ 	public Calendar getStartDate() {
+ 		Calendar cal = Calendar.getInstance();
+ 		cal.setTimeInMillis(startTime);
+ 		
+		return cal;
 	}
  	
-	public String getDisplay(){
-		return title+" @ "+formatTime(start)+" - "+formatTime(end);
+ 	/**
+ 	 * Method to get end time as a Calendar object.
+ 	 * 
+ 	 * @return Calendar object.
+ 	 */
+	public Calendar getEndDate() {
+		Calendar cal = Calendar.getInstance();
+ 		cal.setTimeInMillis(startTime);
+ 		
+		return cal;
 	}
+	
  	@Override
 	public String toString() {
 		return "CalendarEvent [calenderId=" + calenderId + ", title=" + title
@@ -160,7 +170,6 @@ public class CalendarEvent implements Comparable<CalendarEvent>{
 
 	@Override
 	public int compareTo(CalendarEvent event) {
-		// TODO Auto-generated method stub
 		return this.getStartDate().compareTo(event.getStartDate());
 	}
 }

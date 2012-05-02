@@ -76,6 +76,7 @@ public class LeaderboardActivity extends Activity{
 			}
 			
 		});
+		tbl.addView(addTitle(""));
 		refresh.setText("Refresh");
 		TableRow buttonRow = new TableRow(this);
 		buttonRow.addView(refresh);

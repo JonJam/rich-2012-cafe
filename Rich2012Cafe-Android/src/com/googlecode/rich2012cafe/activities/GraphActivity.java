@@ -1,6 +1,7 @@
 package com.googlecode.rich2012cafe.activities;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -37,7 +38,7 @@ public class GraphActivity extends Activity{
 	  private XYMultipleSeriesDataset mDataset;
 	    private XYMultipleSeriesRenderer mRenderer;
 	    private GraphicalView mChartView;
-	    private TimeSeries time_series;
+	    private TimeSeries time_series, min_series, max_series;
 	    private LinearLayout layout;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,21 +58,38 @@ public class GraphActivity extends Activity{
         mRenderer.setAxisTitleTextSize(16);
         mRenderer.setChartTitleTextSize(20);
         mRenderer.setLabelsTextSize(15);
+        mRenderer.setBackgroundColor(Color.BLACK);
         mRenderer.setLegendTextSize(15);
         mRenderer.setPointSize(3f);
 
         XYSeriesRenderer r = new XYSeriesRenderer();
-        r.setColor(Color.GREEN);
+        r.setColor(Color.BLUE);
         r.setPointStyle(PointStyle.CIRCLE);
         r.setFillPoints(true);
+        
+        XYSeriesRenderer min = new XYSeriesRenderer();
+        min.setColor(Color.GREEN);
+        min.setPointStyle(PointStyle.CIRCLE);
+        min.setFillPoints(true);
+        
+        XYSeriesRenderer max = new XYSeriesRenderer();
+        max.setColor(Color.RED);
+        max.setPointStyle(PointStyle.CIRCLE);
+        max.setFillPoints(true);
+        
         mRenderer.addSeriesRenderer(r);
+        mRenderer.addSeriesRenderer(min);
+        mRenderer.addSeriesRenderer(max);
         mRenderer.setClickEnabled(true);
         mRenderer.setSelectableBuffer(20);
         mRenderer.setPanEnabled(true);
 
-        time_series = new TimeSeries("test");
-
+        time_series = new TimeSeries("Caffeine Level");
+        min_series = new TimeSeries("Min-Optimum");
+        max_series = new TimeSeries("Max-Optimum");
         mDataset.addSeries(time_series);
+        mDataset.addSeries(min_series);
+        mDataset.addSeries(max_series);
 
         fillData();
 
@@ -83,9 +101,24 @@ public class GraphActivity extends Activity{
 	}
 
     private void fillData() {
-        CaffeineLevelReader clr = new CaffeineLevelReader(this);
-        for(Map.Entry<Date, Integer> entry : clr.getCaffeineLevels(Rich2012CafeUtil.ADHOC_DRINKS_SETTING_NAME).entrySet()){
-            time_series.add(entry.getKey(), entry.getValue());
+        //CaffeineLevelReader clr = new CaffeineLevelReader(this);
+        
+//        for(Map.Entry<Date, Integer> entry : clr.getCaffeineLevels(Rich2012CafeUtil.ADHOC_DRINKS_SETTING_NAME).entrySet()){
+//            time_series.add(entry.getKey(), entry.getValue());
+//            min_series.add(entry.getKey(), 100);
+//            max_series.add(entry.getKey(), 200);
+//        }
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2012, Calendar.MAY, Calendar.WEDNESDAY, 0, 01);
+        int[] data = {12, 10, 10, 10, 10, 10,
+        			10, 110, 110, 100, 75, 50, 
+        			150, 150, 150, 150, 100, 100,
+        			50, 50, 25, 25, 12, 12};
+        for(int i=0; i<24; i++){
+        	time_series.add(calendar.getTime(), data[i]);
+        	min_series.add(calendar.getTime(), 100);
+        	max_series.add(calendar.getTime(), 200);
         }
     }
 

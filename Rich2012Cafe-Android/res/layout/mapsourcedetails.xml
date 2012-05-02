@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/layout_root"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:padding="10dp"
+              android:background="#fffcbf"
+              >
+    <TextView android:id="@+id/title"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:textSize="15dp"
+              android:textColor="#5a3a29"
+              />
+    
+    <TextView android:id="@+id/location"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:textColor="#5a3a29"
+              />
+    
+     <TextView android:id="@+id/openingTimes"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:textSize="13dp"
+              android:textColor="#5a3a29"
+              />
+     <TextView android:id="@+id/products"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:textColor="#5a3a29"
+              android:textSize="11dp"
+              />
+     
+      <TableLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/productsTable"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textSize="11dp"
+                    android:stretchColumns="1" />
+
+</LinearLayout>

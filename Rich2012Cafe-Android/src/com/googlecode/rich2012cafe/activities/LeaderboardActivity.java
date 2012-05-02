@@ -11,26 +11,27 @@ import com.googlecode.rich2012cafe.utils.ScheduledTasks;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class LeaderboardActivity extends Activity implements OnClickListener{
+public class LeaderboardActivity extends Activity{
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.leaderboard);
 		
-		final TextView scoreLabel = (TextView) this.findViewById(R.id.scoreLabel);
-		ApplicationState as = (ApplicationState) this.getApplicationContext();
-		scoreLabel.setText("Your Current Score: "+as.getScore());
-		this.findViewById(R.id.refreshLeaderboard).setOnClickListener(this);
+
+		//this.findViewById(R.id.refreshLeaderboard).setOnClickListener(this);
 		ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         this.getActionBar().setDisplayShowTitleEnabled(false);
@@ -40,31 +41,79 @@ public class LeaderboardActivity extends Activity implements OnClickListener{
 	
 	private void generateTable(){
 		final TableLayout tbl = (TableLayout) this.findViewById(R.id.leader_table);
-		tbl.removeAllViewsInLayout();
-		TableRow headers = new TableRow(this);
-		headers.addView(addTextView("Rank"));
-		headers.addView(addTextView("Score"));
-		tbl.addView(headers);
 		ApplicationState as = (ApplicationState) this.getApplicationContext();
+		tbl.removeAllViewsInLayout();
+		
+		tbl.addView(addTitle("Current Score:"));
+		tbl.addView(addTitle(as.getScore()+""));
+		tbl.addView(addTitle(""));
+		tbl.addView(addTitle("Current Leaderboard"));
+		
+		TableRow headers = new TableRow(this);
+		headers.setGravity(Gravity.CENTER_HORIZONTAL);
+		headers.addView(addTextView("Rank", Color.rgb(255, 252, 191), Color.BLACK, 0));
+		headers.addView(addTextView("Score", Color.rgb(255, 252, 191), Color.BLACK, 0));
+		tbl.addView(headers);
+		
+		
 		final List<LeaderboardScoreProxy> scores = as.getLeaderboard();
 		if(scores != null){
+			boolean twist = true;
 			for(int i=0; i<scores.size();i++){
-				tbl.addView(addRank(i+1, scores.get(i).getScore()));
+				tbl.addView(addRank(i+1, scores.get(i).getScore(), twist));
+				twist = !twist;
 			}
 		}
+		
+		Button refresh = new Button(this);
+		refresh.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				ScheduledTasks.updateLeaderboard(tbl.getContext(), true);
+				generateTable();
+			}
+			
+		});
+		refresh.setText("Refresh");
+		TableRow buttonRow = new TableRow(this);
+		buttonRow.addView(refresh);
+		tbl.addView(buttonRow);
+		
 	}
 	
-	private TableRow addRank(int rank, double score){
+	private TableRow addTitle(String text){
+		TableRow title = new TableRow(this);
+		title.setGravity(Gravity.CENTER_HORIZONTAL);
+		title.addView(addTextView(text, Color.BLACK, Color.WHITE, 1));
+		return title;
+	}
+	private TableRow addRank(int rank, double score, boolean invert){
 		TableRow temp = new TableRow(this);
-		temp.addView(addTextView(rank+""));
-		temp.addView(addTextView(score+""));
+		temp.setGravity(Gravity.CENTER_HORIZONTAL);
+		int color = Color.BLACK;
+		int textColor = Color.WHITE;
+		if(invert){
+			color = Color.rgb(51, 51, 47);
+			textColor = Color.WHITE;
+		}else{
+			color = Color.rgb(174, 174, 174);
+			color = Color.BLACK;
+		}
+		temp.addView(addTextView(rank+"", color, textColor, 0));
+		temp.addView(addTextView(score+"", color, textColor, 0));
 		return temp;
 	}
 	
-	private TextView addTextView(String text){
+	private TextView addTextView(String text, int background, int textColor, int size){
 		TextView temp = new TextView(this);
 		temp.setPadding(5, 5, 5, 5);
+		temp.setTextSize(temp.getTextSize()+size);
+		temp.setGravity(Gravity.CENTER_HORIZONTAL);
 		temp.setText(text);
+		temp.setTextColor(textColor);
+		temp.setBackgroundColor(background);
 		return temp;
 	}
 
@@ -93,16 +142,6 @@ public class LeaderboardActivity extends Activity implements OnClickListener{
     	}
     	return false;
     }
-
-	@Override
-	public void onClick(View view) {
-		// TODO Auto-generated method stub
-		if(view.getId() == R.id.refreshLeaderboard){
-			//ScheduledTasks st = new ScheduledTasks();
-			ScheduledTasks.updateLeaderboard(this, true);
-			generateTable();
-		}
-	}
 
 
 }

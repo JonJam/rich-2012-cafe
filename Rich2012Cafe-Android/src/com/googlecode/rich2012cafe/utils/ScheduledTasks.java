@@ -22,52 +22,6 @@ import android.util.Log;
 
 public class ScheduledTasks {
 
-	public static void getSourcesFromLatLong(final Context mContext, final boolean visible){
-		final ApplicationState as = (ApplicationState) mContext.getApplicationContext();
-		 ProgressDialog pd = null;
-		 
-	    	new AsyncTask<Void, Void, List<CaffeineSourceWrapperProxy>>(){
-	    		ProgressDialog pd = null;
-	    		private String message = "";
-	    		List<CaffeineSourceWrapperProxy> results;
-				
-	    		@Override
-				protected void onPreExecute() {
-					if(visible){ pd = ProgressDialog.show(mContext, "Leaderboard", "Getting scores...");
-					}
-	            }
-	    		
-	    		@Override
-	    		protected List<CaffeineSourceWrapperProxy> doInBackground(Void... params) {
-	    			
-	    			MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
-	    			
-	    			//Get caffeine sources given
-	    			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.937358,-1.397763).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
-
-	    				@Override
-	    				public void onSuccess(List<CaffeineSourceWrapperProxy> sources) {
-	    					results = sources;
-	    				}
-	    	        	
-	    				@Override
-	    	            public void onFailure(ServerFailure error) {
-	    	              
-	    	            }
-	    			});
-
-	    			return results;
-	    		}
-	    		
-	    	    @Override
-	    	    protected void onPostExecute(List<CaffeineSourceWrapperProxy> result) {
-					if(visible){
-						pd.dismiss();
-					}
-	    	    }
-		    }.execute();
-	}
-
 	public static void updateLeaderboard(final Context c, final boolean visible){
 		final ApplicationState as = (ApplicationState) c.getApplicationContext();
 		 ProgressDialog pd = null;

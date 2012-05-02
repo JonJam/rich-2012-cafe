@@ -1,6 +1,5 @@
 package com.googlecode.rich2012cafe.activities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActionBar;
@@ -15,7 +14,6 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,9 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.RelativeLayout;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -39,14 +34,12 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.googlecode.rich2012cafe.R;
 import com.googlecode.rich2012cafe.Rich2012CafeActivity;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
-import com.googlecode.rich2012cafe.shared.CaffeineSourceProductProxy;
 import com.googlecode.rich2012cafe.shared.CaffeineSourceProxy;
 import com.googlecode.rich2012cafe.shared.CaffeineSourceWrapperProxy;
-import com.googlecode.rich2012cafe.shared.OpeningTimeProxy;
 import com.googlecode.rich2012cafe.utils.CaffeineSourceOverlayItem;
 import com.googlecode.rich2012cafe.utils.CaffeineSourcesLocationOverlay;
-import com.googlecode.rich2012cafe.utils.CustomLocationListener;
 import com.googlecode.rich2012cafe.utils.CurrentLocationOverlay;
+import com.googlecode.rich2012cafe.utils.CustomLocationListener;
 import com.googlecode.rich2012cafe.utils.LocationUtils;
 import com.googlecode.rich2012cafe.utils.MapViewInterface;
 import com.googlecode.rich2012cafe.utils.Util;

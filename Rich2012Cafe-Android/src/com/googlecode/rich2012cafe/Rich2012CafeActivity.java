@@ -1,56 +1,19 @@
 package com.googlecode.rich2012cafe;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-import java.util.TreeMap;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.google.web.bindery.requestfactory.shared.Receiver;
-import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.googlecode.rich2012cafe.activities.AccountsActivity;
-import com.googlecode.rich2012cafe.activities.CaffeineTracker;
-import com.googlecode.rich2012cafe.activities.GMapActivity;
-import com.googlecode.rich2012cafe.activities.GraphActivity;
-import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
-import com.googlecode.rich2012cafe.activities.SettingsActivity;
-import com.googlecode.rich2012cafe.alarm.AlarmController;
-import com.googlecode.rich2012cafe.calendar.CalendarEvent;
-import com.googlecode.rich2012cafe.client.MyRequestFactory;
-import com.googlecode.rich2012cafe.model.CaffeineLevel;
-import com.googlecode.rich2012cafe.model.CaffeineLevelWriter;
-import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
-import com.googlecode.rich2012cafe.shared.CaffeineSourceProductProxy;
-import com.googlecode.rich2012cafe.shared.CaffeineSourceProxy;
-import com.googlecode.rich2012cafe.shared.CaffeineSourceWrapperProxy;
-import com.googlecode.rich2012cafe.shared.OpeningTimeProxy;
-import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
-import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
-import com.googlecode.rich2012cafe.utils.ScheduledTasks;
-import com.googlecode.rich2012cafe.utils.Util;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,6 +23,21 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.googlecode.rich2012cafe.activities.AccountsActivity;
+import com.googlecode.rich2012cafe.activities.CaffeineTracker;
+import com.googlecode.rich2012cafe.activities.GMapActivity;
+import com.googlecode.rich2012cafe.activities.GraphActivity;
+import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
+import com.googlecode.rich2012cafe.activities.SettingsActivity;
+import com.googlecode.rich2012cafe.alarm.AlarmController;
+import com.googlecode.rich2012cafe.model.CaffeineLevel;
+import com.googlecode.rich2012cafe.model.CaffeineLevelWriter;
+import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
+import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
+import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
+import com.googlecode.rich2012cafe.utils.ScheduledTasks;
+import com.googlecode.rich2012cafe.utils.Util;
 
 /**
  * NOTES
@@ -87,8 +65,6 @@ import android.widget.TextView;
  */
 public class Rich2012CafeActivity extends Activity implements OnClickListener{
     
-	//Tag for logging.
-    private static final String TAG = "Rich2012CafeActivity";
     //The current context.
     private Context mContext = this;
     private TextView tv;
@@ -135,17 +111,12 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setHomeButtonEnabled(true);
-        
-        
-        
-        //setAlarm();
-        
-        
-        
-        
+                
         ApplicationState as = (ApplicationState) this.getApplicationContext();
         as.setScore(-1);
-        ScheduledTasks.getCaffeineProducts(this, false);
+
+        ScheduledTasks.getCaffeineProducts(this, true);
+
         // Register a receiver to provide register/unregister notifications
         registerReceiver(mUpdateUIReceiver, new IntentFilter(Util.UPDATE_UI_INTENT));
         
@@ -190,7 +161,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 
     private void setHelloWorldScreenContent() {
     	tv = (TextView) findViewById(R.id.hello_world_info);
-    	
+    	    	    	
     	Calendar timeToSet = Calendar.getInstance();
     	timeToSet.add(Calendar.MINUTE, 1);
     	
@@ -275,19 +246,6 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 		}
 		dialog.show();
 	}
-	
-//	private void setAlarm(){
-//	    Calendar updateTime = Calendar.getInstance();
-//	    Log.i("time", updateTime.getTime().toString());
-//	    //updateTime.setTimeZone(TimeZone.getTimeZone("GMT"));
-//	    updateTime.set(Calendar.HOUR_OF_DAY, 16);
-//	    updateTime.set(Calendar.MINUTE, 15);
-//	    
-//	    Intent servicer = new Intent(this, AlarmReceiver.class);
-//	    PendingIntent recurringUpdate = PendingIntent.getBroadcast(this, 0, servicer, PendingIntent.FLAG_CANCEL_CURRENT);
-//	    AlarmManager alarms = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-//	    alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, recurringUpdate);
-//	}
 	
 	private void closeDialog(Dialog d, CaffeineProductProxy p){
 		d.dismiss();

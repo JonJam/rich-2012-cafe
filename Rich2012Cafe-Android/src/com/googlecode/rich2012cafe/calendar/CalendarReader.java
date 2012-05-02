@@ -45,47 +45,11 @@ public class CalendarReader {
       */
 	public ArrayList<CalendarEvent> getTodaysEvents(Context activityContext){
 
-		ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
-		
-		ContentResolver cr = activityContext.getContentResolver();
-
+		//Criteria to select events from calendars for today.
     	String selection = CalendarContract.Events.DTSTART + " >= " + getTodayStartTimeInMilli() + 
     			" AND " + CalendarContract.Events.DTSTART + " < " + getTommorrowStartTimeInMilli();
     	
-    	//Query to select events from calendars for today.
-    	Cursor eventCursor = cr.query(eventUri, eventProjection, selection, null, null);
-         
-        eventCursor.moveToFirst();
-        while(!eventCursor.isAfterLast()){
-        	   
-        	int allDay = eventCursor.getColumnIndex(CalendarContract.Events.ALL_DAY);
-        	
-        	if(eventCursor.getInt(allDay) == 1){
-        		//Event is all day so skip.
-        		eventCursor.moveToNext();
-        		continue;
-        	}
-
-        	int calenderId = eventCursor.getColumnIndex(CalendarContract.Events.CALENDAR_ID);
-         	int title = eventCursor.getColumnIndex(CalendarContract.Events.TITLE);
-         	int description = eventCursor.getColumnIndex(CalendarContract.Events.DESCRIPTION);
-         	int eventLocation = eventCursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION);
-         	int dstart = eventCursor.getColumnIndex(CalendarContract.Events.DTSTART);
-         	int dend = eventCursor.getColumnIndex(CalendarContract.Events.DTEND);
-
-         	events.add(new CalendarEvent(
-         			eventCursor.getString(calenderId), 
-         			eventCursor.getString(title), 
-         			eventCursor.getString(description),
-         			eventCursor.getString(eventLocation),
-         			Long.parseLong(eventCursor.getString(dstart)),
-         			Long.parseLong(eventCursor.getString(dend))));
-         	
-        	eventCursor.moveToNext();
-        }
-        Collections.sort(events);
-        
-        return events;       
+        return createCalendarEvents(activityContext, selection);      
 	}
 	
 	/**
@@ -95,24 +59,36 @@ public class CalendarReader {
      * @return ArrayList of CalendarEvent objects
      */
     public ArrayList<CalendarEvent> getYesterdayEvents(Context activityContext){
-
- 		ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
  		
- 		ContentResolver cr = activityContext.getContentResolver();
-
+    	//Criteria to select events from calendars for yesterday.
      	String selection = CalendarContract.Events.DTSTART + " >= " + getYesterdayStartTimeInMilli() + 
      			" AND " + CalendarContract.Events.DTSTART + " < " + getTodayStartTimeInMilli();
      	
-     	//Query to select events from calendars for today.
+         return createCalendarEvents(activityContext, selection);
+ 	}
+    
+    /**
+     * Method to create calendar events from selection query.
+     * 
+     * @param activityContext (Context object)
+     * @param selection (String object)
+     * @return ArrayList of CalendarEvent objects
+     */
+    private ArrayList<CalendarEvent> createCalendarEvents(Context activityContext, String selection){
+    
+    	ContentResolver cr = activityContext.getContentResolver();
+ 		ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
+ 		
      	Cursor eventCursor = cr.query(eventUri, eventProjection, selection, null, null);
           
-         eventCursor.moveToFirst();
-         while(!eventCursor.isAfterLast()){
+        eventCursor.moveToFirst();
+        while(!eventCursor.isAfterLast()){
 
         	int allDay = eventCursor.getColumnIndex(CalendarContract.Events.ALL_DAY);
         	
         	if(eventCursor.getInt(allDay) == 1){
         		//Event is all day so skip.
+        		
         		eventCursor.moveToNext();
         		continue;
         	}
@@ -134,10 +110,11 @@ public class CalendarReader {
           	
          	eventCursor.moveToNext();
          }
+         
          Collections.sort(events);
          
-         return events;       
- 	}
+         return events;
+    }
 
     /**
      * Method to get yesterday's starting date/time i.e. 00:00:00 in milliseconds.

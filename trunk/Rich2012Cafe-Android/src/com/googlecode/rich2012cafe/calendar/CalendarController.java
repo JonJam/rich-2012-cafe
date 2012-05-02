@@ -19,12 +19,12 @@ import android.util.Log;
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  *
  */
-public class CalendarReader {
+public class CalendarController {
 	
      private Uri eventUri;
      private String[] eventProjection;
      
-     public CalendarReader(){
+     public CalendarController(){
     	 eventUri = CalendarContract.Events.CONTENT_URI;
     	 eventProjection = new String[]{
     		CalendarContract.Events.CALENDAR_ID,
@@ -66,6 +66,34 @@ public class CalendarReader {
      	
          return createCalendarEvents(activityContext, selection);
  	}
+    
+    /**
+     * Method to merge back to back calendar events.
+     * 
+     * @param eventsArray (ArrayList of CalendarEvent objects)
+     * @return ArrayList of CalendarEvent objects.
+     */
+    public ArrayList<CalendarEvent> mergeBackToBackEvents(ArrayList<CalendarEvent> eventsArray) {
+		
+		long previousEndTime = 0L;
+		
+		ArrayList<CalendarEvent> mergedEvents = new ArrayList<CalendarEvent>();
+		
+		for (CalendarEvent e: eventsArray) {
+			
+			if (previousEndTime == e.getStartTime()) {
+				mergedEvents.get(mergedEvents.size()).setEndTime(e.getEndTime());
+			} else {	
+				mergedEvents.add(e);
+			}
+			
+			previousEndTime = e.getEndTime();
+			
+		}
+		
+		return mergedEvents;
+		
+	} 
     
     /**
      * Method to create calendar events from selection query.

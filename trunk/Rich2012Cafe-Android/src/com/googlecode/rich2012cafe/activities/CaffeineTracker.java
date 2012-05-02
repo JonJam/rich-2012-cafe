@@ -19,7 +19,7 @@ import android.os.Bundle;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
-import com.googlecode.rich2012cafe.calendar.CalendarReader;
+import com.googlecode.rich2012cafe.calendar.CalendarController;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
 import com.googlecode.rich2012cafe.model.CaffeineLevel;
 import com.googlecode.rich2012cafe.model.CaffeineLevelReader;
@@ -36,7 +36,7 @@ public class CaffeineTracker extends Activity {
 	private TreeMap<Integer, CaffeineProductProxy> productsTree = null;
 	private TreeMap<Date, Integer> projectedLevels;
 	
-	CalendarReader cReader;
+	CalendarController cReader;
 	int startCaffeineLevel = 50;
 	Context mContext = this;
 	
@@ -44,7 +44,7 @@ public class CaffeineTracker extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        CalendarReader cReader = new CalendarReader();
+        CalendarController cReader = new CalendarController();
 		ArrayList<CalendarEvent> todaysEvents = cReader.getTodaysEvents(this);
 		
 		CaffeineLevelReader reader = new CaffeineLevelReader(this);
@@ -135,8 +135,7 @@ public class CaffeineTracker extends Activity {
 		if (!todaysEvents.isEmpty()) {
 			
 			Log.i("Craig", "Have events");
-		
-			ArrayList<CalendarEvent> mergedEvents = mergeBackToBackEvents(todaysEvents);
+			ArrayList<CalendarEvent> mergedEvents = cReader.mergeBackToBackEvents(todaysEvents);
 			
 			Entry<Date, Integer> tempPreviousLevel = lastLevel; 	
 	
@@ -206,8 +205,6 @@ public class CaffeineTracker extends Activity {
 		} else {
 			Log.i("Craig", "Calendar empty");
 		}
-			
-			
 		
 		if (!suggestedIntakes.isEmpty()) {
 	
@@ -316,30 +313,7 @@ public class CaffeineTracker extends Activity {
 		}
 		
 	}
-	
-	private ArrayList<CalendarEvent> mergeBackToBackEvents(ArrayList<CalendarEvent> eventsArray) {
 		
-		long previousEndTime = 0L;
-		
-		ArrayList<CalendarEvent> mergedEvents = new ArrayList<CalendarEvent>();
-		
-		for (CalendarEvent e: eventsArray) {
-			
-			if (previousEndTime == e.getStartTime()) {
-				mergedEvents.get(mergedEvents.size()).setEndTime(e.getEndTime());
-			} else {	
-				mergedEvents.add(e);
-			}
-			
-			previousEndTime = e.getEndTime();
-			
-		}
-		
-		return mergedEvents;
-		
-	} 
-	
-	
 	private Calendar timeRoundedToCurrentHour(Calendar currentTime) {
 		currentTime.set(Calendar.MILLISECOND, 0);
 		currentTime.set(Calendar.SECOND, 0);

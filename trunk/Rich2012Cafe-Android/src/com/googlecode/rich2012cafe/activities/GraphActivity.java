@@ -16,6 +16,7 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 import org.achartengine.tools.PanListener;
 
 import com.googlecode.rich2012cafe.R;
@@ -83,6 +84,9 @@ public class GraphActivity extends Activity{
         mRenderer.setClickEnabled(true);
         mRenderer.setSelectableBuffer(20);
         mRenderer.setPanEnabled(true);
+        mRenderer.setAntialiasing(true);
+        mRenderer.setOrientation(Orientation.HORIZONTAL);
+        mRenderer.setZoomEnabled(true);
 
         time_series = new TimeSeries("Caffeine Level");
         min_series = new TimeSeries("Min-Optimum");
@@ -116,6 +120,7 @@ public class GraphActivity extends Activity{
         			150, 150, 150, 150, 100, 100,
         			50, 50, 25, 25, 12, 12};
         for(int i=0; i<24; i++){
+        	calendar.add(Calendar.HOUR, i);
         	time_series.add(calendar.getTime(), data[i]);
         	min_series.add(calendar.getTime(), 100);
         	max_series.add(calendar.getTime(), 200);

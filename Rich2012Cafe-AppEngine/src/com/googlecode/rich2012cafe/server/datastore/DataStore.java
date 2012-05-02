@@ -1,5 +1,6 @@
 package com.googlecode.rich2012cafe.server.datastore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -12,7 +13,6 @@ import com.google.android.c2dm.server.PMF;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.googlecode.rich2012cafe.client.Rich2012Cafe;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineProduct;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSource;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceProduct;
@@ -30,7 +30,9 @@ import com.googlecode.rich2012cafe.server.utils.Rich2012CafeUtil;
 public class DataStore {
 	
 	/**
-	 * Method get caffeine sources and their information given latitude and longitude position.
+	 * Method get caffeine sources and their information given:
+	 *  - Latitude and longitude position.
+	 *  - Whether sources are currently open.
 	 * 
 	 * @param latitude (double value)
 	 * @param longitude (double value)
@@ -51,29 +53,84 @@ public class DataStore {
 				
 				//Sort CaffeineSources according to distance away from current position
 				Collections.sort(list, new DistanceComparator(latitude, longitude));
-				List<CaffeineSource> sourcesSubset = list.subList(0, Rich2012CafeUtil.CAFFEINE_LOCATION_LIMIT);
-				
-				//Create CaffeineSourceWrapper objects for CaffeineSource objects above.
+			
 				List<CaffeineSourceWrapper> wrapperSources = new ArrayList<CaffeineSourceWrapper>();
-				for(CaffeineSource source : sourcesSubset){
-					String id = source.getId();
-					wrapperSources.add(new CaffeineSourceWrapper(
-							source,
-							getOpeningTimesForCaffeineSource(id),
-							getCaffeineSourceProductsForCaffeineSource(id)));				
-				}
+				int i = 0;
 				
+				//Get number of currently open caffeine sources from distance ordered list above.
+				while(wrapperSources.size() < Rich2012CafeUtil.CAFFEINE_LOCATION_LIMIT){
+					
+					CaffeineSource source = list.get(i);
+					String id = source.getId();
+					List<OpeningTime> times = getOpeningTimesForCaffeineSource(id);
+										
+					if(times == null){
+						//No opening times so add source.
+						
+						wrapperSources.add(new CaffeineSourceWrapper(
+								source,
+								times,
+								getCaffeineSourceProductsForCaffeineSource(id)));
+						
+					} else if(isOpen(times)){
+						//Location has times and is open so add source.
+											
+						wrapperSources.add(new CaffeineSourceWrapper(
+								source,
+								times,
+								getCaffeineSourceProductsForCaffeineSource(id)));	
+					} 
+					
+					i++;
+				}
+
 				return wrapperSources;
 			}
 	  	} catch (RuntimeException e) {
-	  		System.out.println(e);
+	  		e.printStackTrace();
 	  		throw e;
 	  	} finally {
 	  		pm.close();
 	  	}
 	}
-	//
 	
+	/**
+	 * Method to determine whether a caffeine source is currently open.
+	 * 
+	 * @param times (List of OpeningTime objects)
+	 * @return boolean value
+	 */
+	private boolean isOpen(List<OpeningTime> times){
+		
+		boolean isOpen = false;
+		SimpleDateFormat sdf = new SimpleDateFormat(Rich2012CafeUtil.DB_TIME_FORMAT);
+		
+		//Get current time information.
+		Calendar today = Calendar.getInstance();
+		String dayName = Rich2012CafeUtil.DAY_NAMES[today.get(Calendar.DAY_OF_WEEK) - 1];
+		String todayTime = sdf.format(today.getTime());
+		
+		for(OpeningTime t : times){
+			
+			if(dayName.equals(t.getDay())){
+				//Day name same so check time
+				
+				String openingTime = t.getOpeningTime();
+				String closingTime = t.getClosingTime();
+				
+				if(openingTime.compareTo(todayTime) <= 0 && todayTime.compareTo(closingTime) <0 ){
+					//Currently open so set isOpen to true.
+					
+					isOpen = true;
+				}				
+
+				break;
+			}
+		}
+				
+		return isOpen;
+	}
+
 	/**
 	 * Method to perform database check.
 	 */

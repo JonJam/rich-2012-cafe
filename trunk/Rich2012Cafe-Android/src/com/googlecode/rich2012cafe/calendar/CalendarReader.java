@@ -9,9 +9,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.util.Log;
 
 /**
- * Class to read from phone Calendar.
+ * Class to obtain events from Android Calendar.
+ * 
+ * N.B. This skips any all day events.
  * 
  * @author Jonathan Harrison (jonjam1990@googlemail.com)
  *
@@ -29,10 +32,11 @@ public class CalendarReader {
 	 		CalendarContract.Events.DESCRIPTION,
 	 		CalendarContract.Events.EVENT_LOCATION,
 	 		CalendarContract.Events.DTSTART, //Start time of event in UTC Milliseconds 
-	 		CalendarContract.Events.DTEND //End time of event in UTC Milliseconds
+	 		CalendarContract.Events.DTEND, //End time of event in UTC Milliseconds
+	 		CalendarContract.Events.ALL_DAY
 	     };
      }
-
+     
      /**
       * Method to get an ArrayList of today's calendar events.
       * 
@@ -53,7 +57,15 @@ public class CalendarReader {
          
         eventCursor.moveToFirst();
         while(!eventCursor.isAfterLast()){
-    
+        	   
+        	int allDay = eventCursor.getColumnIndex(CalendarContract.Events.ALL_DAY);
+        	
+        	if(eventCursor.getInt(allDay) == 1){
+        		//Event is all day so skip.
+        		eventCursor.moveToNext();
+        		continue;
+        	}
+
         	int calenderId = eventCursor.getColumnIndex(CalendarContract.Events.CALENDAR_ID);
          	int title = eventCursor.getColumnIndex(CalendarContract.Events.TITLE);
          	int description = eventCursor.getColumnIndex(CalendarContract.Events.DESCRIPTION);
@@ -76,6 +88,74 @@ public class CalendarReader {
         return events;       
 	}
 	
+	/**
+     * Method to get an ArrayList of yesterday's calendar events.
+     * 
+     * @param activityContext (Context object)
+     * @return ArrayList of CalendarEvent objects
+     */
+    public ArrayList<CalendarEvent> getYesterdayEvents(Context activityContext){
+
+ 		ArrayList<CalendarEvent> events = new ArrayList<CalendarEvent>();
+ 		
+ 		ContentResolver cr = activityContext.getContentResolver();
+
+     	String selection = CalendarContract.Events.DTSTART + " >= " + getYesterdayStartTimeInMilli() + 
+     			" AND " + CalendarContract.Events.DTSTART + " < " + getTodayStartTimeInMilli();
+     	
+     	//Query to select events from calendars for today.
+     	Cursor eventCursor = cr.query(eventUri, eventProjection, selection, null, null);
+          
+         eventCursor.moveToFirst();
+         while(!eventCursor.isAfterLast()){
+
+        	int allDay = eventCursor.getColumnIndex(CalendarContract.Events.ALL_DAY);
+        	
+        	if(eventCursor.getInt(allDay) == 1){
+        		//Event is all day so skip.
+        		eventCursor.moveToNext();
+        		continue;
+        	}
+        	
+         	int calenderId = eventCursor.getColumnIndex(CalendarContract.Events.CALENDAR_ID);
+          	int title = eventCursor.getColumnIndex(CalendarContract.Events.TITLE);
+          	int description = eventCursor.getColumnIndex(CalendarContract.Events.DESCRIPTION);
+          	int eventLocation = eventCursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION);
+          	int dstart = eventCursor.getColumnIndex(CalendarContract.Events.DTSTART);
+          	int dend = eventCursor.getColumnIndex(CalendarContract.Events.DTEND);
+
+          	events.add(new CalendarEvent(
+          			eventCursor.getString(calenderId), 
+          			eventCursor.getString(title), 
+          			eventCursor.getString(description),
+          			eventCursor.getString(eventLocation),
+          			Long.parseLong(eventCursor.getString(dstart)),
+          			Long.parseLong(eventCursor.getString(dend))));
+          	
+         	eventCursor.moveToNext();
+         }
+         Collections.sort(events);
+         
+         return events;       
+ 	}
+
+    /**
+     * Method to get yesterday's starting date/time i.e. 00:00:00 in milliseconds.
+     * 
+     * @return long value
+     */
+	private long getYesterdayStartTimeInMilli(){
+
+    	Calendar startTime = Calendar.getInstance(); 
+    	startTime.add(Calendar.DATE, -1);
+    	startTime.set(Calendar.HOUR_OF_DAY, 0);
+        startTime.set(Calendar.MINUTE, 0);
+        startTime.set(Calendar.SECOND, 0);
+        startTime.set(Calendar.MILLISECOND, 0);
+        
+        return startTime.getTimeInMillis();
+	}
+
 	/**
 	 * Method to get today's starting date/time i.e. 00:00:00 in milliseconds.
 	 * 

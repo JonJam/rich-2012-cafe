@@ -223,10 +223,10 @@ public class Util {
             InputStream is = assetManager.open("debugging_prefs.properties");
             reader = new BufferedReader(new InputStreamReader(is));
             while (true) {
-                //String s = reader.readLine();
+                String s = reader.readLine();
             	
             	//HACK FOR LINUX TO GET DEBUGGER TO WORK
-            	String s = "url=http://192.168.1.81:8888";
+            	//String s = "url=http://192.168.1.81:8888";
                 if (s == null) {
                     break;
                 }

@@ -25,7 +25,6 @@ import java.io.IOException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 /**
  * GENERATED CLASS

@@ -14,52 +14,33 @@
  *******************************************************************************/
 package com.googlecode.rich2012cafe.activities;
 
-import com.google.android.c2dm.C2DMessaging;
-import com.googlecode.rich2012cafe.R;
-import com.googlecode.rich2012cafe.R.id;
-import com.googlecode.rich2012cafe.R.layout;
-import com.googlecode.rich2012cafe.R.string;
-import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
-import com.googlecode.rich2012cafe.utils.Setup;
-import com.googlecode.rich2012cafe.utils.Util;
-
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.client.params.HttpClientParams;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.SharedPreferences.Editor;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.params.ClientPNames;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.provider.Settings;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -67,6 +48,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.c2dm.C2DMessaging;
+import com.googlecode.rich2012cafe.R;
+import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
+import com.googlecode.rich2012cafe.utils.Setup;
+import com.googlecode.rich2012cafe.utils.Util;
 
 /** 
  * Account selections activity - handles device registration and unregistration.

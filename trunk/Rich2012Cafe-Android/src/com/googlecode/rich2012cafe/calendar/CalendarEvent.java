@@ -1,8 +1,6 @@
 package com.googlecode.rich2012cafe.calendar;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Class to represent a calendar event.

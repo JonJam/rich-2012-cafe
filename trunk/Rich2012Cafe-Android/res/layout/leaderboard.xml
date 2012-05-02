@@ -3,21 +3,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
-        <TextView
-            android:id="@+id/scoreLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="Your Current Score: " />
-
-        <Button
-            android:id="@+id/refreshLeaderboard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="Refresh" />
 
                 <TableLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,20 +10,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/refreshLeaderboard"
                     android:stretchColumns="1" >
 
-    <TableRow
-            >
-        <TextView
-       android:text="Score"
-       android:padding="3dip" 
-         />
-                <TextView
-            android:padding="3dip"
-            android:text="Rank" />
-    
-</TableRow>
-</TableLayout>
+                </TableLayout>
         
     </RelativeLayout>

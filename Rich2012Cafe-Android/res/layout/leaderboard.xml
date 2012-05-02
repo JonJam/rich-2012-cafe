@@ -1,30 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:id="@+id/leader_linear">
-<TextView
-	android:text="Your Current Score: "
-	android:id="@+id/scoreLabel"
-	android:padding="3dip"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/scoreLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Your Current Score: " />
+
         <Button
-        android:id="@+id/leaderUpdateButton"
-        android:padding="5dip"
-        android:layout_gravity="center_horizontal"
-        android:text="Update Leaderboard" />
-        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:id="@+id/leader_table"
-    android:stretchColumns="1">
-    <TableRow>
-    <TextView
-       android:text="Rank"
-       android:padding="3dip" />
+            android:id="@+id/refreshLeaderboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="Refresh" />
+
+                <TableLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/leader_table"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/refreshLeaderboard"
+                    android:stretchColumns="1" >
+
+    <TableRow
+            >
         <TextView
        android:text="Score"
-       android:padding="3dip" />
+       android:padding="3dip" 
+         />
+                <TextView
+            android:padding="3dip"
+            android:text="Rank" />
     
 </TableRow>
 </TableLayout>
-</LinearLayout>
+        
+    </RelativeLayout>

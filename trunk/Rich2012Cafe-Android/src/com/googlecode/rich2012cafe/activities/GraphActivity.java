@@ -156,8 +156,7 @@ public class GraphActivity extends Activity{
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			return true;
-
-		}
+    		}
 		}
 		return false;
 	}

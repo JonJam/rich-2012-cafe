@@ -22,12 +22,14 @@ import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.activities.SettingsActivity;
 import com.googlecode.rich2012cafe.alarm.AlarmController;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
-import com.googlecode.rich2012cafe.calendar.CalendarReader;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
 import com.googlecode.rich2012cafe.model.CaffeineLevel;
 import com.googlecode.rich2012cafe.model.CaffeineLevelWriter;
 import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
+import com.googlecode.rich2012cafe.shared.CaffeineSourceProductProxy;
 import com.googlecode.rich2012cafe.shared.CaffeineSourceProxy;
+import com.googlecode.rich2012cafe.shared.CaffeineSourceWrapperProxy;
+import com.googlecode.rich2012cafe.shared.OpeningTimeProxy;
 import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
 import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 import com.googlecode.rich2012cafe.utils.ScheduledTasks;
@@ -38,6 +40,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -142,7 +145,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
         
         ApplicationState as = (ApplicationState) this.getApplicationContext();
         as.setScore(-1);
-        ScheduledTasks.getCaffeineProducts(this, true);
+        ScheduledTasks.getCaffeineProducts(this, false);
         // Register a receiver to provide register/unregister notifications
         registerReceiver(mUpdateUIReceiver, new IntentFilter(Util.UPDATE_UI_INTENT));
         
@@ -188,6 +191,11 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     private void setHelloWorldScreenContent() {
     	tv = (TextView) findViewById(R.id.hello_world_info);
     	
+    	Calendar timeToSet = Calendar.getInstance();
+    	timeToSet.add(Calendar.MINUTE, 1);
+    	
+    	AlarmController.setCaffeineWarningAlarm(this, timeToSet);
+
     	findViewById(R.id.graphButton).setOnClickListener(this);
     	this.findViewById(R.id.intakeButton).setOnClickListener(this);
     }
@@ -287,8 +295,5 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 		String currentValue = prefs.getString(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME, "");
 		CaffeineLevelWriter clw = new CaffeineLevelWriter(this);
 		clw.appendToCaffeineLevels(new CaffeineLevel(new Date(System.currentTimeMillis()), (int) p.getCaffeineContent()), Rich2012CafeUtil.ADHOC_DRINKS_SETTING_NAME);
-		//this.startActivity(new Intent(this, CaffeineTracker.class));
-		
-		Log.i("Craig", "Returned");
 	}
 }

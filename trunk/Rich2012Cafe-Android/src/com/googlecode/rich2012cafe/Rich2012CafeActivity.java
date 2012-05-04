@@ -1,5 +1,6 @@
 package com.googlecode.rich2012cafe;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +14,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,8 +25,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Scroller;
 import android.widget.TextView;
 
+import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.googlecode.rich2012cafe.activities.AccountsActivity;
 import com.googlecode.rich2012cafe.activities.CaffeineTracker;
 import com.googlecode.rich2012cafe.activities.GMapActivity;
@@ -31,9 +37,11 @@ import com.googlecode.rich2012cafe.activities.GraphActivity;
 import com.googlecode.rich2012cafe.activities.LeaderboardActivity;
 import com.googlecode.rich2012cafe.activities.SettingsActivity;
 import com.googlecode.rich2012cafe.alarm.AlarmController;
+import com.googlecode.rich2012cafe.client.MyRequestFactory;
 import com.googlecode.rich2012cafe.model.CaffeineLevel;
 import com.googlecode.rich2012cafe.model.CaffeineLevelWriter;
 import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
+import com.googlecode.rich2012cafe.shared.CaffeineSourceWrapperProxy;
 import com.googlecode.rich2012cafe.utils.DeviceRegistrar;
 import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 import com.googlecode.rich2012cafe.utils.ScheduledTasks;
@@ -162,10 +170,45 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
     private void setHelloWorldScreenContent() {
     	tv = (TextView) findViewById(R.id.hello_world_info);
     	    	    	
-    	Calendar timeToSet = Calendar.getInstance();
-    	timeToSet.add(Calendar.MINUTE, 1);
-    	
-    	AlarmController.setCaffeineWarningAlarm(this, timeToSet);
+//    	new AsyncTask<Void, Void, List<CaffeineSourceWrapperProxy>>(){
+//     	
+//    		String message = "";
+//     		
+//     		@Override
+//     		protected List<CaffeineSourceWrapperProxy> doInBackground(Void... params) {
+//     			
+//     			//Get time information.
+//     			SimpleDateFormat sdf = new SimpleDateFormat(Rich2012CafeUtil.DB_TIME_FORMAT);
+//     			Calendar cal = Calendar.getInstance();
+//     			String dayName = Rich2012CafeUtil.DAY_NAMES[cal.get(Calendar.DAY_OF_WEEK) - 1];
+//     			String todayTime = sdf.format(cal.getTime());  
+//     			     			
+//     			MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
+//     			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.936289,-1.39724, dayName, todayTime).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
+//
+//     				@Override
+//     				public void onSuccess(List<CaffeineSourceWrapperProxy> sources) {
+//     				
+//     					for (CaffeineSourceWrapperProxy caffeineSource: sources) {
+//     				          message += caffeineSource.getSource().getId() + "\n";
+//     					}
+//     				}
+//     	        	
+//     				@Override
+//     	            public void onFailure(ServerFailure error) {
+//     					message = error.getMessage() + "\n" + error.getStackTraceString();
+//     	            }
+//     			});
+//
+//     			return null;
+//     		}
+//     		
+//     	    @Override
+//     	    protected void onPostExecute(List<CaffeineSourceWrapperProxy> results) {
+//     	    	tv.setMovementMethod(new ScrollingMovementMethod());
+//     	    	tv.setText(message);
+//     	    }
+//	    }.execute();
 
     	findViewById(R.id.graphButton).setOnClickListener(this);
     	this.findViewById(R.id.intakeButton).setOnClickListener(this);

@@ -1,5 +1,6 @@
 package com.googlecode.rich2012cafe.server;
 
+import java.util.Calendar;
 import java.util.List;
 
 import com.googlecode.rich2012cafe.annotation.ServiceMethod;
@@ -26,11 +27,14 @@ public class Rich2012CafeService {
 	 * 
 	 * @param latitude (double value)
 	 * @param longitude (double value)
+	 * @param phoneDayName (String object)
+	 * @param phoneTime (String object)
 	 * @return List of CaffeineSourceWrapper object
 	 */
 	@ServiceMethod
-	public List<CaffeineSourceWrapper> getCaffeineSourcesGiven(double latitude, double longitude){
-		return db.getCaffeineSourcesGiven(latitude, longitude);
+	public List<CaffeineSourceWrapper> getCaffeineSourcesGiven(double latitude, double longitude, 
+			String phoneDayName, String phoneTime){
+		return db.getCaffeineSourcesGiven(latitude, longitude, phoneDayName, phoneTime);
 	}
 		
 	/**

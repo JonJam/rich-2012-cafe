@@ -92,7 +92,6 @@ public class Rich2012CafeUtil {
 	
 	//Date Format
 	public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-	public static final String DB_TIME_FORMAT = "HH:mm:ss";
 		
 	//Source Types
 	public static final String POS_TYPE = "Point of Service";
@@ -120,7 +119,4 @@ public class Rich2012CafeUtil {
 	
 	//Limit for number of sources to return in getCaffeineSourcesGiven query
 	public static final int CAFFEINE_LOCATION_LIMIT = 5;
-	
-	//Days of week
-	public static final String[] DAY_NAMES = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 }

@@ -18,5 +18,10 @@ public class Rich2012CafeUtil {
 	public final static int CAFFEINE_TRACKER_ALARM_ID = 32767;
 	public final static int CAFFEINE_TRACKER_ALARM_REPEAT = 3600000; //Every hour
 	public final static String CAFFEINE_WARNING_MESSAGE = "Caffeine consumption required...";
-
+	
+	//Database time format
+	public static final String DB_TIME_FORMAT = "HH:mm:ss";
+	
+	//Days of week
+	public static final String[] DAY_NAMES = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 }

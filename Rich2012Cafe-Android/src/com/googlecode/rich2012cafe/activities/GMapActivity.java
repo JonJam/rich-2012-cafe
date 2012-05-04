@@ -1,5 +1,7 @@
 package com.googlecode.rich2012cafe.activities;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.ActionBar;
@@ -42,6 +44,7 @@ import com.googlecode.rich2012cafe.utils.CurrentLocationOverlay;
 import com.googlecode.rich2012cafe.utils.CustomLocationListener;
 import com.googlecode.rich2012cafe.utils.LocationUtils;
 import com.googlecode.rich2012cafe.utils.MapViewInterface;
+import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 import com.googlecode.rich2012cafe.utils.Util;
 
 
@@ -125,12 +128,18 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
  		@Override
  		protected List<CaffeineSourceWrapperProxy> doInBackground(Void... params) {
  			
+ 			//Get time information.
+ 			SimpleDateFormat sdf = new SimpleDateFormat(Rich2012CafeUtil.DB_TIME_FORMAT);
+ 			Calendar cal = Calendar.getInstance();
+ 			String dayName = Rich2012CafeUtil.DAY_NAMES[cal.get(Calendar.DAY_OF_WEEK) - 1];
+ 			String todayTime = sdf.format(cal.getTime());   
+ 			
  			MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
  			
  			//Get caffeine sources given
  	        Log.e("LocationGivenToAppEngine", currentBestLocation.getLatitude() + " and " +currentBestLocation.getLongitude());
  			//requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(currentBestLocation.getLatitude(),currentBestLocation.getLongitude()).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
- 	 			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.936289,-1.39724).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
+ 	 			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.936289,-1.39724, dayName, todayTime).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
 
  				@Override
  				public void onSuccess(List<CaffeineSourceWrapperProxy> sources) {

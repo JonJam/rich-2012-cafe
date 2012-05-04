@@ -36,10 +36,12 @@ public class DataStore {
 	 * 
 	 * @param latitude (double value)
 	 * @param longitude (double value)
+	 * @param phoneDayName (String object)
+	 * @param phoneTime (String object)
 	 * @return List of CaffeineSourceWrapper object
 	 */
 	@SuppressWarnings("unchecked")
-	public List<CaffeineSourceWrapper> getCaffeineSourcesGiven(double latitude, double longitude){
+	public List<CaffeineSourceWrapper> getCaffeineSourcesGiven(double latitude, double longitude, String phoneDayName, String phoneTime){
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -72,7 +74,7 @@ public class DataStore {
 								times,
 								getCaffeineSourceProductsForCaffeineSource(id)));
 						
-					} else if(isOpen(times)){
+					} else if(isOpen(times, phoneDayName, phoneTime)){
 						//Location has times and is open so add source.
 											
 						wrapperSources.add(new CaffeineSourceWrapper(
@@ -98,27 +100,23 @@ public class DataStore {
 	 * Method to determine whether a caffeine source is currently open.
 	 * 
 	 * @param times (List of OpeningTime objects)
+	 * @param phoneDayName (String object)
+	 * @param phoneTime (String object)
 	 * @return boolean value
 	 */
-	private boolean isOpen(List<OpeningTime> times){
+	private boolean isOpen(List<OpeningTime> times, String phoneDayName, String phoneTime){
 		
 		boolean isOpen = false;
-		SimpleDateFormat sdf = new SimpleDateFormat(Rich2012CafeUtil.DB_TIME_FORMAT);
-		
-		//Get current time information.
-		Calendar today = Calendar.getInstance();
-		String dayName = Rich2012CafeUtil.DAY_NAMES[today.get(Calendar.DAY_OF_WEEK) - 1];
-		String todayTime = sdf.format(today.getTime());
 		
 		for(OpeningTime t : times){
 			
-			if(dayName.equals(t.getDay())){
+			if(phoneDayName.equals(t.getDay())){
 				//Day name same so check time
 				
 				String openingTime = t.getOpeningTime();
 				String closingTime = t.getClosingTime();
 				
-				if(openingTime.compareTo(todayTime) <= 0 && todayTime.compareTo(closingTime) <0 ){
+				if(openingTime.compareTo(phoneTime) <= 0 && phoneTime.compareTo(closingTime) <0 ){
 					//Currently open so set isOpen to true.
 					
 					isOpen = true;

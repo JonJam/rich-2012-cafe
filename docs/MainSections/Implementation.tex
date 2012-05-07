@@ -17,44 +17,47 @@ The overall architecture of such an application is given by the diagram below:
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.7]{images/arch.png}
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.4]{images/Architecture.png}
 \caption{Architecture Diagram \cite{AppEngine}} 
 \end{center}
 \end{figure}
-
-From this architecture the following modules have been implemented: 
-\begin{itemize}
-	\item{The \textbf{Android} application.}
-	\item{The \textbf{GAE} including the \textbf{Datastore}.}
-	\item{A basic implementation of the \textbf{Web Client} \cite{implementation} (which could be expanded as part of the future work, see Section \ref{sec:Web}.}
-\end{itemize}
-
-The C2DM (Cloud to Device Messaging) service which facilitates sending messages to Android devices from the cloud system is an additional service provided by Google \cite{implementation}. 
 
 \subsection{Google App Engine}
 The GAE backend was implemented in Java and is split into a number of components: the Datastore and Remote Procedure Call (RPC) service
 
 \subsubsection{Datastore}
 The first component is the database, which is implemented using GAE’s implementation of Java Data Objects (JDO). 
-The objects that have been created to store information in the system are detailed in the following table:
+The objects that have been created to store information in the system are detailed in Table 3:
 
-\begin{table}[ht]
-\begin{tabular}{|p{110pt}|p{200pt}|p{110pt}|}
+\begin{table}[!ht]
+\caption{Table detailing System Objects}
+\begin{tabular}{|p{106pt}|p{200pt}|p{118pt}|}
 \hline
-Name			& Purpose		 									& Example	
+	Name			
+	& Purpose		 									
+	& Example	
 \\\hline
-CaffeineSource		& To model a location where caffeine products are sold.	& Avenue Cafe.
+	CaffeineSource		
+	& Models a location that sells caffeine.	
+	& Avenue Cafe.
 \\\hline
-CaffeineProduct	& To model a unique caffeine product containing information such as name, type and milligrams of caffeine in product.	& Red Bull Can
+	CaffeineProduct	
+	& Models product (name, type, caffeine mg).
+	& Red Bull Can
 \\\hline
-CaffeineSourceProduct	& To model a unique caffeine product being sold at a location extending the referenced CaffeineProduct to include pricing information at this location.	& Red Bull Can at \newline Avenue Cafe.
+	CaffeineSourceProduct	
+	& Adds location pricing to product. 
+	& Red Bull/Avenue Cafe.
 \\\hline
-OpeningTime		& To model a opening time for a location.	& Monday’s opening hours are between 8:00 and 19:00 for the period 00:00:00 16/4/12 to 23:59:59 15/6/12. 
+	OpeningTime		
+	& Models opening times for a location.	
+	& Monday’s: 8:00 to 19:00. 00:00:00 16/4/12 to 23:59:59 15/6/12. 
 \\\hline
-LeaderboardScore	& To model a user’s score for leaderboard purposes.	&
+	LeaderboardScore	
+	& Models user's leaderboard score.	
+	&
 \\\hline
 \end{tabular}
-\caption{Table detailing System Objects}
 \end{table}
 
 Additionally other objects may exist in the database such as DeviceInfo and C2DMConfig which are automatically added by the system to allow Cloud to Device Messaging (C2DM) which hasn't been created by the team. 

@@ -1,5 +1,45 @@
 \section{Background Research \& Analysis}
 
+\subsection{Application Research \& Analysis}
+This section details the research behind the data used in Opticaff, including the data source, calendar data and the caffeine calculations that will be used in the prototype. 
+
+\subsubsection{Data Source}
+OptiCaff used the Open Data Service from the University of Southampton \cite{DataSouthampton} to retrieve the relevant information for the application. This service provides open linked data about some of the administrative information regarding the university. It also provides a SPARQL Endpoint \cite{SotonSparql} (a service which facilitates users querying a knowledge base using the SPARQL query language) \cite{SparqlEndpoint}. OptiCaff utilises this with a few specialist queries, and combined with user preferences can provide the user with a wide selection of caffeine choices around campus. 
+
+\subsubsection{Calendar Research \& Analysis}
+\label{sec:calendar}
+OptiCaff’s objectives include the use of university timetables to schedule caffeine level notifications. 
+Sussed is Southampton university’s student portal that displays a student’s timetable, OptiCaff will need to access the timetable through Sussed. 
+This is currently the only way to obtain a student's timetable given that its not freely available as open data. 
+Another Southampton university produced application, iSoton, has been able to do this process showing that it is possible.
+Further investigation however has shown that this is not a trivial process.
+
+An alternative solution is to use Google Calendar which can be easily integrated into Android given that they are both Google Products \cite{calendar}.
+This has the disadvantage however that it requires the user to either have or set up a Google Calendar detailing their timetable information. 
+ 
+Overall given the prototype nature of this application and ability to use Google Calendar in a much simpler fashion it was decided that Opticaff would use Google Calendar. 
+
+\subsubsection{Caffeine Research \& Analysis} 
+\label{sec:Caffeine}
+In order to provide the caffeine management element of this application, the different levels of caffeine that appeared in beverages and its affect on human beings needed to be researched. This section details the caffeine levels and decay rate that has been used in Opticaff. 
+
+\underline{Caffeine Levels in Products} \newline
+Given the vast range of different cafffeinated products and the limited time to produce a prototype application, it was decided that the products displayed by OptiCaff would be grouped into four different types of drink, and each type would be allocated an average caffeine content. Below is a table showing these totals, which were obtained these sources \cite{Coke} \cite{TeaCoffee} \cite{EnergyDrink}.
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Drink Category} & \textbf{Average Caffeine Content (mg)} \\\hline
+Tea & 40 \\\hline
+Coffee & 54 \\\hline
+Energy Drinks & 80 \\\hline
+Soft Drinks & 34.5 \\\hline
+\end{tabular}
+\end{center}
+
+\underline{Caffeine Decay Levels} \newline
+In addition to calculating the level of caffeine obtained from a specific product, it was also important to work out the optimum caffeine levels and how long it would take the caffeine to ``decay" within the body so that the next dosage time could be predicted. For the purposes of the prototype, Opticaff uses the same optimum caffeine levels as it's competitor Caffeine Zone 2 (detailed in Section \ref{sec:competitors}) uses which are between 200 and 400mg \cite{CaffeineZoneInfo}. The half life of caffeine ranges between 2.5 and 4.5 hours \cite{CaffeinePharmacology} \cite{CaffeinePharmacy} and to simplify matters 4 was chosen as the number to use in Opticaff and was calculated using the half life formula detailed here: \cite{HalfLife}.
+ 
 \subsection{Market Research \& Analysis}
 This section details the market research analysed for Opticaff.
 The Coffee market was researched as were the different mobile development platforms; which were analysed to determine the most suitable one to use for this prototype application. 
@@ -24,6 +64,7 @@ This research is important to OptiCaff because it shows that the coffee industry
 \end{figure}
 
 \subsubsection{Mobile Platform Research}
+\label{sec:Mobile}
 OptiCaff ’s purpose lent itself heavily to being a mobile application, and as such that sparked the debate of what platform it should be developed for. 
 There are various mobile operating systems that Opticaff could be deployed on \cite{differentOS}:
 
@@ -120,11 +161,12 @@ This makes Caffeine Zone 2 Lite a direct competitor, although OptiCaff offers a 
 \end{itemize}
 
 One of the issues of using open data is that the data itself can be considered an indirect competitor of OptiCaff. It could be possible for another product to be created that uses the same data set, this means that OptiCaff could have more potential competitors than it would if it used closed data. OptiCaff could not be replicated by a competitor only using the same open data however, this is because there will be caffeine level prediction and notification features implemented.
+ 
+Table 1 summarises the competative edge of Opticaff, illustrating how it combines the key features of its competitors into a superior all encompassing service:
 
-The table below summarises the competative edge of Opticaff, illustrating how it combines the key features of its competitors into a superior all encompassing service:
-
-\begin{table}
-\begin{tabular}{|p{208pt}| p{50pt} | p{46pt} | p{46pt} | p{46pt} |}
+\begin{table}[ht]
+\caption{Table of Opticaff's Competitors}
+\begin{tabular}{|p{210pt}| p{50pt} | p{46pt} | p{46pt} | p{46pt} |}
     \hline
      	& 
 	Caffeine Finder & 
@@ -157,43 +199,4 @@ The table below summarises the competative edge of Opticaff, illustrating how it
  	\huge{\textcolor{green}{\Pisymbol {pzd} {52}}}
 \\ \hline
 \end{tabular}
-\caption{Table of Opticaff's Competitors}
 \end{table}
-
-\subsection{Application Research \& Analysis}
-This section details the research and analysis for the data within Opticaff. The calendar data that will be used for the application is detailed, as are the caffeine calculations that will be used in the prototype. 
-
-\subsubsection{Calendar Research \& Analysis}
-\label{sec:calendar}
-OptiCaff’s objectives include the use of university timetables to schedule caffeine level notifications. 
-Sussed is Southampton university’s student portal that displays a student’s timetable, OptiCaff will need to access the timetable through Sussed. 
-This is currently the only way to obtain a student's timetable given that its not freely available as open data. 
-Another Southampton university produced application, iSoton, has been able to do this process showing that it is possible.
-Further investigation however has shown that this is not a trivial process.
-
-An alternative solution is to use Google Calendar which can be easily integrated into Android given that they are both Google Products \cite{calendar}.
-This has the disadvantage however that it requires the user to either have or set up a Google Calendar detailing their timetable information. 
- 
-Overall given the prototype nature of this application and ability to use Google Calendar in a much simpler fashion it was decided that Opticaff would use Google Calendar. 
-
-subsubsection{Caffeine Research \& Analysis}
-\label{sec:Caffeine}
-In order to provide the caffeine management element of this application, the different levels of caffeine that appeared in beverages and its affect on human beings needed to be researched. This section details the caffeine levels and decay rate that has been used in Opticaff. 
-
-\underline{Caffeine Levels in Products} \newline
-Given the vast range of different cafffeinated products and the limited time to produce a prototype application, it was decided that the products displayed by OptiCaff would be grouped into four different types of drink, and each type would be allocated an average caffeine content. Below is a table showing these totals, which were obtained these sources \cite{Coke} \cite{TeaCoffee} \cite{EnergyDrink}.
-
-\begin{center}
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Drink Category} & \textbf{Average Caffeine Content (mg)} \\\hline
-Tea & 40 \\\hline
-Coffee & 54 \\\hline
-Energy Drinks & 80 \\\hline
-Soft Drinks & 34.5 \\\hline
-\end{tabular}
-\end{center}
-
-\underline{Caffeine Decay Levels} \newline
-In addition to calculating the level of caffeine obtained from a specific product, it was also important to work out the optimum caffeine levels and how long it would take the caffeine to ``decay" within the body so that the next dosage time could be predicted. For the purposes of the prototype, Opticaff uses the same optimum caffeine levels as it's competitor Caffeine Zone 2 (detailed in Section \ref{sec:competitors}) uses which are between 200 and 400mg \cite{CaffeineZoneInfo}. The half life of caffeine ranges between 2.5 and 4.5 hours \cite{CaffeinePharmacology} \cite{CaffeinePharmacy} and to simplify matters 4 was chosen as the number to use in Opticaff and was calculated using the half life formula detailed here: \cite{HalfLife}.
- 

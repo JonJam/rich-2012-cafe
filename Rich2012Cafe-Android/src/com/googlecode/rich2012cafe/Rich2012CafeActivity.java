@@ -121,9 +121,9 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
         actionBar.setHomeButtonEnabled(true);
                 
         ApplicationState as = (ApplicationState) this.getApplicationContext();
-        as.setScore(-1);
-
+        as.setScore(3);
         ScheduledTasks.getCaffeineProducts(this, true);
+
 
         // Register a receiver to provide register/unregister notifications
         registerReceiver(mUpdateUIReceiver, new IntentFilter(Util.UPDATE_UI_INTENT));

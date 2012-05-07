@@ -32,7 +32,6 @@
               android:textColor="#5a3a29"
               android:textSize="11dp"
               />
-     
       <TableLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/productsTable"

@@ -139,7 +139,7 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
  			//Get caffeine sources given
  	        Log.e("LocationGivenToAppEngine", currentBestLocation.getLatitude() + " and " +currentBestLocation.getLongitude());
  			//requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(currentBestLocation.getLatitude(),currentBestLocation.getLongitude()).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
- 	 			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.936289,-1.39724, dayName, todayTime).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
+ 	 	    requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.936289,-1.39724, dayName, todayTime).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
 
  				@Override
  				public void onSuccess(List<CaffeineSourceWrapperProxy> sources) {

@@ -12,6 +12,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -20,6 +21,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -40,9 +44,12 @@ public class LeaderboardActivity extends Activity{
 	}
 	
 	private void generateTable(){
+		final LinearLayout leaderLayout = (LinearLayout) this.findViewById(R.id.leader_layout);
 		final TableLayout tbl = (TableLayout) this.findViewById(R.id.leader_table);
 		ApplicationState as = (ApplicationState) this.getApplicationContext();
 		tbl.removeAllViewsInLayout();
+		leaderLayout.removeAllViewsInLayout();
+		
 		
 		tbl.addView(addTitle("Current Score:"));
 		tbl.addView(addTitle(as.getScore()+""));
@@ -66,7 +73,15 @@ public class LeaderboardActivity extends Activity{
 		}
 		
 		Button refresh = new Button(this);
-		refresh.setOnClickListener(new OnClickListener(){
+		ImageButton refreshButton = new ImageButton(this);
+		Drawable refreshImg = this.getResources().getDrawable(R.drawable.refresh);
+		refreshButton.setMaxHeight(32);
+		refreshButton.setMaxWidth(32);
+		refreshButton.setBackgroundResource(0);
+		refreshButton.setImageDrawable(refreshImg);
+		
+
+		refreshButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View arg0) {
@@ -76,11 +91,11 @@ public class LeaderboardActivity extends Activity{
 			}
 			
 		});
-		tbl.addView(addTitle(""));
-		refresh.setText("Refresh");
-		TableRow buttonRow = new TableRow(this);
-		buttonRow.addView(refresh);
-		tbl.addView(buttonRow);
+		//tbl.addView(addTitle(""));
+	//	refresh.setText("Refresh");
+	//	TableRow buttonRow = new TableRow(this);
+		leaderLayout.addView(refreshButton);
+	//	tbl.addView(buttonRow);
 		
 	}
 	
@@ -110,7 +125,7 @@ public class LeaderboardActivity extends Activity{
 	private TextView addTextView(String text, int background, int textColor, int size){
 		TextView temp = new TextView(this);
 		temp.setPadding(5, 5, 5, 5);
-		temp.setTextSize(temp.getTextSize()+size);
+		temp.setTextSize(16);
 		temp.setGravity(Gravity.CENTER_HORIZONTAL);
 		temp.setText(text);
 		temp.setTextColor(textColor);

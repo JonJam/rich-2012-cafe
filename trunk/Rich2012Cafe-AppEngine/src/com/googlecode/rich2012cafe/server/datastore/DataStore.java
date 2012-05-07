@@ -1,6 +1,5 @@
 package com.googlecode.rich2012cafe.server.datastore;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;

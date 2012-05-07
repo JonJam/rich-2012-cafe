@@ -1,6 +1,9 @@
 #summary This page contains all future work for project.
 
-=Android Application=
+=TODO=
+This page lists the current tasks to be completed for each area of the project. The tasks are listed below:
+
+==Android Application==
  * Application Settings
    * Calendar selection (Able to choose which calendars to get events from)
    * Select favourite products.
@@ -12,13 +15,13 @@
  * Achievements
  * Improve error handling with GAE.
 
-=Google App Engine Server=
+==Google App Engine Server==
  * Add additional sources of data.
  * Alter datastore check so checks below:
    * Sources are added from a SPARQL endpoint.
    * Sources are removed from a SPARQL endpoint.
  * Add more accurate caffeine milligram figures for Caffeine Products.
- * Add features to support friends.
+ * Add features to support extensions to application.
  * Improve performance of operations.
 
 =Other=

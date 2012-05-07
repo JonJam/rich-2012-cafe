@@ -13,6 +13,7 @@ This page lists the current tasks to be completed for each area of the project. 
   * Adjust Leaderboard view and ApplicationStateUpdater to store and use returned position number from GAE.
   * Ensure Graph view reads history and caffeine prediction levels and plots correctly.
   * Improve view for caffeine source information.
+  * Package and release.
 
 
 ==Google App Engine Server==

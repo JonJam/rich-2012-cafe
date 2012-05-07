@@ -1,0 +1,24 @@
+#summary This page contains all future work for project.
+
+=Android Application=
+ * Application Settings
+   * Calendar selection (Able to choose which calendars to get events from)
+   * Select favourite products.
+   * Select favourite locations.
+   * Select caffeine products want to view e.g. Coffee, Tea, etc.
+ * Friends functionality
+ * Leaderboards
+   * View rankings of you and your friends.
+ * Achievements
+
+=Google App Engine Server=
+ * Add additional sources of data.
+ * Alter datastore check so checks below:
+   * Sources are added from a SPARQL endpoint.
+   * Sources are removed from a SPARQL endpoint.
+ * Add more accurate caffeine milligram figures for Caffeine Products.
+ * Add features to support friends.
+
+=Other=
+ * Create a web interface
+ * Create other versions of the application e.g. iOS, Windows.

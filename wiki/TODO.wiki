@@ -1,6 +1,12 @@
 #summary This page contains the work todo list for the application.
 
 = Android Application =
+* Adjust CaffeineTracker alarm setting and tie alarm receiver to service to run.
+* Adjust ApplicationStateUpdater alarm setting and tie alarm receiver to service to run.
+* Complete CaffeineTracker service.
+* Create module to calculate score from history of caffeine levels / calendar events for previous day.
+* Complete ApplicationStateUpdaterScore.
+* Complete User Interface.
 
 
 = Google App Engine Server =

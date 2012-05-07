@@ -1,15 +1,12 @@
 package com.googlecode.rich2012cafe.server;
 
-import java.util.Calendar;
 import java.util.List;
 
 import com.googlecode.rich2012cafe.annotation.ServiceMethod;
 import com.googlecode.rich2012cafe.server.datastore.DataStore;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineProduct;
-import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceProduct;
 import com.googlecode.rich2012cafe.server.datastore.objects.CaffeineSourceWrapper;
 import com.googlecode.rich2012cafe.server.datastore.objects.LeaderboardScore;
-import com.googlecode.rich2012cafe.server.datastore.objects.OpeningTime;
 
 /**
  * This class forms the Rich2012Cafe Service and contains all the RPC methods.

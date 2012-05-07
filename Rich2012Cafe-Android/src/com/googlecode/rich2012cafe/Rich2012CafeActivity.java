@@ -122,7 +122,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
                 
         ApplicationState as = (ApplicationState) this.getApplicationContext();
         as.setScore(3);
-        ScheduledTasks.getCaffeineProducts(this, true);
+        //ScheduledTasks.getCaffeineProducts(this, true);
 
 
         // Register a receiver to provide register/unregister notifications
@@ -159,8 +159,9 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionmenu, menu);
         // Invoke the Register activity       
-        menu.getItem(0).setIntent(new Intent(this, GMapActivity.class));
-        menu.getItem(1).setIntent(new Intent(this, GraphActivity.class));
+
+        menu.getItem(0).setIntent(new Intent(this, GraphActivity.class));
+        menu.getItem(1).setIntent(new Intent(this, GMapActivity.class));
         menu.getItem(2).setIntent(new Intent(this, LeaderboardActivity.class));
         menu.getItem(3).setIntent(new Intent(this, SettingsActivity.class));
         
@@ -258,12 +259,11 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 			Log.i("t-msg", "at button");
 			ApplicationState as = (ApplicationState) this.getApplicationContext();
 			Log.i("t-msg", "at button");
-			if(as.getCaffeineProducts() != null){
-				loadChoiceDialog(as.getCaffeineProducts());
-			}else{
+			if(as.getCaffeineProducts() == null){
 				ScheduledTasks.getCaffeineProducts(this, true);
-				loadChoiceDialog(as.getCaffeineProducts());
 			}
+			
+			loadChoiceDialog(as.getCaffeineProducts());
 		}
 	}
 	
@@ -272,7 +272,7 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 		dialog.setContentView(R.layout.choicedialog);
 		dialog.setTitle("Select Drink");
 		LinearLayout layout = (LinearLayout) dialog.findViewById(R.id.choiceDialoglayout);
-		
+		if(products != null){
 		for(final CaffeineProductProxy p: products){
 			Button temp = new Button(this);
 			temp.setText(p.getName());
@@ -288,6 +288,9 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
 			layout.addView(temp);
 		}
 		dialog.show();
+		}else{
+			createAlert(this, "Error connecting to DB");
+		}
 	}
 	
 	private void closeDialog(Dialog d, CaffeineProductProxy p){

@@ -141,7 +141,7 @@ public class GraphActivity extends Activity{
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.actionmenu, menu);
 		// Invoke the Register activity
-		menu.getItem(0).setIntent(new Intent(this, GMapActivity.class));
+		menu.getItem(1).setIntent(new Intent(this, GMapActivity.class));
 		menu.getItem(2).setIntent(new Intent(this, LeaderboardActivity.class));
 		menu.getItem(3).setIntent(new Intent(this, SettingsActivity.class));
 		return true;

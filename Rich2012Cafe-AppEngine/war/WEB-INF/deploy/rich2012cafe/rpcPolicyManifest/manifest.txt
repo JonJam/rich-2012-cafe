@@ -1,2 +1,0 @@
-# Module rich2012cafe
-# RPC service class, partial path of RPC policy file

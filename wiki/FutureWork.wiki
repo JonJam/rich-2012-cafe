@@ -10,6 +10,7 @@
  * Leaderboards
    * View rankings of you and your friends.
  * Achievements
+ * Improve error handling with GAE.
 
 =Google App Engine Server=
  * Add additional sources of data.
@@ -18,6 +19,7 @@
    * Sources are removed from a SPARQL endpoint.
  * Add more accurate caffeine milligram figures for Caffeine Products.
  * Add features to support friends.
+ * Improve performance of operations.
 
 =Other=
  * Create a web interface

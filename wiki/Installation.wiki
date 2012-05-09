@@ -1,0 +1,52 @@
+#summary A guide to installing and compiling project from source
+
+=Installation Guide=
+This page guides you through installing and running the Android application from source in Eclipse.
+
+==Plugins and SDKs Required==
+
+External plugins required:
+
+  * Android Developer Tools (ADT) for eclipse
+  * Google Plugin 
+
+Libraries required:
+  * Android 4.0. SDK
+  * Google Web Toolkit SDK (GWT)
+
+==Checking out Project==
+The Android and Google App Engine projects can be imported using SVN and the following checkout URL:
+
+http://rich-2012-cafe.googlecode.com/svn/trunk/
+
+These projects are named Rich2012Cafe-Android and Rich2012Cafe-AppEngine respectively.
+
+==Prior to Running==
+The following steps are required before running the application.
+
+===Add shared source folder to Android project===
+ * Select the Android project.
+ * Right click and select New > Folder.
+ * Ensure the Android project is selected.
+ * Select Advanced and then link to alternate location (Linked folder)
+ * Select Browse and choose the shared folder within the Google App Engine project.
+ * The shared folder will have now been added to the Android project.
+ * If the shared folder isn't a source folder then:
+   * Select the Android project
+   * Right click and select New > Source Folder.
+   * For Folder Name, click Select and choose the shared folder.
+
+===Setting Annotations Factory===
+ * Select the Android project.
+ * Right click and select Properties.
+ * Go to Java Compiler > Annotation Processing > Factory Path.
+ * Select Edit and choose the location of our requestFactory-apt.jar (This is in the GWT eclipse plugin folder)
+
+==Running Project==
+
+ * Select the Android project.
+ * Right click and select Debug As > Remote App Engine Connected Android Application.
+
+
+Further installation help is given on: 
+https://developers.google.com/eclipse/docs/appeng_android_install_setup

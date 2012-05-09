@@ -1,19 +1,12 @@
 \section{Implementation}
 
-\subsection{Overview}
-Our system has been implemented using GAE (Google App Engine) and Android to construct an App Engine Connected Android Application.  
-The justification for using Android is detailed in Section \ref{sec:Mobile}.
-GAE was used for the backend of our system for two reasons, firstly because members of the team had prior experience in using this system. 
-Secondly because support for this project is provided by Eclipse; which generates a starter project with the following implementations \cite{AppEngine}:
-\begin{itemize}
-	\item{Handling communication between the service and application}
-	\item{Registering and unregistering with the service}
-	\item{Authentication and user accounts}
-	\item{Transferring of data between the application and datastore to allow use of the same classes}.
-\end{itemize}
+This section details the Implementation of OptiCaff and is located in the Google Code repository \footnote{\url{http://code.google.com/p/rich-2012-cafe/}}. The current to do items \footnote{\url{https://code.google.com/p/rich-2012-cafe/wiki/TODO}} and future work \footnote{\url{https://code.google.com/p/rich-2012-cafe/wiki/FutureWork}} are also located in the repository.
 
-\subsection{Architecture}
-The overall architecture of such an application is given by the diagram below:
+The external libraries used in the implementation of this project are located within the Appendix \ref{sec:Support}.
+
+\subsection{Architecure}
+
+The overall architecture of OptiCaff is shown in figure \ref{fig:Arch}.
 
 \begin{figure}[ht]
 \begin{center}
@@ -22,74 +15,66 @@ The overall architecture of such an application is given by the diagram below:
 \end{center}
 \end{figure}
 
-\subsection{Google App Engine}
-The GAE backend was implemented in Java and is split into a number of components: the Datastore and Remote Procedure Call (RPC) service
+Google’s App Engine Connected Android Architecture \cite{AppEngine} which is based upon the client server model is used in OptiCaff. It allows OptiCaff to use a central database for storing caffeine related information which can be managed independently of open data sources. This removes the reliance on the providers of this data and explains why the results of the SPARQL queries that are run on the endpoints are stored. This also speeds up the process of delivering results to the users by not needing to perform these queries for every request. The specific advantages provided by this architecture are automatic handling of:
 
-\subsubsection{Datastore}
-The first component is the database, which is implemented using GAE’s implementation of Java Data Objects (JDO). 
-The objects that have been created to store information in the system are detailed in Table 3:
-
-\begin{table}[!ht]
-\caption{Table detailing System Objects}
-\begin{tabular}{|p{106pt}|p{200pt}|p{118pt}|}
-\hline
-	Name			
-	& Purpose		 									
-	& Example	
-\\\hline
-	CaffeineSource		
-	& Models a location that sells caffeine.	
-	& Avenue Cafe.
-\\\hline
-	CaffeineProduct	
-	& Models product (name, type, caffeine mg).
-	& Red Bull Can
-\\\hline
-	CaffeineSourceProduct	
-	& Adds location pricing to product. 
-	& Red Bull/Avenue Cafe.
-\\\hline
-	OpeningTime		
-	& Models opening times for a location.	
-	& Monday’s: 8:00 to 19:00. 00:00:00 16/4/12 to 23:59:59 15/6/12. 
-\\\hline
-	LeaderboardScore	
-	& Models user's leaderboard score.	
-	&
-\\\hline
-\end{tabular}
-\end{table}
-
-Additionally other objects may exist in the database such as DeviceInfo and C2DMConfig which are automatically added by the system to allow Cloud to Device Messaging (C2DM) which hasn't been created by the team. 
-
-All of the location information used in Opticaff is retrieved using SPARQL queries on the University of Southampton’s SPARQL endpoint \cite{SotonSparql}. The datastore is evaluated daily to ascertain if it needs re-populating. This is done through the use of a scheduled task (cron job) and HTTPServlet which checks if the information currently stored is valid (e.g location opening times haven't expired) and if so performs the necessary dropping and adding of information to ensure the data is kept up-to-date.
-
-Create, Read, Update and Delete (CRUD) operations have also been created to handle the tasks involved in the cron job service as well as the RPC service which is detailed in the next section.
-
-The University of Southampton's data is stored is so that the application doesn't have to perform SPARQL queries on the fly and process them on every user request (e.g nearest caffeine source locations). Additionally the use of a JDO datastore is because it allows both the Android application and datastore to use the same Java objects and provides the means to transfer and use data easily.
-
-\subsubsection{RPC Service}
-The RPC service acts as an interface to the datastore for the Android Application and Web Client; communicating with this service is done using Google Accounts which handles the authentication process and user accounts meaning that to use our system it's necessary to have a Google account furthermore it means we don't have to store user account information in our datastore. 
-
-This service contains a number of RPC methods which perform query actions on the datastore to provide Datastore objects information such as top 5 players on our leaderboards and nearest caffeine source locations and information for those sources.
-
-\subsection{Support and Libraries Used}
-Libraries and sources of information which were used to construct this project are listed below:
-Google App Engine Documentation
-Android Documentation
-Jena Library 
-To perform SPARQL queries and process results in GAE.
-(http://incubator.apache.org/jena/index.html)
-How to read calendar on phone in Android.
-http://stackoverflow.com/questions/7859005/how-to-read-and-edit-android-calendar-events-using-the-new-android-4-0-ice-cream
-How to create alarm events in Android.
-http://justcallmebrian.com/?p=129
-How to create Progress Dialog in Android.
-http://www.helloandroid.com/tutorials/using-threads-and-progressdialog
-
-\subsection{Implementation Problems}
-During development a few problems were encountered:
-\begin{itemize}
-	\item{When running the Local App Engine server, an issue occurs when using a new version of java due to the removal of a getDefaultTimezone method. A solution was given in \cite{solution} and this was followed successfully.}
-	\item{When testing the GAE Connected Android Project; the application was unable to obtain the debug url for the Local GAE. A solution was found here \cite{solution2} and followed.}
+\begin{itemize}[noitemsep,leftmargin=1cm]
+	\item{Communications between the service and the application.}
+	\item{Authentication and user accounts.}
 \end{itemize}
+
+This also provides the means to notify users using Cloud to Device Messaging (C2DM).            
+
+\subsection{Android}
+This application has been developed for Android 4.0, Ice Cream Sandwich. OptiCaff was developed for this version due to the introduction of the official calendar API which is not in any previous versions of Android. This was necessary for OptiCaff to obtain a user’s event information. In addition to this, Ice Cream Sandwich is the first version of Android where Google have specified a recommended styling guide for designing applications.
+
+OptiCaff is structured using the MVC design pattern, this allowed the packaging of the application code into various components which could then be worked on by different individuals independently and concurrently.                                                          
+
+\subsection{User Interface}
+                   
+This section details the design considerations that were made prior to constructing the user interface.
+                   
+\subsubsection{Design Considerations}
+When implementing the user interface, it was desirable that the design of the application was consistent with the Android 4.0 design ideology. To achieve this, the Android design and style guide was referenced, which outlines some of the key aspects of an Android 4.0 application, and some of Google’s design decisions made throughout the OS. This included decisions such as universal behaviour of the back button, should preferences be handled using a separate fragment or activity, and interaction and navigation of the different sub-activities of our application.
+                   
+Later versions of Android make use of an action bar which is implemented across all Android 4.0 applications as a way of providing a consistent method for navigation. This has therefore been included within OptiCaff with a main logo and icons which can be used to navigate between the different viewpoints.
+                   
+The user interface was designed so there were different activities for the different viewpoints available. There was one main activity for the home screen, and then activities for the map, graph, leaderboard, and the settings were implemented using the newer preference fragment class, which would match the preferences theme of the system. The ``Up” navigation option was implemented only on settings, as it is the only part of the application that is not a top level activity. Therefore all of the other activities make use of the back navigation instead, due to the lack of a hierarchy between the different viewpoints. Tapping on the OptiCaff logo in the top left corner will always take you back to the default home view.
+                   
+There are certain key design principles that have been outlined by Google in their style guide, that have been implemented in OptiCaff. Making sure that the important information is easily accessible, and the most important options and features can be accessed from the main home screen, providing an overview of events and the next time they should take caffeine. In the app structure they stress how the main home view should not just be a navigation menu, but instead stating the importance of ``making content the centerpiece of your start screen”, which this satisfies.       
+                   
+\subsubsection{Final Design}
+                   
+Figure \ref{fig:Activities} details the main screens of each activity section in Opticaff.
+                   
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.23]{images/app.png}
+\caption{Activities: Maps, Graphs, Leaderboard \& Settings} 
+\label{fig:Activities}
+\end{center}
+\end{figure}
+
+\textbf{(a) Map Screen} \newline         
+This screen uses the well known pointers utilised in popular map applications to illustrate the user’s location. The nearest caffeine vendors are shown in small brown circles around the map to give the user a visual idea of their proximity and direction.
+                   
+\textbf{(b) Graph Screen} \newline            
+This screen shows the user’s caffeine levels over time throughout the day. This enables the user to easily see if they are staying within their optimal levels. The colours red and green are used to signal the minimum and maximum boundaries of the user’s optimum caffeine range. The colours used in the representation of the user’s optimum range (minimum and maximum line) follow a universal concept of red meaning bad and green meaning good.
+                   
+\textbf{(c) Leaderboard Screen} \newline     
+This screen allows the user to see their current score and to compare it with other using the application. Putting the user’s score at the top in large text allows them to immediately assess whether they are achieving a good score through the use of positive and negative symbols.
+                   
+\textbf{(d) Settings Screen} \newline  
+This screen allows users to change their settings. It is currently very simplistic as the prototype required minimal settings. The available settings provide a description of what each setting does and where possible an example value and user entered validation (i.e. the weight setting allows only positive numbers to be entered).
+
+\subsection{Google App Engine}      
+The GAE backend was implemented in Java and is split into a number of components: the Datastore and Remote Procedure Call (RPC) service. This decision was made due to the framework demanding the use of Google App Engine, which members of the team had previous experience using before and provided a free globally accessible data server which can be used by clients.
+                       
+\subsubsection{Datastore}
+The first component is the database, which is implemented using GAE’s iteration of Java Data Objects (JDO). See Appendix \ref{sec:DataStore} for the structure of the datastore. The JDO datastore is used because it allows both the Android application and datastore to use the same Java objects and provides the means to transfer and use data easily.
+                   
+\subsubsection{RPC Service}       
+The RPC service acts as an interface to the datastore for the Android Application.     This service contains a number of RPC methods which perform query actions on the datastore to provide information such as top 5 players on the leaderboards, and nearest caffeine source locations. This has been used because it provides an abstract interface between the client software and the datastore which handles authentication automatically.
+               
+                   
+\subsection{Implementation Issues}
+When developing the UI, the different activities were initially implemented in ‘fragments’, with one main container activity managing all of them. Unfortunately this caused issues when the map was implemented, as due to some incompatibilities between the MapActivity class in android and the new Fragment classes, there were problems when trying to contain what was viewed as an activity, within a fragment. This meant that different parts of OptiCaff were implemented as different activities.                           

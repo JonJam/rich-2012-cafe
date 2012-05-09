@@ -14,7 +14,7 @@ Libraries required:
   * Android 4.0. SDK
   * Google Web Toolkit SDK (GWT)
 
-Installation and configuring of plugins is given on: 
+Installation and configuring of these plugins is given on: 
 https://developers.google.com/eclipse/docs/appeng_android_install_setup
 
 ==Checking out Project==

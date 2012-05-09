@@ -1,4 +1,4 @@
-package com.googlecode.rich2012cafe.activities;
+package com.googlecode.rich2012cafe.services;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,78 +12,67 @@ import android.util.Log;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
+import com.googlecode.rich2012cafe.ApplicationState;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
-import com.googlecode.rich2012cafe.calendar.CalendarController;
+import com.googlecode.rich2012cafe.calendar.CalendarReader;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
 import com.googlecode.rich2012cafe.model.CaffeineLevel;
 import com.googlecode.rich2012cafe.model.CaffeineLevelReader;
 import com.googlecode.rich2012cafe.model.CaffeineLevelWriter;
 import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
 import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
+import com.googlecode.rich2012cafe.utils.ScheduledTasks;
 import com.googlecode.rich2012cafe.utils.Util;
 
-public class CaffeineTracker extends Activity {
+public class CaffeineTrackerService extends Service {
 
 	private final static int HALF_LIFE = 240;
 	private final static int CAFFEINE_BUFFER = 10;
 	
 	private TreeMap<Integer, CaffeineProductProxy> productsTree = null;
 	private TreeMap<Date, Integer> projectedLevels;
+	private CaffeineLevel tempPreviousLevel; 
 	
-	CalendarController cReader;
-	int startCaffeineLevel = 50;
+	CalendarReader cReader;
+	//int startCaffeineLevel = 50;
 	Context mContext = this;
 	
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-        CalendarController cReader = new CalendarController();
+	public IBinder onBind(Intent intent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+		Log.e("Craig", "Calling the service");
+        CalendarReader cReader = new CalendarReader();
 		ArrayList<CalendarEvent> todaysEvents = cReader.getTodaysEvents(this);
 		
 		CaffeineLevelReader reader = new CaffeineLevelReader(this);
 		TreeMap<Date, Integer> caffeineLevels = reader.getCaffeineLevels(Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME);
 		projectedLevels = reader.getCaffeineLevels(Rich2012CafeUtil.PROJECTED_VALUES_SETTING_NAME);
 
+		ApplicationState appState = (ApplicationState) this.getApplicationContext();
+		List<CaffeineProductProxy> caffeineProducts;
 		
-		new AsyncTask<Void, Void, List<CaffeineProductProxy>>(){
-			
-			private List<CaffeineProductProxy> caffeineProducts;
-
-			@Override
-			protected List<CaffeineProductProxy> doInBackground(Void... params) {
-				MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
-				requestFactory.rich2012CafeRequest().getAllCaffeineProducts().fire(new Receiver<List<CaffeineProductProxy>>(){
-					
-					@Override
-					public void onSuccess(List<CaffeineProductProxy> products) {
-						caffeineProducts = products;
-					}
-		        	
-					@Override
-		            public void onFailure(ServerFailure error) {
-		                
-		            }
-					
-		        });
-				
-				return caffeineProducts;
-			}
-			
-		    @Override
-		    protected void onPostExecute(List<CaffeineProductProxy> result) {
-		    	storeCaffeineProducts(result);
-		    }
-		    
-		}.execute();
-	
-		Log.e("t-msg", "finished async");
+		if ((caffeineProducts = appState.getCaffeineProducts()) == null) {
+			ScheduledTasks.getCaffeineProducts(this, true);
+			caffeineProducts = appState.getCaffeineProducts();
+		}
+		
+		storeCaffeineProducts(caffeineProducts);
+		
 		Entry<Date, Integer> lastLevelReading;
 				
 		if (caffeineLevels.isEmpty()) {
@@ -110,7 +99,10 @@ public class CaffeineTracker extends Activity {
 		Log.e("Craig", lastLevelReading.getKey() +","+lastLevelReading.getValue()+"");
 		parseEvents(todaysEvents, lastLevelReading);
 		
-		this.finish();
+		
+		
+		//this.finish();
+		return Service.START_FLAG_REDELIVERY;
 
     }
 	
@@ -135,9 +127,10 @@ public class CaffeineTracker extends Activity {
 		if (!todaysEvents.isEmpty()) {
 			
 			Log.i("Craig", "Have events");
-			ArrayList<CalendarEvent> mergedEvents = cReader.mergeBackToBackEvents(todaysEvents);
+		
+			ArrayList<CalendarEvent> mergedEvents = mergeBackToBackEvents(todaysEvents);
 			
-			Entry<Date, Integer> tempPreviousLevel = lastLevel; 	
+			tempPreviousLevel = new CaffeineLevel(lastLevel.getKey(), lastLevel.getValue()); 	
 	
 			for (CalendarEvent e: mergedEvents) {
 			
@@ -152,22 +145,23 @@ public class CaffeineTracker extends Activity {
 				eventEndTime.setTimeInMillis(endTime);
 				
 				Calendar previousTime = Calendar.getInstance();
-				previousTime.setTime(tempPreviousLevel.getKey());
+				previousTime.setTime(tempPreviousLevel.getTime());
 				
 				if (eventStartTime.before(previousTime)) { //Does this event start before the time we have recorded up to 
 					continue;
 				} else {
 					
 					int minutesDifference = calculateMinutesDifference(eventStartTime, previousTime);
-					int projectedCaffeineLevel = calculateCaffeineLevel(tempPreviousLevel.getValue(), minutesDifference);
+					int projectedCaffeineLevel = calculateCaffeineLevel(tempPreviousLevel.getLevel(), minutesDifference);
 					CaffeineLevel requiredIntake;
 					
 					if (projectedCaffeineLevel < getOptimalCaffeineLowerLimit()) { //caffeine level below optimal for start of event
 						
 						try {
 							
-							requiredIntake = calculateCaffeineIntake(eventStartTime, eventEndTime, previousTime, tempPreviousLevel.getValue());
+							requiredIntake = calculateCaffeineIntake(eventStartTime, eventEndTime, previousTime, tempPreviousLevel.getLevel());
 							suggestedIntakes.put(requiredIntake.getTime(), requiredIntake.getLevel());
+						
 							
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
@@ -177,7 +171,7 @@ public class CaffeineTracker extends Activity {
 					} else {
 						
 						int minutesDifferenceToEndOfEvent = calculateMinutesDifference(eventEndTime, previousTime);
-						int projectedLevelEndOfEvent = calculateCaffeineLevel(tempPreviousLevel.getValue(), minutesDifferenceToEndOfEvent);
+						int projectedLevelEndOfEvent = calculateCaffeineLevel(tempPreviousLevel.getLevel(), minutesDifferenceToEndOfEvent);
 						
 						if (projectedLevelEndOfEvent > getOptimalCaffeineLowerLimit()) {
 							
@@ -187,7 +181,7 @@ public class CaffeineTracker extends Activity {
 							
 							try {
 								
-								requiredIntake = calculateCaffeineIntake(eventStartTime, eventEndTime, previousTime, tempPreviousLevel.getValue());
+								requiredIntake = calculateCaffeineIntake(eventStartTime, eventEndTime, previousTime, tempPreviousLevel.getLevel());
 								suggestedIntakes.put(requiredIntake.getTime(), requiredIntake.getLevel()); 
 								//put the time and the amount of caffeine to be consumed
 								
@@ -205,6 +199,8 @@ public class CaffeineTracker extends Activity {
 		} else {
 			Log.i("Craig", "Calendar empty");
 		}
+			
+			
 		
 		if (!suggestedIntakes.isEmpty()) {
 	
@@ -281,10 +277,10 @@ public class CaffeineTracker extends Activity {
 			Calendar hourBeforeTime = (Calendar) eventStartTime.clone();
 			hourBeforeTime.set(Calendar.HOUR_OF_DAY, hourBefore);
 			
-			int minutesDifference = calculateMinutesDifference(lastLevelTime, hourBeforeTime);
+			int minutesDifference = calculateMinutesDifference(hourBeforeTime, lastLevelTime);
 			int caffeineLevelHourBefore = calculateCaffeineLevel(lastCaffeineLevel, minutesDifference);
 		
-			int eventDuration = calculateMinutesDifference(eventEndTime, eventEndTime);
+			int eventDuration = calculateMinutesDifference(eventEndTime, eventStartTime);
 			
 			int requiredStartingCaffeineLevel = calculateStartingCaffeineLevelForSpecifiedEndLevel(eventDuration);	
 			int requiredCaffeineDifference = requiredStartingCaffeineLevel - lastCaffeineLevel;
@@ -303,6 +299,9 @@ public class CaffeineTracker extends Activity {
 					closestKey = getProductsTree().lastKey();
 				}
 				
+				tempPreviousLevel.setTime(eventStartTime.getTime());
+				tempPreviousLevel.setLevel( (caffeineLevelHourBefore + closestKey) );
+				
 				return new CaffeineLevel(hourBeforeTime.getTime(), closestKey);
 				
 			}
@@ -313,7 +312,30 @@ public class CaffeineTracker extends Activity {
 		}
 		
 	}
+	
+	private ArrayList<CalendarEvent> mergeBackToBackEvents(ArrayList<CalendarEvent> eventsArray) {
 		
+		long previousEndTime = 0L;
+		
+		ArrayList<CalendarEvent> mergedEvents = new ArrayList<CalendarEvent>();
+		
+		for (CalendarEvent e: eventsArray) {
+			
+			if (previousEndTime == e.getStartTime()) {
+				mergedEvents.get( (mergedEvents.size() - 1) ).setEndTime(e.getEndTime());
+			} else {	
+				mergedEvents.add(e);
+			}
+			
+			previousEndTime = e.getEndTime();
+			
+		}
+		
+		return mergedEvents;
+		
+	} 
+	
+	
 	private Calendar timeRoundedToCurrentHour(Calendar currentTime) {
 		currentTime.set(Calendar.MILLISECOND, 0);
 		currentTime.set(Calendar.SECOND, 0);
@@ -322,17 +344,19 @@ public class CaffeineTracker extends Activity {
 		return currentTime;
 	}
 	
-	private int calculateCaffeineLevel(int currentLevel, int minutes) {
+	private int calculateCaffeineLevel(Integer currentLevel, Integer minutes) {
 		//Formula: currentLevel * 0.5^(minutes/HALF-LIFE)
-		double caffeineLevel = currentLevel * Math.pow(0.5, (minutes / getHalfLife() ));
+		double caffeineLevel = currentLevel * Math.pow(0.5, (minutes.doubleValue() / getHalfLife().doubleValue() ));
 		return (int) Math.round(caffeineLevel);
 			
 	}
 	
-	private int calculateStartingCaffeineLevelForSpecifiedEndLevel(int minutes) {
+	private int calculateStartingCaffeineLevelForSpecifiedEndLevel(Integer minutes) {
 		//Formula: Desired End level / 0.5^(minutes/HALF-LIFE
 		
-		double caffeineLevel = getOptimalCaffeineLowerLimit() + getCaffeineBuffer() / Math.pow(0.5, (minutes / getHalfLife() ));
+		int endLevel = getOptimalCaffeineLowerLimit() + getCaffeineBuffer();
+		double power = minutes.doubleValue() / getHalfLife().doubleValue();
+		double caffeineLevel = endLevel / Math.pow(0.5, power);
 		return (int) Math.round(caffeineLevel);
 		
 	}
@@ -351,7 +375,7 @@ public class CaffeineTracker extends Activity {
 		
 	}
 
-	private int getHalfLife() {
+	private Integer getHalfLife() {
 		return HALF_LIFE;
 	}
 	
@@ -372,14 +396,6 @@ public class CaffeineTracker extends Activity {
 		return productsTree;
 	}
 
-	/**
-     * Resumes the activity.
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-    
-    }
 
 }
 		

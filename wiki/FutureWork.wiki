@@ -15,6 +15,7 @@ This page lists the current tasks to be completed for each area of the project. 
  * Achievements
  * Improve error handling with GAE.
  * View to show calendar events and corresponding consumption times.
+ * Support for crowd sourcing of caffeine source locations.
 
 ==Google App Engine Server==
  * Add additional sources of data.
@@ -24,6 +25,7 @@ This page lists the current tasks to be completed for each area of the project. 
  * Add more accurate caffeine milligram figures for Caffeine Products.
  * Add features to support extensions to application.
  * Improve performance of operations.
+ * Support for crowd sourcing of caffeine source locations.
 
 =Other=
  * Create a web interface

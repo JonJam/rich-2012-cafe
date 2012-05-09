@@ -75,7 +75,8 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
         String gpsLocationProvider = LocationManager.GPS_PROVIDER; //TODO Craig: Change this back to network provider for real
 
         // Check if enabled and if not send user to the GSP settings better solution would be to display a dialog and suggesting to go to the settings
-        //TODO Craig: Find if there is a better way to ask for GPS position
+
+        
         if ( !getLocationManager().isProviderEnabled(gpsLocationProvider) ) {
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
@@ -85,7 +86,7 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
         Location lastNetworkKnownLocation = locationManager.getLastKnownLocation(networkLocationProvider);
 
         currentBestLocation = handleQuickFixFromLastKnownLocation(lastGPSKnownLocation, lastNetworkKnownLocation);
-
+        
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         this.getActionBar().setDisplayShowTitleEnabled(false);
@@ -110,9 +111,6 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
             Log.i("App", "Network not enabled...");
         }
               
-        LayoutInflater inflater = getLayoutInflater();
-   //     View dialoglayout = inflater.inflate(R.layout.mapsourcedetails, (ViewGroup) getCurrentFocus());
-        
         PopupPanel panel=new PopupPanel(R.layout.mapsourcedetails);
         caffeineSourcesLocationOverlay = new CaffeineSourcesLocationOverlay(mapView,panel,sourceMarker, this);
         
@@ -138,9 +136,7 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
  			
  			//Get caffeine sources given
  	        Log.e("LocationGivenToAppEngine", currentBestLocation.getLatitude() + " and " +currentBestLocation.getLongitude());
- 			//requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(currentBestLocation.getLatitude(),currentBestLocation.getLongitude()).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
- 	 	    requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(50.936289,-1.39724, dayName, todayTime).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
-
+ 			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(currentBestLocation.getLatitude(),currentBestLocation.getLongitude(), dayName, todayTime).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
  				@Override
  				public void onSuccess(List<CaffeineSourceWrapperProxy> sources) {
  					Log.i("DEBUG", "successful request for map sources");
@@ -317,13 +313,9 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
 	      );
 	      
 	      if (alignTop) {
-	      //  lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-	      //  lp.setMargins(0, 20, 0, 0);
 	        mapView.requestLayout();
 	      }
 	      else {
-	      //  lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-	      //  lp.setMargins(0, 0, 0, 60);
 	        mapView.requestLayout();
 	      }
 	      

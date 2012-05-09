@@ -35,9 +35,6 @@ public class LeaderboardActivity extends Activity{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.leaderboard);
-		
-
-		//this.findViewById(R.id.refreshLeaderboard).setOnClickListener(this);
 		ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         this.getActionBar().setDisplayShowTitleEnabled(false);
@@ -145,7 +142,6 @@ public class LeaderboardActivity extends Activity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-          //return controller.optionsActions(item, this);
     	switch(item.getItemId()){
 	    	case android.R.id.home:{
 	    		Intent intent = new Intent(this, Rich2012CafeActivity.class);

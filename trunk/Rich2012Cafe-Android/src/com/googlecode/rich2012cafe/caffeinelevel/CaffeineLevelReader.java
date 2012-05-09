@@ -10,8 +10,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-
-import com.googlecode.rich2012cafe.activities.GMapActivity;
 import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 import com.googlecode.rich2012cafe.utils.Util;
 

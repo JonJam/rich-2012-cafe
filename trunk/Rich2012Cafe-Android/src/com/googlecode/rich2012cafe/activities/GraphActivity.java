@@ -1,5 +1,9 @@
 package com.googlecode.rich2012cafe.activities;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
@@ -12,6 +16,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,6 +26,9 @@ import android.widget.LinearLayout;
 
 import com.googlecode.rich2012cafe.R;
 import com.googlecode.rich2012cafe.Rich2012CafeActivity;
+import com.googlecode.rich2012cafe.caffeinelevel.CaffeineLevelReader;
+import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
+import com.googlecode.rich2012cafe.utils.Util;
 
 
 /**
@@ -110,23 +118,15 @@ public class GraphActivity extends Activity{
 
     private void fillData() {
     	
-        //CaffeineLevelReader clr = new CaffeineLevelReader(this);
+        CaffeineLevelReader clr = new CaffeineLevelReader(this);
+        SharedPreferences sp = Util.getSharedPreferences(this);
         
-//        for(Map.Entry<Date, Integer> entry : clr.getCaffeineLevels(Rich2012CafeUtil.ADHOC_DRINKS_SETTING_NAME).entrySet()){
-//            time_series.add(entry.getKey(), entry.getValue());
-//            min_series.add(entry.getKey(), 100);
-//            max_series.add(entry.getKey(), 200);
-//        }
-    	
-    	
-        int[] data = {12, 10, 10, 10, 10, 10,
-        			10, 110, 110, 100, 75, 50, 
-        			150, 150, 150, 150, 100, 100,
-        			50, 50, 25, 25, 12, 12};
-        for(int i=0; i<data.length; i++){
-        	time_series.add(i, data[i]);
-        	min_series.add(i, 100);
-        	max_series.add(i, 200);
+        for(Map.Entry<Date, Integer> entry : clr.getCaffeineLevels(Rich2012CafeUtil.ADHOC_DRINKS_SETTING_NAME).entrySet()){
+        	Calendar calendar = Calendar.getInstance();
+        	calendar.setTime(entry.getKey());
+            time_series.add(calendar.get(Calendar.HOUR_OF_DAY), entry.getValue());
+            min_series.add(calendar.get(Calendar.HOUR_OF_DAY), sp.getFloat("userOptimalMin", 100));
+            max_series.add(calendar.get(Calendar.HOUR_OF_DAY), sp.getFloat("userOptimalMax", 200));
         }
     }
 
@@ -143,7 +143,6 @@ public class GraphActivity extends Activity{
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		//return controller.optionsActions(item, this);
 		switch(item.getItemId()){
 		case android.R.id.home:{
 			Intent intent = new Intent(this, Rich2012CafeActivity.class);

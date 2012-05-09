@@ -1,4 +1,4 @@
-package com.googlecode.rich2012cafe.alarm;
+package com.googlecode.rich2012cafe.alarm.recievers;
 
 import com.googlecode.rich2012cafe.activities.GMapActivity;
 import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;

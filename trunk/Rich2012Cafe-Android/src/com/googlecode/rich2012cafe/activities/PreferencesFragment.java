@@ -1,15 +1,13 @@
 package com.googlecode.rich2012cafe.activities;
 
+import android.os.Bundle;
+import android.preference.PreferenceFragment;
+
 import com.googlecode.rich2012cafe.R;
 
-import android.app.Fragment;
-import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.PreferenceFragment;
-import android.text.InputType;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+/**
+ * @author Pratik Patel (p300ss@gmail.com)
+ */
 
 public class PreferencesFragment extends PreferenceFragment{
 

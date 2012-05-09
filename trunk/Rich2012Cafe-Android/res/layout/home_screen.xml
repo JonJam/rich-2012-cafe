@@ -4,16 +4,6 @@
     android:layout_height="fill_parent"
     android:background="@drawable/background"
     android:orientation="vertical" >
-
-            <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/graphButton"
-        android:layout_column="0"
-        android:layout_columnSpan="2"
-        android:layout_gravity="center_horizontal"
-        android:layout_row="1"
-        android:text="Caffeine Status" />
                         <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

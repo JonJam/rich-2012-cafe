@@ -9,7 +9,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import android.util.Log;
 
 /**
  * Class to obtain events from Android Calendar.

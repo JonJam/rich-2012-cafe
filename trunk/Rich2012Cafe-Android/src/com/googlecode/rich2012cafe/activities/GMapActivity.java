@@ -17,7 +17,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,17 +35,20 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.googlecode.rich2012cafe.R;
 import com.googlecode.rich2012cafe.Rich2012CafeActivity;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
+import com.googlecode.rich2012cafe.mapview.CaffeineSourceOverlayItem;
+import com.googlecode.rich2012cafe.mapview.CaffeineSourcesLocationOverlay;
+import com.googlecode.rich2012cafe.mapview.CurrentLocationOverlay;
+import com.googlecode.rich2012cafe.mapview.CustomLocationListener;
+import com.googlecode.rich2012cafe.mapview.MapViewInterface;
 import com.googlecode.rich2012cafe.shared.CaffeineSourceProxy;
 import com.googlecode.rich2012cafe.shared.CaffeineSourceWrapperProxy;
-import com.googlecode.rich2012cafe.utils.CaffeineSourceOverlayItem;
-import com.googlecode.rich2012cafe.utils.CaffeineSourcesLocationOverlay;
-import com.googlecode.rich2012cafe.utils.CurrentLocationOverlay;
-import com.googlecode.rich2012cafe.utils.CustomLocationListener;
 import com.googlecode.rich2012cafe.utils.LocationUtils;
-import com.googlecode.rich2012cafe.utils.MapViewInterface;
 import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 import com.googlecode.rich2012cafe.utils.Util;
 
+/**
+ * @author Michael Elkins (thorsion@gmail.com), Craig Saunders (mrman2289@gmail.com)
+ */
 
 public class GMapActivity extends MapActivity implements MapViewInterface {
 
@@ -57,7 +59,7 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
     private CurrentLocationOverlay currentLocationOverlay;
     private CaffeineSourcesLocationOverlay caffeineSourcesLocationOverlay;
 
-    Context mContext = this;
+    private Context mContext = this;
     
  @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,7 +99,7 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
         currentLocationOverlay = new CurrentLocationOverlay(currentLocationMarker, this);
         
         if (currentBestLocation != null) {
-            Log.e("Caffeinder", currentBestLocation.toString());
+            Log.e(GMapActivity.class.getName(), currentBestLocation.toString());
             showCurrentLocationOnMap(currentBestLocation);
         }
 
@@ -108,7 +110,7 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
         if (locationManager.isProviderEnabled(networkLocationProvider)) {
             getLocationManager().requestLocationUpdates(networkLocationProvider, 0, 0, locationListener);
         } else {
-            Log.i("App", "Network not enabled...");
+            Log.i(GMapActivity.class.getName(), "Network not enabled...");
         }
               
         PopupPanel panel=new PopupPanel(R.layout.mapsourcedetails);
@@ -135,17 +137,14 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
  			MyRequestFactory requestFactory = Util.getRequestFactory(mContext, MyRequestFactory.class);
  			
  			//Get caffeine sources given
- 	        Log.e("LocationGivenToAppEngine", currentBestLocation.getLatitude() + " and " +currentBestLocation.getLongitude());
+ 	        Log.e(GMapActivity.class.getName(), currentBestLocation.getLatitude() + " and " +currentBestLocation.getLongitude());
  			requestFactory.rich2012CafeRequest().getCaffeineSourcesGiven(currentBestLocation.getLatitude(),currentBestLocation.getLongitude(), dayName, todayTime).fire(new Receiver<List<CaffeineSourceWrapperProxy>>(){
  				@Override
  				public void onSuccess(List<CaffeineSourceWrapperProxy> sources) {
- 					Log.i("DEBUG", "successful request for map sources");
- 					Log.i("DEBUG", "beginning to populate map... UI stuff from here on...");
  					for (CaffeineSourceWrapperProxy caffeineSource: sources) {
- 				        Log.e("LocationReturned", caffeineSource.getSource().getBuildingLat() + " and " +caffeineSource.getSource().getBuildingLong());
+ 				        Log.e(GMapActivity.class.getName(), caffeineSource.getSource().getBuildingLat() + " and " +caffeineSource.getSource().getBuildingLong());
  				         showCaffeineSourceOnMap(caffeineSource);
  					}
- 					Log.i("DEBUG", "finished populating!");
  					
  				    mapView.getOverlays().add(caffeineSourcesLocationOverlay);
  					locationList = sources;
@@ -153,7 +152,7 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
  	        	
  				@Override
  	            public void onFailure(ServerFailure error) {
- 					Log.i("DEBUG", "request failed for map sources");
+ 					Log.i(GMapActivity.class.getName(), "request failed for map sources");
  	            }
  			});
 
@@ -162,35 +161,22 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
  		
  	    @Override
  	    protected void onPostExecute(List<CaffeineSourceWrapperProxy> results) {
- 	    	Log.i("DEBUG", "executed the request");
  	    }
 	    }.execute();
 
  }
  
  private void showCaffeineSourceOnMap(CaffeineSourceWrapperProxy caffeineSource) {
-	 Log.i("DEBUG", "starting to show info");
 	 CaffeineSourceProxy source = caffeineSource.getSource();
 	 String sourceTitle = source.getBuildingName() + " (" + source.getBuildingNumber() + ")";
      String snippet = "Long: " + source.getBuildingLong() + ", Lat: " + source.getBuildingLat();
-     String caffeineSourceId = source.getId();
-     Log.i("DEBUG", "before lat and long...");        
+     String caffeineSourceId = source.getId();      
      int buildingLat = (int) (source.getBuildingLat() * 1E6);
      int buildingLong = (int) (source.getBuildingLong() * 1E6);
      GeoPoint point = new GeoPoint(buildingLat, buildingLong);
 
      CaffeineSourceOverlayItem overlayItem = new CaffeineSourceOverlayItem(point, sourceTitle, snippet, caffeineSourceId);
-     
-     Log.i("DEBUG-source", caffeineSource.getSource().toString());
-     try{
-     Log.i("DEBUG-products", caffeineSource.getProducts().toString());
-     }catch(NullPointerException e){}
-     
-     if(source.hasOpeningTimes()){
-    	 try{
-    	 Log.i("DEBUG-openings", caffeineSource.getOpeningTimes().toString());
-    	 }catch(NullPointerException e){Log.i("ERROR-AppEngine", "hasOpeningTimes returns true yet no openings");}
-     }
+    
      overlayItem.setOpeningTimes(caffeineSource.getOpeningTimes());
      overlayItem.setCaffeineSourceList(caffeineSource.getProducts());
      overlayItem.setSource(caffeineSource.getSource());
@@ -227,7 +213,7 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
 
      if (location != null) {
 
-         Log.w("CurrLocation", "Lat: " + location.getLatitude() + " -- Long: " + location.getLongitude());
+         Log.w(GMapActivity.class.getName(), "Lat: " + location.getLatitude() + " -- Long: " + location.getLongitude());
 
          int lat = (int) (location.getLatitude() * 1E6);
          int lng = (int) (location.getLongitude() * 1E6);
@@ -289,7 +275,6 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
 	    boolean isVisible=false;
 	    
 	     public PopupPanel(int layout) {
-	      ViewGroup parent=(ViewGroup)mapView.getParent();
 
 	      popup=getLayoutInflater().inflate(layout, mapView, false);
 	      popup.setBackgroundColor(Color.rgb(255,252, 191));
@@ -325,8 +310,6 @@ public class GMapActivity extends MapActivity implements MapViewInterface {
 	
 			projection.toPixels(point, p);
 			p.offset(0, -(popup.getMeasuredHeight() / 2));
-			GeoPoint target = projection.fromPixels(p.x, p.y);
-
 	      hide();
 	      
 	      ((ViewGroup)mapView.getParent()).addView(popup, lp);

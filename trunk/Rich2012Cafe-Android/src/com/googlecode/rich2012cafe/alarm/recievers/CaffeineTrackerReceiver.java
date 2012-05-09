@@ -1,4 +1,4 @@
-package com.googlecode.rich2012cafe.alarm;
+package com.googlecode.rich2012cafe.alarm.recievers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

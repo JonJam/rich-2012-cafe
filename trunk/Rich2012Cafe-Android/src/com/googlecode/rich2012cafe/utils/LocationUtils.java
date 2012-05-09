@@ -3,10 +3,9 @@ package com.googlecode.rich2012cafe.utils;
 import android.location.Location;
 
 /**
- * User: CS
- * Date: 10/03/12
- * Time: 11:03
+ * @author Craig Saunders (mrman2289@gmail.com)
  */
+
 public abstract class LocationUtils {
 
     public static boolean isNewLocationBetterThanCurrentBest(Location newLocation, Location currentBestLocation) {

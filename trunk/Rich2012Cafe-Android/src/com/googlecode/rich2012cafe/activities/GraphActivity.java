@@ -1,39 +1,31 @@
 package com.googlecode.rich2012cafe.activities;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
-import org.achartengine.chart.TimeChart;
-import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
-import org.achartengine.tools.PanListener;
+import org.achartengine.renderer.XYSeriesRenderer;
 
-import com.googlecode.rich2012cafe.R;
-import com.googlecode.rich2012cafe.Rich2012CafeActivity;
-import com.googlecode.rich2012cafe.model.CaffeineLevelReader;
-import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint.Align;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+
+import com.googlecode.rich2012cafe.R;
+import com.googlecode.rich2012cafe.Rich2012CafeActivity;
+
+
+/**
+ * @author Pratik Patel (p300ss@gmail.com)
+ */
 
 public class GraphActivity extends Activity{
 	  private XYMultipleSeriesDataset mDataset;
@@ -117,6 +109,7 @@ public class GraphActivity extends Activity{
 	}
 
     private void fillData() {
+    	
         //CaffeineLevelReader clr = new CaffeineLevelReader(this);
         
 //        for(Map.Entry<Date, Integer> entry : clr.getCaffeineLevels(Rich2012CafeUtil.ADHOC_DRINKS_SETTING_NAME).entrySet()){
@@ -124,11 +117,12 @@ public class GraphActivity extends Activity{
 //            min_series.add(entry.getKey(), 100);
 //            max_series.add(entry.getKey(), 200);
 //        }
+    	
+    	
         int[] data = {12, 10, 10, 10, 10, 10,
         			10, 110, 110, 100, 75, 50, 
         			150, 150, 150, 150, 100, 100,
         			50, 50, 25, 25, 12, 12};
-        int[] data5 = {50, 110, 110, 110, 75, 25};
         for(int i=0; i<data.length; i++){
         	time_series.add(i, data[i]);
         	min_series.add(i, 100);

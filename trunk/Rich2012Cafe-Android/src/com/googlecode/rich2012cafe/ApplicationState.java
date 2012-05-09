@@ -7,6 +7,10 @@ import com.googlecode.rich2012cafe.shared.LeaderboardScoreProxy;
 
 import android.app.Application;
 
+/**
+ * @author Pratik Patel (p300ss@gmail.com)
+ */
+
 public class ApplicationState extends Application{
 
 	private double score;

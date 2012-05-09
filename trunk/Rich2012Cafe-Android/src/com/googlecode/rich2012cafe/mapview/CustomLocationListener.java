@@ -1,18 +1,18 @@
-package com.googlecode.rich2012cafe.utils;
+package com.googlecode.rich2012cafe.mapview;
 
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
-import com.googlecode.rich2012cafe.utils.MapViewInterface;
+
+import com.googlecode.rich2012cafe.mapview.MapViewInterface;
 
 /**
- * User: CS
- * Date: 08/03/12
- * Time: 21:23
-*/
+ * @author Michael Elkins (thorsion@gmail.com), Craig Saunders (mrman2289@gmail.com)
+ */
+
 public class CustomLocationListener implements LocationListener {
     
-    MapViewInterface activity;
+    private MapViewInterface activity;
     
     public CustomLocationListener(MapViewInterface activity) {
         this.activity = activity;

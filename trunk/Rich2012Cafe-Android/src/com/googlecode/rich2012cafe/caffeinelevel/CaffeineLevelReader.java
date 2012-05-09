@@ -1,30 +1,26 @@
-package com.googlecode.rich2012cafe.model;
+package com.googlecode.rich2012cafe.caffeinelevel;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.TreeMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.googlecode.rich2012cafe.utils.Util;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.googlecode.rich2012cafe.activities.GMapActivity;
+import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
+import com.googlecode.rich2012cafe.utils.Util;
+
+
+/**
+ * @author Craig Saunders (mrman2289@gmail.com)
+ */
+
 public class CaffeineLevelReader {
-	
-	private final static String JSON_TIME_FIELD = "time";
-	private final static String JSON_LEVEL_FIELD = "level";
-	private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 	
 	private SharedPreferences prefs;
 	/*
@@ -51,32 +47,31 @@ public class CaffeineLevelReader {
 		
 		String json = prefs.getString(settingName, "");
 		TreeMap<Date, Integer> levels = new TreeMap<Date, Integer>();
-		Log.i("caffeinereader", json);
+		Log.i(CaffeineLevelReader.class.getName(), json);
 		if(!json.equals("")){
 			try {
 				
 				JSONArray jsonArray = new JSONArray(json);
-				Log.i("json", "created object");
+				Log.i(CaffeineLevelReader.class.getName(), "created object");
 				for(int i = 0; i < jsonArray.length(); i++){
 					JSONObject o = jsonArray.getJSONObject(i);
 					
-					int level = o.getInt("level");
-					Long currentTime = o.getLong("date");
-					SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+					int level = o.getInt(Rich2012CafeUtil.JSON_LEVEL_FIELD);
+					Long currentTime = o.getLong(Rich2012CafeUtil.JSON_DATE_FIELD);
 					Date date = null;
 					
 					try {
 						date = new Date(currentTime);
 					} catch (Exception e) {
-						Log.i("t-msg", e.getMessage());
+						Log.i(CaffeineLevelReader.class.getName(), e.getMessage());
 					}
 					
 					levels.put(date, level);
 				}
 				
 			} catch (JSONException e) {
-				Log.e("josn error", e.getMessage());
-				Log.e("Json error", e.getStackTrace().toString());
+				Log.e(CaffeineLevelReader.class.getName(), e.getMessage());
+				Log.e(CaffeineLevelReader.class.getName(), e.getStackTrace().toString());
 			}
 		}
 		

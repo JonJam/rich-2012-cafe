@@ -1,12 +1,12 @@
 \section{Project Management \& Tools}
 
 \subsection{Project Management}
-This section details how this project was managed, the roles of the different group members and the methodologies that were used.
+This section details how the project was managed, the roles of the different group members and the methodologies that were used.
 
 \subsubsection{Team Roles}
-The following roles were outlined for this project:
+The following roles were outlined for this project and assigments are shown in table \ref{tab:Roles}:
 
-\begin{itemize}
+\begin{itemize}[noitemsep,leftmargin=1cm]
 	\item{\textbf{O}rganiser - Oversees project and time management}
 	\item{\textbf{D}eveloper - Develops the application}
 	\item{\textbf{U}sability Expert - Manages User Interface and HCI (Human Computer Interaction)}
@@ -14,43 +14,42 @@ The following roles were outlined for this project:
 	\item{\textbf{P}resenter - Presents pitch \& manages presentation}
 \end{itemize}
 
-This table details the roles each member of the team undertook:
-
-\begin{tabular}{|p{90pt}|p{30pt}|p{300pt}|}
+\begin{table}[ht]
+\caption{Table detailing Team Roles}
+\label{tab:Roles}
+\begin{tabular}{|p{90pt}|p{30pt}|p{304pt}|}
 \hline
 \textbf{Team Member} 	& \textbf{Roles} 	& \textbf{Description} 
 \\\hline
-Adam Costello 		& \textbf{R, P} 	& Adam coordinated with Craig on the Presentation section of this project, and worked with Sami on the research section focusing on the market research. 
+Adam Costello 		& \textbf{R, P} 	& Adam coordinated with Craig on the Presentation, and worked with Sami on documentation and research. 
 \\\hline 
-Mike Elkins 		& \textbf{U, D} 	& Mike coordinated with Pratik to design and build the User Interface section of the application.
+Mike Elkins 		& \textbf{U, D} 	& Mike coordinated with Pratik to design and build the User Interface section of the application along with other sections.
 \\\hline
-Jonathan Harrison 	& \textbf{O, D} 	& Jonathan was in charge of organising the team and making sure tasks were completed in a timely manner. He also worked with Sami on the backend element of the							  application concentrating on the calendar and scheduling the system to import the necessary data.
+Jonathan Harrison 	& \textbf{O, D} 	& Jonathan organised the team and made sure tasks were completed in a timely manner. He also worked with Sami on the backend element of the							  application.
 \\\hline
-Sami Kanza 		& \textbf{R, D} 	& Sami coordinated with Jonathan on the backend of the application, concentrating on the queries to retrieve the data, she also worked with Adam on the research						  section, focusing on the caffeine research.
+Sami Kanza 		& \textbf{R, D} 	& Sami coordinated with Jonathan on the backend of the application, she also worked with Adam on the documentation and research						  section, focusing on the caffeine research.
 \\\hline 
-Pratik Patel 		& \textbf{U, D} 	& Pratik worked with Mike to design and build the User Interface section of the application. 
+Pratik Patel 		& \textbf{U, D} 	& Pratik worked with Mike to design and build the User Interface section of the application along with other sections. 
 \\\hline
-Craig Saunders 		& \textbf{P, D} 	& Craig worked on the location and directing element of the application in addition to working with Adam on the Presentation section. 
+Craig Saunders 		& \textbf{P, D} 	& Craig worked on the core app functionality in addition to working with Adam on the Presentation section. 
 \\\hline
 \end{tabular}
+\end{table}
 
 \subsubsection{Team Organisation}
-The team decided that bi-weekly meetings would be appropriate for this project. In each meeting the progress made between then and the previous meeting was stated, any problems that needed solving were raised and then the tasks for the next meeting were divided up. The nature of these meetings were similar to a SCRUM \cite{scrum} daily standup, but were obviously performed less frequently than that.  
+The team decided that bi-weekly meetings would be appropriate for the project. In each meeting the progress made between then and the previous meeting was stated, any problems that needed solving were raised and then the tasks for the next meeting were divided up. The nature of these meetings were similar to a SCRUM \cite{scrum} daily standup.  
 
 \subsection{Group Methodologies}
-The team decided to implement several agile-based technologies to aid with the application development process. The development areas have been broken down into individual tasks (stories) to simplify the process. An iterative development process was also adopted, with the base of the application built first, followed by a gradual development of its features. 
+The team decided to implement several agile-based techniques to aid with the application development process. The development areas have been broken down into individual tasks (stories) to simplify the process. An iterative development process was also adopted, with the base of the application built first, followed by a gradual development of its features. 
 
-Pair Programming was also an agile technique that the team used. The application development was split into three areas: Database development and SPARQL querying, the map interface and GPS positioning / directions, and the overall user interface. Each section had two group members assigned to it, and each pair worked together to share their skillset and therefore produce a superior result. 
+Pair Programming is another agile technique that the team used. The application development was initially split into three areas: Database development/SPARQL querying, map interface and GPS positioning/directions, and the application UI. Each section had two team members assigned to it, and each pair worked together to combine skillsets, therefore producing superior results. 
 
 \subsection{Tools \& Techniques}
-This section details the tools used by the team to aid with their project management and development.
+This section details the tools used by the team to aid with project management and development.
 
 \subsubsection{Version Control}
 \label{sec:VersionControl}
-There were several version control mechanisms we could have used. Git and SVN were both considered, with potential to store the code on UGForge or Googlecode or Github etc. In the end the group chose to use SVN Googlecode. SVN was chosen primarily due to the fact that Eclipse was being used as the main development environment, and there is an SVN plugin for Eclipse that makes the subversioning process easier to integrate with the development process. Googlecode was chosen because the application that is being developed is for Android, and therefore it was felt that Android’s creators Google would be the most sensible place to store the application. 
+There were several version control mechanisms we could have used. Git and SVN were both considered, with potential to store the code on UGForge,Googlecode or Github etc. In the end the group chose to use SVN Googlecode. SVN was chosen primarily due to the fact that all team members had experience with it. Googlecode was chosen because the application that is being developed is for Android, and therefore it was felt that Android’s creators (Google) would be the most sensible place to store the application. 
 
 \subsubsection{Development Tools}
-Given that OptiCaff was to be an Android application. The development tools needed to facilitate its production were the Android SDK tools \cite{AndroidSDK}. The recommended development environment suggested by Android was to use Eclipse \cite{Eclipse} with the ADT (Android Developer Tools) plugin \cite{SDKAllOS}. Given the groups overall familiarity with Eclipse and it’s additional useful plugins for version control (see section \ref{sec:VersionControl}) this was used as our IDE of choice.
-
-\subsubsection{Communication Tools}
-The Team used Google Docs to share documentation and task lists, and Facebook to communicate via group chat. 
+The development tools used in OptiCaff's production were the Android SDK tools \cite{AndroidSDK}. The recommended development environment suggested by Android was Eclipse \cite{Eclipse} accompanied by the ADT (Android Developer Tools) plugin \cite{SDKAllOS}. Given the groups overall familiarity with Eclipse and it’s additional useful plugins for version control (see section \ref{sec:VersionControl}) this was used as our IDE of choice.

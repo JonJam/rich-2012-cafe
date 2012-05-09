@@ -4,7 +4,7 @@ This section details the Implementation of OptiCaff and is located in the Google
 
 The external libraries used in the implementation of this project are located within the Appendix \ref{sec:Support}.
 
-\subsection{Architecure}
+\subsection{Architecture}
 
 The overall architecture of OptiCaff is shown in figure \ref{fig:Arch}.
 
@@ -27,7 +27,7 @@ This also provides the means to notify users using Cloud to Device Messaging (C2
 \subsection{Android}
 This application has been developed for Android 4.0, Ice Cream Sandwich. OptiCaff was developed for this version due to the introduction of the official calendar API which is not in any previous versions of Android. This was necessary for OptiCaff to obtain a user’s event information. In addition to this, Ice Cream Sandwich is the first version of Android where Google have specified a recommended styling guide for designing applications.
 
-OptiCaff is structured using the MVC design pattern, this allowed the packaging of the application code into various components which could then be worked on by different individuals independently and concurrently.                                                          
+OptiCaff is structured using the Model View Controller (MVC) design pattern, this allowed the packaging of the application code into various components which could then be worked on by different individuals independently and concurrently.                                                          
 
 \subsection{User Interface}
                    
@@ -40,7 +40,7 @@ Later versions of Android make use of an action bar which is implemented across 
                    
 The user interface was designed so there were different activities for the different viewpoints available. There was one main activity for the home screen, and then activities for the map, graph, leaderboard, and the settings were implemented using the newer preference fragment class, which would match the preferences theme of the system. The ``Up” navigation option was implemented only on settings, as it is the only part of the application that is not a top level activity. Therefore all of the other activities make use of the back navigation instead, due to the lack of a hierarchy between the different viewpoints. Tapping on the OptiCaff logo in the top left corner will always take you back to the default home view.
                    
-There are certain key design principles that have been outlined by Google in their style guide, that have been implemented in OptiCaff. Making sure that the important information is easily accessible, and the most important options and features can be accessed from the main home screen, providing an overview of events and the next time they should take caffeine. In the app structure they stress how the main home view should not just be a navigation menu, but instead stating the importance of ``making content the centerpiece of your start screen”, which this satisfies.       
+There are certain key design principles that have been outlined by Google in their style guide, that have been implemented in OptiCaff. Making sure that the important information is easily accessible, and the most important options and features can be accessed from the main home screen, providing an overview of events and the next time they should take caffeine. In the app structure they stress how the main home view should not just be a navigation menu, but instead stating the importance of ``making content the centrepiece of your start screen”, which this satisfies.       
                    
 \subsubsection{Final Design}
                    

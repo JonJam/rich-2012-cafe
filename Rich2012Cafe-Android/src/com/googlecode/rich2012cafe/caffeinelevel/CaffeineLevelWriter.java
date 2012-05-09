@@ -1,13 +1,7 @@
-package com.googlecode.rich2012cafe.model;
+package com.googlecode.rich2012cafe.caffeinelevel;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -15,18 +9,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.googlecode.rich2012cafe.utils.Util;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
+import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
+import com.googlecode.rich2012cafe.utils.Util;
+
+/**
+ * @author Craig Saunders (mrman2289@gmail.com)
+ */
+
 public class CaffeineLevelWriter {
-	
-	private final static String JSON_TIME_FIELD = "time";
-	private final static String JSON_LEVEL_FIELD = "level";
-	private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 	
 	private Context mContext;
 	
@@ -88,14 +83,14 @@ public class CaffeineLevelWriter {
 			
 			try {
 				
-				jsonObj.accumulate("date", cal.getTimeInMillis());
-				jsonObj.accumulate("level", entryValue);
+				jsonObj.accumulate(Rich2012CafeUtil.JSON_DATE_FIELD, cal.getTimeInMillis());
+				jsonObj.accumulate(Rich2012CafeUtil.JSON_LEVEL_FIELD, entryValue);
 				
 				levelsArray.put(jsonObj);
 				
 			} catch (JSONException e) {
 				
-				Log.e("t-msg", "Failed to create JSON object");
+				Log.e(CaffeineLevelReader.class.getName(), "Failed to create JSON object");
 				e.printStackTrace();
 				
 				return false;

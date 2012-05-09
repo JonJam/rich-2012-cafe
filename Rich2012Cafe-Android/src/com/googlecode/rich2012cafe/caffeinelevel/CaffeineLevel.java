@@ -1,6 +1,10 @@
-package com.googlecode.rich2012cafe.model;
+package com.googlecode.rich2012cafe.caffeinelevel;
 
 import java.util.Date;
+
+/**
+ * @author Craig Saunders (mrman2289@gmail.com)
+ */
 
 public class CaffeineLevel {
 

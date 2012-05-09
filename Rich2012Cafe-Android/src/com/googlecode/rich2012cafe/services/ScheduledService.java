@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+/**
+ * @author Pratik Patel (p300ss@gmail.com)
+ */
+
 public class ScheduledService extends Service {
 
 	@Override
@@ -25,7 +29,7 @@ public class ScheduledService extends Service {
 			  ScheduledTasks.clearCaffeineLevels(this);
 			  
 		  }catch(Exception e){
-			  Log.e("Service Class", e.getMessage());
+			  Log.e(ScheduledService.class.getName(), e.getMessage());
 		  }
 	        return Service.START_FLAG_REDELIVERY;
 	    }

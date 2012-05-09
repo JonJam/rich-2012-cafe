@@ -1,13 +1,12 @@
-package com.googlecode.rich2012cafe.utils;
+package com.googlecode.rich2012cafe.mapview;
 
 import android.location.Location;
 import com.google.android.maps.MapView;
 
 /**
- * User: cs16g08
- * Date: 27/02/2012
- * Time: 17:05
+ * @author Michael Elkins (thorsion@gmail.com), Craig Saunders (mrman2289@gmail.com)
  */
+
 public interface MapViewInterface {
 
     public MapView getMapView();

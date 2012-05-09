@@ -1,18 +1,17 @@
-package com.googlecode.rich2012cafe.utils;
+package com.googlecode.rich2012cafe.mapview;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+
 import com.google.android.maps.OverlayItem;
 
 /**
- * User: CS
- * Date: 15/03/12
- * Time: 11:36
+ * @author Michael Elkins (thorsion@gmail.com), Craig Saunders (mrman2289@gmail.com)
  */
+
 public class CurrentLocationOverlay extends MapOverlays {
 	
-	Context mContext;
+	private Context mContext;
 
     public CurrentLocationOverlay(Drawable defaultMarker, Context context) {
         super(defaultMarker, context);

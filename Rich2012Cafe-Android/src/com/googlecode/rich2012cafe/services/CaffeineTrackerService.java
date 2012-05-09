@@ -8,43 +8,34 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
 import android.util.Log;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.IBinder;
-
-import com.google.web.bindery.requestfactory.shared.Receiver;
-import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.googlecode.rich2012cafe.ApplicationState;
+import com.googlecode.rich2012cafe.caffeinelevel.CaffeineLevel;
+import com.googlecode.rich2012cafe.caffeinelevel.CaffeineLevelReader;
+import com.googlecode.rich2012cafe.caffeinelevel.CaffeineLevelWriter;
+import com.googlecode.rich2012cafe.calendar.CalendarController;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
-import com.googlecode.rich2012cafe.calendar.CalendarReader;
-import com.googlecode.rich2012cafe.client.MyRequestFactory;
-import com.googlecode.rich2012cafe.model.CaffeineLevel;
-import com.googlecode.rich2012cafe.model.CaffeineLevelReader;
-import com.googlecode.rich2012cafe.model.CaffeineLevelWriter;
+import com.googlecode.rich2012cafe.mapview.CaffeineSourcesLocationOverlay;
 import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
 import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 import com.googlecode.rich2012cafe.utils.ScheduledTasks;
-import com.googlecode.rich2012cafe.utils.Util;
+
+
+/**
+ * @author Craig Saunders (mrman2289@gmail.com), Pratik Patel (p300ss@gmail.com)
+ */
 
 public class CaffeineTrackerService extends Service {
 
-	private final static int HALF_LIFE = 240;
-	private final static int CAFFEINE_BUFFER = 10;
-	
+
 	private TreeMap<Integer, CaffeineProductProxy> productsTree = null;
 	private TreeMap<Date, Integer> projectedLevels;
 	private CaffeineLevel tempPreviousLevel; 
 	
-	CalendarReader cReader;
-	//int startCaffeineLevel = 50;
-	Context mContext = this;
 	
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -55,8 +46,8 @@ public class CaffeineTrackerService extends Service {
 	@Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-		Log.e("Craig", "Calling the service");
-        CalendarReader cReader = new CalendarReader();
+		Log.e(CaffeineTrackerService.class.getName(), "Calling the service");
+        CalendarController cReader = new CalendarController();
 		ArrayList<CalendarEvent> todaysEvents = cReader.getTodaysEvents(this);
 		
 		CaffeineLevelReader reader = new CaffeineLevelReader(this);
@@ -81,22 +72,22 @@ public class CaffeineTrackerService extends Service {
 			Calendar timeRoundedToCurrentHour = timeRoundedToCurrentHour(timeNow);
 			timeRoundedToCurrentHour.set(Calendar.HOUR_OF_DAY, 0);
 			
-			Log.e("Craig", timeRoundedToCurrentHour.toString() + " < time");
+			Log.e(CaffeineTrackerService.class.getName(), timeRoundedToCurrentHour.toString() + " < time");
 			
 			caffeineLevels.put(timeRoundedToCurrentHour.getTime(), 0);
 			
 			CaffeineLevelWriter caffeineLevelWriter = new CaffeineLevelWriter(this);
 			caffeineLevelWriter.writeNewCaffeineLevels(caffeineLevels, Rich2012CafeUtil.HISTORIC_VALUES_SETTING_NAME);
 			
-			Log.e("T-msg", "empty caffeine level");
+			Log.e(CaffeineTrackerService.class.getName(), "empty caffeine level");
 			
 		} else {
-			Log.i("t-mas", "not empty wooo");
+			Log.i(CaffeineTrackerService.class.getName(), "not empty wooo");
 			
 		}
 		
 		lastLevelReading = caffeineLevels.lastEntry();
-		Log.e("Craig", lastLevelReading.getKey() +","+lastLevelReading.getValue()+"");
+		Log.e(CaffeineTrackerService.class.getName(), lastLevelReading.getKey() +","+lastLevelReading.getValue()+"");
 		parseEvents(todaysEvents, lastLevelReading);
 		
 		
@@ -119,14 +110,14 @@ public class CaffeineTrackerService extends Service {
 	
 	private void parseEvents(ArrayList<CalendarEvent> todaysEvents, Entry<Date, Integer> lastLevel) {
 		
-		Log.i("Craig", "Got to parsing method");
+		Log.i(CaffeineTrackerService.class.getName(), "Got to parsing method");
 		
 		TreeMap<Date, Integer> newProjectedLevels = new TreeMap<Date, Integer>();
 		TreeMap<Date, Integer> suggestedIntakes = new TreeMap<Date, Integer>();
 		
 		if (!todaysEvents.isEmpty()) {
 			
-			Log.i("Craig", "Have events");
+			Log.i(CaffeineTrackerService.class.getName(), "Have events");
 		
 			ArrayList<CalendarEvent> mergedEvents = mergeBackToBackEvents(todaysEvents);
 			
@@ -134,7 +125,7 @@ public class CaffeineTrackerService extends Service {
 	
 			for (CalendarEvent e: mergedEvents) {
 			
-				Log.e("Craig", "within event");
+				Log.e(CaffeineTrackerService.class.getName(), "within event");
 				long startTime = e.getStartTime();
 				long endTime = e.getEndTime();	
 				
@@ -155,7 +146,7 @@ public class CaffeineTrackerService extends Service {
 					int projectedCaffeineLevel = calculateCaffeineLevel(tempPreviousLevel.getLevel(), minutesDifference);
 					CaffeineLevel requiredIntake;
 					
-					if (projectedCaffeineLevel < getOptimalCaffeineLowerLimit()) { //caffeine level below optimal for start of event
+					if (projectedCaffeineLevel < Rich2012CafeUtil.OPTIMAL_CAFFEINE_LOWER_LIMIT) { //caffeine level below optimal for start of event
 						
 						try {
 							
@@ -173,7 +164,7 @@ public class CaffeineTrackerService extends Service {
 						int minutesDifferenceToEndOfEvent = calculateMinutesDifference(eventEndTime, previousTime);
 						int projectedLevelEndOfEvent = calculateCaffeineLevel(tempPreviousLevel.getLevel(), minutesDifferenceToEndOfEvent);
 						
-						if (projectedLevelEndOfEvent > getOptimalCaffeineLowerLimit()) {
+						if (projectedLevelEndOfEvent > Rich2012CafeUtil.OPTIMAL_CAFFEINE_LOWER_LIMIT) {
 							
 							continue;
 							
@@ -197,7 +188,7 @@ public class CaffeineTrackerService extends Service {
 		
 			
 		} else {
-			Log.i("Craig", "Calendar empty");
+			Log.i(CaffeineTrackerService.class.getName(), "Calendar empty");
 		}
 			
 			
@@ -346,7 +337,7 @@ public class CaffeineTrackerService extends Service {
 	
 	private int calculateCaffeineLevel(Integer currentLevel, Integer minutes) {
 		//Formula: currentLevel * 0.5^(minutes/HALF-LIFE)
-		double caffeineLevel = currentLevel * Math.pow(0.5, (minutes.doubleValue() / getHalfLife().doubleValue() ));
+		double caffeineLevel = currentLevel * Math.pow(0.5, (minutes.doubleValue() / Rich2012CafeUtil.HALF_LIFE ));
 		return (int) Math.round(caffeineLevel);
 			
 	}
@@ -354,8 +345,8 @@ public class CaffeineTrackerService extends Service {
 	private int calculateStartingCaffeineLevelForSpecifiedEndLevel(Integer minutes) {
 		//Formula: Desired End level / 0.5^(minutes/HALF-LIFE
 		
-		int endLevel = getOptimalCaffeineLowerLimit() + getCaffeineBuffer();
-		double power = minutes.doubleValue() / getHalfLife().doubleValue();
+		int endLevel = Rich2012CafeUtil.OPTIMAL_CAFFEINE_LOWER_LIMIT +  Rich2012CafeUtil.CAFFEINE_BUFFER;
+		double power = minutes.doubleValue() / Rich2012CafeUtil.HALF_LIFE;
 		double caffeineLevel = endLevel / Math.pow(0.5, power);
 		return (int) Math.round(caffeineLevel);
 		
@@ -375,22 +366,7 @@ public class CaffeineTrackerService extends Service {
 		
 	}
 
-	private Integer getHalfLife() {
-		return HALF_LIFE;
-	}
-	
-	public static int getOptimalCaffeineUpperLimit() {
-		return Rich2012CafeUtil.OPTIMAL_CAFFEINE_UPPER_LIMIT;
-	}
 
-	public static int getOptimalCaffeineLowerLimit() {
-		return Rich2012CafeUtil.OPTIMAL_CAFFEINE_LOWER_LIMIT;
-	}
-
-	public static int getCaffeineBuffer() {
-		return CAFFEINE_BUFFER;
-	}
-	
 	
     public TreeMap<Integer, CaffeineProductProxy> getProductsTree() {
 		return productsTree;

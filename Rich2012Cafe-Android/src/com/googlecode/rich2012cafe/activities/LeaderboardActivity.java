@@ -2,12 +2,6 @@ package com.googlecode.rich2012cafe.activities;
 
 import java.util.List;
 
-import com.googlecode.rich2012cafe.ApplicationState;
-import com.googlecode.rich2012cafe.R;
-import com.googlecode.rich2012cafe.Rich2012CafeActivity;
-import com.googlecode.rich2012cafe.shared.LeaderboardScoreProxy;
-import com.googlecode.rich2012cafe.utils.ScheduledTasks;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,13 +14,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.googlecode.rich2012cafe.ApplicationState;
+import com.googlecode.rich2012cafe.R;
+import com.googlecode.rich2012cafe.Rich2012CafeActivity;
+import com.googlecode.rich2012cafe.shared.LeaderboardScoreProxy;
+import com.googlecode.rich2012cafe.utils.ScheduledTasks;
+
+/**
+ * @author Pratik Patel (p300ss@gmail.com), Michael Elkins (thorsion@gmail.com)
+ */
 
 public class LeaderboardActivity extends Activity{
 
@@ -72,7 +74,6 @@ public class LeaderboardActivity extends Activity{
 			}
 		}
 		
-		Button refresh = new Button(this);
 		ImageButton refreshButton = new ImageButton(this);
 		Drawable refreshImg = this.getResources().getDrawable(R.drawable.refresh);
 		refreshButton.setMaxHeight(32);
@@ -91,11 +92,8 @@ public class LeaderboardActivity extends Activity{
 			}
 			
 		});
-		//tbl.addView(addTitle(""));
-	//	refresh.setText("Refresh");
-	//	TableRow buttonRow = new TableRow(this);
+		
 		leaderLayout.addView(refreshButton);
-	//	tbl.addView(buttonRow);
 		
 	}
 	

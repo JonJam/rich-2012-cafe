@@ -2,29 +2,29 @@ package com.googlecode.rich2012cafe.utils;
 
 import java.util.List;
 
-import com.google.web.bindery.requestfactory.shared.Receiver;
-import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.googlecode.rich2012cafe.ApplicationState;
-import com.googlecode.rich2012cafe.client.MyRequestFactory;
-import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
-import com.googlecode.rich2012cafe.shared.CaffeineSourceProxy;
-import com.googlecode.rich2012cafe.shared.CaffeineSourceWrapperProxy;
-import com.googlecode.rich2012cafe.shared.LeaderboardScoreProxy;
-
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+
+import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.google.web.bindery.requestfactory.shared.ServerFailure;
+import com.googlecode.rich2012cafe.ApplicationState;
+import com.googlecode.rich2012cafe.client.MyRequestFactory;
+import com.googlecode.rich2012cafe.services.CaffeineTrackerService;
+import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
+import com.googlecode.rich2012cafe.shared.LeaderboardScoreProxy;
+
+/**
+ * @author Pratik Patel (p300ss@gmail.com)
+ */
 
 public class ScheduledTasks {
 
 	public static void updateLeaderboard(final Context c, final boolean visible){
 		final ApplicationState as = (ApplicationState) c.getApplicationContext();
-		 ProgressDialog pd = null;
 		new AsyncTask<Void, Void, List<LeaderboardScoreProxy>>(){
 
 			private List<LeaderboardScoreProxy> scores;
@@ -60,10 +60,10 @@ public class ScheduledTasks {
 			@Override
 			protected void onPostExecute(List<LeaderboardScoreProxy> results) {
 				if(results != null){
-					Log.e("t-msg", "found some results");
+					Log.e(ScheduledTasks.class.getName(), "found some results");
 					as.setLeaderboard(results);
 				}else{
-					Log.e("T-msg", "Null Leaderboard Scores");
+					Log.e(ScheduledTasks.class.getName(), "Null Leaderboard Scores");
 				}
 				if(visible){
 					pd.dismiss();
@@ -97,12 +97,12 @@ public class ScheduledTasks {
 					@Override
 					public void onSuccess(List<CaffeineProductProxy> products) {
 						product = products;
-						Log.i("TERROR", "productsset");
+						Log.i(ScheduledTasks.class.getName(), "productsset");
 					}
 		        	
 					@Override
 		            public void onFailure(ServerFailure error) {
-		                Log.e("TERROR", error.getMessage());
+		                Log.e(ScheduledTasks.class.getName(), error.getMessage());
 		            }
 
 		        });
@@ -144,7 +144,7 @@ public class ScheduledTasks {
 
 					@Override
 					public void onFailure(ServerFailure error) {
-						Log.e("T-msg", error.getMessage());
+						Log.e(ScheduledTasks.class.getName(), error.getMessage());
 					}
 				});
 
@@ -176,7 +176,7 @@ public class ScheduledTasks {
 
 					@Override
 					public void onFailure(ServerFailure error) {
-						Log.e("T-msg", error.getMessage());
+						Log.e(ScheduledTasks.class.getName(), error.getMessage());
 					}
 				});
 

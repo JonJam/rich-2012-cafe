@@ -10,6 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+/**
+ * @author Pratik Patel (p300ss@gmail.com), Michael Elkins (thorsion@gmail.com)
+ */
 
 public class SettingsActivity extends Activity implements OnClickListener{
 

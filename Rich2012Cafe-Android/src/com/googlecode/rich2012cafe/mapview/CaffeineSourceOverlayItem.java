@@ -1,4 +1,4 @@
-package com.googlecode.rich2012cafe.utils;
+package com.googlecode.rich2012cafe.mapview;
 
 import java.util.List;
 
@@ -9,17 +9,16 @@ import com.googlecode.rich2012cafe.shared.CaffeineSourceProxy;
 import com.googlecode.rich2012cafe.shared.OpeningTimeProxy;
 
 /**
- * User: CS
- * Date: 18/03/12
- * Time: 16:01
+ * @author Michael Elkins (thorsion@gmail.com), Craig Saunders (mrman2289@gmail.com)
  */
+
 public class CaffeineSourceOverlayItem extends OverlayItem {
 
-	public String caffeineSourceId;
-    public String buildingNumber;
-    public List<CaffeineSourceProductProxy> caffeineSourceList;
-    public List<OpeningTimeProxy> openingTimes;
-    public CaffeineSourceProxy source;
+	private String caffeineSourceId;
+	private String buildingNumber;
+	private List<CaffeineSourceProductProxy> caffeineSourceList;
+	private List<OpeningTimeProxy> openingTimes;
+	private CaffeineSourceProxy source;
 
     public CaffeineSourceOverlayItem(GeoPoint geoPoint, String title, String snippet, String caffeineSourceId) {
 
@@ -29,7 +28,31 @@ public class CaffeineSourceOverlayItem extends OverlayItem {
 
     }
 
-    public String getCaffeineSourceId() {
+    public String getBuildingNumber() {
+		return buildingNumber;
+	}
+
+	public void setBuildingNumber(String buildingNumber) {
+		this.buildingNumber = buildingNumber;
+	}
+
+	public List<CaffeineSourceProductProxy> getCaffeineSourceList() {
+		return caffeineSourceList;
+	}
+
+	public List<OpeningTimeProxy> getOpeningTimes() {
+		return openingTimes;
+	}
+
+	public CaffeineSourceProxy getSource() {
+		return source;
+	}
+
+	public void setCaffeineSourceId(String caffeineSourceId) {
+		this.caffeineSourceId = caffeineSourceId;
+	}
+
+	public String getCaffeineSourceId() {
         return caffeineSourceId;
     }
     

@@ -1,4 +1,4 @@
-package com.googlecode.rich2012cafe.utils;
+package com.googlecode.rich2012cafe.mapview;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,10 +9,9 @@ import com.google.android.maps.OverlayItem;
 import java.util.ArrayList;
 
 /**
- * User: CS
- * Date: 01/03/12
- * Time: 10:39
+ * @author Michael Elkins (thorsion@gmail.com), Craig Saunders (mrman2289@gmail.com)
  */
+
 public abstract class MapOverlays extends ItemizedOverlay<OverlayItem> {
 
     private ArrayList<OverlayItem> overlays = new ArrayList<OverlayItem>();

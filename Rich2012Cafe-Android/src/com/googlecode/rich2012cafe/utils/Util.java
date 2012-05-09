@@ -14,12 +14,6 @@
  *******************************************************************************/
 package com.googlecode.rich2012cafe.utils;
 
-import com.google.web.bindery.event.shared.SimpleEventBus;
-import com.google.web.bindery.requestfactory.shared.RequestFactory;
-import com.google.web.bindery.requestfactory.vm.RequestFactorySource;
-import com.googlecode.rich2012cafe.R;
-import com.googlecode.rich2012cafe.R.drawable;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -39,8 +33,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.graphics.BitmapFactory;
 import android.util.Log;
+
+import com.google.web.bindery.event.shared.SimpleEventBus;
+import com.google.web.bindery.requestfactory.shared.RequestFactory;
+import com.google.web.bindery.requestfactory.vm.RequestFactorySource;
+import com.googlecode.rich2012cafe.R;
 
 /**
  * GENERATED CLASS

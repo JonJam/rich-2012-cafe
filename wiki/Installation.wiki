@@ -14,6 +14,9 @@ Libraries required:
   * Android 4.0. SDK
   * Google Web Toolkit SDK (GWT)
 
+Installation and configuring of plugins is given on: 
+https://developers.google.com/eclipse/docs/appeng_android_install_setup
+
 ==Checking out Project==
 The Android and Google App Engine projects can be imported using SVN and the following checkout URL:
 
@@ -46,7 +49,3 @@ The following steps are required before running the application.
 
  * Select the Android project.
  * Right click and select Debug As > Remote App Engine Connected Android Application.
-
-
-Further installation help is given on: 
-https://developers.google.com/eclipse/docs/appeng_android_install_setup

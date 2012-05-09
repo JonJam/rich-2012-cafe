@@ -3,6 +3,8 @@
 =Installation Guide=
 This page guides you through installing and running the Android application from source in Eclipse.
 
+<br>
+
 ==Plugins and SDKs Required==
 
 External plugins required:
@@ -17,12 +19,16 @@ Libraries required:
 Installation and configuring of these plugins is given on: 
 https://developers.google.com/eclipse/docs/appeng_android_install_setup
 
+<br>
+
 ==Checking out Project==
 The Android and Google App Engine projects can be imported using SVN and the following checkout URL:
 
 http://rich-2012-cafe.googlecode.com/svn/trunk/
 
 These projects are named Rich2012Cafe-Android and Rich2012Cafe-AppEngine respectively.
+
+<br>
 
 ==Prior to Running==
 The following steps are required before running the application.
@@ -45,7 +51,9 @@ The following steps are required before running the application.
  * Go to Java Compiler > Annotation Processing > Factory Path.
  * Select Edit and choose the location of our requestFactory-apt.jar (This is in the GWT eclipse plugin folder)
 
-==Running Project==
+<br>
+
+==Running the Project==
 
  * Select the Android project.
  * Right click and select Debug As > Remote App Engine Connected Android Application.

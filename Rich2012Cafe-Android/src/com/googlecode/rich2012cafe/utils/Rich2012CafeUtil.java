@@ -1,7 +1,5 @@
 package com.googlecode.rich2012cafe.utils;
 
-import android.util.Log;
-
 /**
  * Class to contain all static variables used throughout project.
  * 

@@ -13,7 +13,6 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.googlecode.rich2012cafe.ApplicationState;
 import com.googlecode.rich2012cafe.client.MyRequestFactory;
-import com.googlecode.rich2012cafe.services.CaffeineTrackerService;
 import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
 import com.googlecode.rich2012cafe.shared.LeaderboardScoreProxy;
 

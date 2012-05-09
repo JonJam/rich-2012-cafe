@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.google.android.maps.GeoPoint;
 import com.googlecode.rich2012cafe.R;
 import com.googlecode.rich2012cafe.activities.GMapActivity.PopupPanel;
-import com.googlecode.rich2012cafe.caffeinelevel.CaffeineLevelReader;
 import com.googlecode.rich2012cafe.shared.CaffeineSourceProductProxy;
 
 /**

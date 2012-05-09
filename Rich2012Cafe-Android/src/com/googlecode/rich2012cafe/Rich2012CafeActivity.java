@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -88,7 +87,10 @@ public class Rich2012CafeActivity extends Activity implements OnClickListener{
         actionBar.setHomeButtonEnabled(true);
                 
         ApplicationState as = (ApplicationState) this.getApplicationContext();
-        as.setScore(3);
+        SharedPreferences sp = Util.getSharedPreferences(this);
+        as.setScore(sp.getInt("userScore", 1));
+        
+        //change for automatic product download
         //ScheduledTasks.getCaffeineProducts(this, true);
 
 

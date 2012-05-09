@@ -19,7 +19,6 @@ import com.googlecode.rich2012cafe.caffeinelevel.CaffeineLevelReader;
 import com.googlecode.rich2012cafe.caffeinelevel.CaffeineLevelWriter;
 import com.googlecode.rich2012cafe.calendar.CalendarController;
 import com.googlecode.rich2012cafe.calendar.CalendarEvent;
-import com.googlecode.rich2012cafe.mapview.CaffeineSourcesLocationOverlay;
 import com.googlecode.rich2012cafe.shared.CaffeineProductProxy;
 import com.googlecode.rich2012cafe.utils.Rich2012CafeUtil;
 import com.googlecode.rich2012cafe.utils.ScheduledTasks;

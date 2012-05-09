@@ -1,4 +1,4 @@
-package com.googlecode.rich2012cafe.alarm;
+package com.googlecode.rich2012cafe.services;
 
 import com.googlecode.rich2012cafe.utils.ScheduledTasks;
 
@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-public class ScheduledService extends Service{
+public class ScheduledService extends Service {
 
 	@Override
 	public IBinder onBind(Intent intent) {

@@ -1,5 +1,7 @@
 package com.googlecode.rich2012cafe.alarm;
 
+import com.googlecode.rich2012cafe.services.ScheduledService;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
